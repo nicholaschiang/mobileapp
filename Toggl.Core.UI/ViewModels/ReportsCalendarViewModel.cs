@@ -287,5 +287,14 @@ namespace Toggl.Core.UI.ViewModels
         {
             highlightedDateRangeSubject.OnNext(dateRange);
         }
+
+        internal void ChangeRange(DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            var dateRange = ReportsDateRange
+                .WithDates(startDate, endDate)
+                .WithSource(ReportsSource.Other);
+
+            changeDateRange(dateRange);
+        }
     }
 }
