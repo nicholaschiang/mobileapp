@@ -36,8 +36,8 @@ namespace Toggl.Core.UI.ViewModels
         private readonly ITogglDataSource dataSource;
         private readonly IIntentDonationService intentDonationService;
         private readonly ISubject<Unit> reloadSubject = new Subject<Unit>();
-        private readonly ISubject<ReportsDateRangeParameter> selectedDateRangeSubject = new Subject<ReportsDateRangeParameter>();
-        private readonly ISubject<ReportsDateRangeParameter> highlightedDateRangeSubject = new BehaviorSubject<ReportsDateRangeParameter>(default(ReportsDateRangeParameter));
+        private readonly ISubject<ReportsDateRange> selectedDateRangeSubject = new Subject<ReportsDateRange>();
+        private readonly ISubject<ReportsDateRange> highlightedDateRangeSubject = new BehaviorSubject<ReportsDateRange>(default(ReportsDateRange));
         private IObservable<BeginningOfWeek> beginningOfWeekObservable;
 
         private bool isInitialized;
@@ -61,9 +61,9 @@ namespace Toggl.Core.UI.ViewModels
 
         public IObservable<Unit> ReloadObservable { get; private set; }
 
-        public IObservable<ReportsDateRangeParameter> SelectedDateRangeObservable;
+        public IObservable<ReportsDateRange> SelectedDateRangeObservable;
 
-        public IObservable<ReportsDateRangeParameter> HighlightedDateRangeObservable;
+        public IObservable<ReportsDateRange> HighlightedDateRangeObservable;
 
         public List<ReportsCalendarBaseQuickSelectShortcut> QuickSelectShortcuts { get; private set; }
 
@@ -205,7 +205,7 @@ namespace Toggl.Core.UI.ViewModels
             {
                 var date = tappedDay.DateTimeOffset;
 
-                var dateRange = ReportsDateRangeParameter
+                var dateRange = ReportsDateRange
                     .WithDates(date, date)
                     .WithSource(ReportsSource.Calendar);
                 startOfSelection = tappedDay;
@@ -226,7 +226,7 @@ namespace Toggl.Core.UI.ViewModels
                 }
                 else
                 {
-                    var dateRange = ReportsDateRangeParameter
+                    var dateRange = ReportsDateRange
                         .WithDates(startDate, endDate)
                         .WithSource(ReportsSource.Calendar);
                     startOfSelection = null;
@@ -254,7 +254,7 @@ namespace Toggl.Core.UI.ViewModels
             if (startOfSelection == null) return;
 
             var date = startOfSelection.DateTimeOffset;
-            var dateRange = ReportsDateRangeParameter
+            var dateRange = ReportsDateRange
                 .WithDates(date, date)
                 .WithSource(ReportsSource.Calendar);
             changeDateRange(dateRange);
@@ -276,7 +276,7 @@ namespace Toggl.Core.UI.ViewModels
         private CalendarMonth convertPageIndexToCalendarMonth(int pageIndex)
             => initialMonth.AddMonths(pageIndex);
 
-        private void changeDateRange(ReportsDateRangeParameter newDateRange)
+        private void changeDateRange(ReportsDateRange newDateRange)
         {
             startOfSelection = null;
 
@@ -291,7 +291,7 @@ namespace Toggl.Core.UI.ViewModels
             changeDateRange(quickSelectShortCut.GetDateRange());
         }
 
-        private void highlightDateRange(ReportsDateRangeParameter dateRange)
+        private void highlightDateRange(ReportsDateRange dateRange)
         {
             highlightedDateRangeSubject.OnNext(dateRange);
         }

@@ -15,7 +15,7 @@ namespace Toggl.iOS.Views
         public static readonly NSString Key = new NSString(nameof(ReportsCalendarViewCell));
         public static readonly UINib Nib;
 
-        private ReportsDateRangeParameter dateRange;
+        private ReportsDateRange dateRange;
 
         static ReportsCalendarViewCell()
         {
@@ -71,7 +71,7 @@ namespace Toggl.iOS.Views
             TodayBackgroundView.Hidden = !Item.IsToday;
         }
 
-        public void UpdateDateRange(ReportsDateRangeParameter dateRange)
+        public void UpdateDateRange(ReportsDateRange dateRange)
         {
             this.dateRange = dateRange;
         }

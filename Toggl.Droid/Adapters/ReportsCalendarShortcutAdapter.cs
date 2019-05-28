@@ -8,7 +8,7 @@ namespace Toggl.Droid.Adapters
 {
     public class ReportsCalendarShortcutAdapter : BaseRecyclerAdapter<ReportsCalendarBaseQuickSelectShortcut>
     {
-        private ReportsDateRangeParameter currentDateRange;
+        private ReportsDateRange currentDateRange;
 
         protected override BaseRecyclerViewHolder<ReportsCalendarBaseQuickSelectShortcut> CreateViewHolder(ViewGroup parent, LayoutInflater inflater, int viewType)
         {
@@ -22,7 +22,7 @@ namespace Toggl.Droid.Adapters
             (holder as ReportsCalendarShortcutCellViewHolder)?.UpdateSelectionState(currentDateRange);
         }
 
-        public void UpdateSelectedShortcut(ReportsDateRangeParameter newDateRange)
+        public void UpdateSelectedShortcut(ReportsDateRange newDateRange)
         {
             currentDateRange = newDateRange;
             NotifyDataSetChanged();

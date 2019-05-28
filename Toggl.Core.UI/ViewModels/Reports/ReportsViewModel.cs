@@ -305,7 +305,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
             }
         }
 
-        private void changeDateRange(ReportsDateRangeParameter dateRange)
+        private void changeDateRange(ReportsDateRange dateRange)
         {
             LoadReport(workspaceId, dateRange.StartDate, dateRange.EndDate, source);
         }

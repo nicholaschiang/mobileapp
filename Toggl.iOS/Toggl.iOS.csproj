@@ -1200,11 +1200,21 @@
     <ImageAsset Include="Resources\Images.xcassets\stripes.imageset\stripes%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-40x40.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-76x76.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-152x152.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-167x167.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-40x40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-76x76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-152x152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-167x167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

@@ -14,7 +14,7 @@ namespace Toggl.Droid.Adapters
     public sealed class ReportsCalendarRecyclerAdapter : BaseRecyclerAdapter<ReportsCalendarDayViewModel>
     {
         private static readonly int itemWidth;
-        public ReportsDateRangeParameter DateRangeParameter { get; private set; }
+        public ReportsDateRange DateRangeParameter { get; private set; }
 
         static ReportsCalendarRecyclerAdapter()
         {
@@ -27,7 +27,7 @@ namespace Toggl.Droid.Adapters
             itemWidth = size.X / 7;
         }
 
-        public ReportsCalendarRecyclerAdapter(ReportsDateRangeParameter dateRangeParameter)
+        public ReportsCalendarRecyclerAdapter(ReportsDateRange dateRangeParameter)
         {
             DateRangeParameter = dateRangeParameter;
         }
@@ -48,7 +48,7 @@ namespace Toggl.Droid.Adapters
             (holder as CalendarDayCellViewHolder)?.UpdateSelectionState(DateRangeParameter);
         }
 
-        public void UpdateDateRangeParameter(ReportsDateRangeParameter newDateRange)
+        public void UpdateDateRangeParameter(ReportsDateRange newDateRange)
         {
             DateRangeParameter = newDateRange;
             NotifyDataSetChanged();

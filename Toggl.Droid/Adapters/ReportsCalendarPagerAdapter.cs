@@ -26,8 +26,8 @@ namespace Toggl.Droid.Adapters
         private readonly RecyclerView.RecycledViewPool recyclerviewPool = new RecyclerView.RecycledViewPool();
         private IReadOnlyList<ReportsCalendarPageViewModel> currentMonths = ImmutableList<ReportsCalendarPageViewModel>.Empty;
         private Subject<ReportsCalendarDayViewModel> dayTaps = new Subject<ReportsCalendarDayViewModel>();
-        private Subject<ReportsDateRangeParameter> selectionChanges = new Subject<ReportsDateRangeParameter>();
-        private ReportsDateRangeParameter currentDateRange;
+        private Subject<ReportsDateRange> selectionChanges = new Subject<ReportsDateRange>();
+        private ReportsDateRange currentDateRange;
 
         public IObservable<ReportsCalendarDayViewModel> DayTaps => dayTaps.AsObservable();
 
@@ -135,7 +135,7 @@ namespace Toggl.Droid.Adapters
             recyclerViews.Clear();
         }
 
-        public void UpdateSelectedRange(ReportsDateRangeParameter newDateRange)
+        public void UpdateSelectedRange(ReportsDateRange newDateRange)
         {
             currentDateRange = newDateRange;
             selectionChanges.OnNext(currentDateRange);

@@ -19,7 +19,7 @@ namespace Toggl.iOS.ViewSources
         private readonly ISubject<int> currentPageWhileScrollingSubject = new Subject<int>();
         private readonly ISubject<ReportsCalendarDayViewModel> dayTaps = new Subject<ReportsCalendarDayViewModel>();
 
-        private ReportsDateRangeParameter currentSelectedDateRange;
+        private ReportsDateRange currentSelectedDateRange;
         private List<ReportsCalendarPageViewModel> months = new List<ReportsCalendarPageViewModel>();
 
         public IObservable<ReportsCalendarDayViewModel> DayTaps { get; }
@@ -60,7 +60,7 @@ namespace Toggl.iOS.ViewSources
             }
         }
 
-        public void UpdateSelection(ReportsDateRangeParameter selectedDateRange)
+        public void UpdateSelection(ReportsDateRange selectedDateRange)
         {
             if (selectedDateRange == null) return;
 

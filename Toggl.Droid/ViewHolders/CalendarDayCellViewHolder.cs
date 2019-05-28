@@ -34,7 +34,7 @@ namespace Toggl.Droid.ViewHolders
             dayView.IsToday = Item.IsToday;
         }
 
-        public void UpdateSelectionState(ReportsDateRangeParameter selectedDateRange)
+        public void UpdateSelectionState(ReportsDateRange selectedDateRange)
         {
             dayView.SetTextColor(Item.IsSelected(selectedDateRange) || Item.IsToday ? Color.White : DayNotInMonth.ToNativeColor());
             dayView.RoundLeft = Item.IsStartOfSelectedPeriod(selectedDateRange);

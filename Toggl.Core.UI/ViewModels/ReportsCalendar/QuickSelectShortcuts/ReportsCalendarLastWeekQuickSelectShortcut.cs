@@ -17,13 +17,13 @@ namespace Toggl.Core.UI.ViewModels.ReportsCalendar.QuickSelectShortcuts
             this.beginningOfWeek = beginningOfWeek;
         }
 
-        public override ReportsDateRangeParameter GetDateRange()
+        public override ReportsDateRange GetDateRange()
         {
             var now = TimeService.CurrentDateTime.Date;
             var difference = (now.DayOfWeek - beginningOfWeek.ToDayOfWeekEnum() + 7) % 7;
             var start = now.AddDays(-(difference + 7));
             var end = start.AddDays(6);
-            return ReportsDateRangeParameter
+            return ReportsDateRange
                 .WithDates(start, end)
                 .WithSource(ReportsSource.ShortcutLastWeek);
         }

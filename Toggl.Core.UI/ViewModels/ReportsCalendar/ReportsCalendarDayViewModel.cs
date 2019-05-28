@@ -27,17 +27,17 @@ namespace Toggl.Core.UI.ViewModels.ReportsCalendar
             IsToday = today.Date == DateTimeOffset.Date;
         }
 
-        public bool IsSelected(ReportsDateRangeParameter selectedRange)
+        public bool IsSelected(ReportsDateRange selectedRange)
         {
             return selectedRange != null && selectedRange.StartDate.Date <= DateTimeOffset.Date && selectedRange.EndDate.Date >= DateTimeOffset.Date;
         }
 
-        public bool IsStartOfSelectedPeriod(ReportsDateRangeParameter selectedRange)
+        public bool IsStartOfSelectedPeriod(ReportsDateRange selectedRange)
         {
             return selectedRange != null && selectedRange.StartDate.Date == DateTimeOffset.Date;
         }
 
-        public bool IsEndOfSelectedPeriod(ReportsDateRangeParameter selectedRange)
+        public bool IsEndOfSelectedPeriod(ReportsDateRange selectedRange)
         {
             return selectedRange != null && selectedRange.EndDate.Date == DateTimeOffset.Date;
         }

@@ -13,7 +13,7 @@ namespace Toggl.iOS.Views.Reports
         public static readonly NSString Key = new NSString(nameof(ReportsCalendarQuickSelectViewCell));
         public static readonly UINib Nib;
 
-        private ReportsDateRangeParameter currentDateRange;
+        private ReportsDateRange currentDateRange;
 
         static ReportsCalendarQuickSelectViewCell()
         {
@@ -33,7 +33,7 @@ namespace Toggl.iOS.Views.Reports
             TitleLabel.Font = UIFont.SystemFontOfSize(13, UIFontWeight.Medium);
         }
 
-        public void UpdateSelectedDateRange(ReportsDateRangeParameter dateRange)
+        public void UpdateSelectedDateRange(ReportsDateRange dateRange)
         {
             currentDateRange = dateRange;
         }

@@ -26,7 +26,7 @@ namespace Toggl.Core.UI.ViewModels.ReportsCalendar.QuickSelectShortcuts
             TimeService = timeService;
         }
 
-        public bool IsSelected(ReportsDateRangeParameter dateRange)
+        public bool IsSelected(ReportsDateRange dateRange)
         {
             var thisActionDateRange = GetDateRange();
 
@@ -35,7 +35,7 @@ namespace Toggl.Core.UI.ViewModels.ReportsCalendar.QuickSelectShortcuts
                     && dateRange.EndDate.Date == thisActionDateRange.EndDate.Date;
         }
 
-        public abstract ReportsDateRangeParameter GetDateRange();
+        public abstract ReportsDateRange GetDateRange();
         public bool Equals(ReportsCalendarBaseQuickSelectShortcut other)
         {
             if (other == null) return false;

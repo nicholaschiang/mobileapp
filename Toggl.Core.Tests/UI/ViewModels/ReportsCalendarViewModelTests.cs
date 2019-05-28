@@ -130,7 +130,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var now = new DateTimeOffset(2018, 7, 1, 1, 1, 1, TimeSpan.Zero);
                 DataSource.User.Current.Returns(Observable.Return(user));
                 TimeService.CurrentDateTime.Returns(now);
-                var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                 var monthsObserver = TestScheduler.CreateObserver<List<ReportsCalendarPageViewModel>>();
                 ViewModel.SelectedDateRangeObservable.Subscribe(dateRangeObserver);
                 await ViewModel.Initialize();
@@ -140,7 +140,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 var months = monthsObserver.Values().First();
                 dateRangeObserver.Messages.AssertEqual(
-                    ReactiveTest.OnNext<ReportsDateRangeParameter>(0,
+                    ReactiveTest.OnNext<ReportsDateRange>(0,
                         dateRange => ensureDateRangeIsCorrect(
                             dateRange,
                             months[ReportsCalendarViewModel.MonthsToShow - 1].Days[0],
@@ -251,7 +251,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 var monthsObserver = TestScheduler.CreateObserver<List<ReportsCalendarPageViewModel>>();
                 var now = new DateTimeOffset(2017, 12, 19, 1, 2, 3, TimeSpan.Zero);
-                var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                 TimeService.CurrentDateTime.Returns(now);
                 ViewModel.SelectedDateRangeObservable.Subscribe(dateRangeObserver);
                 ViewModel.Initialize();
@@ -280,7 +280,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
         }
 
         private static bool ensureDateRangeIsCorrect(
-            ReportsDateRangeParameter dateRange,
+            ReportsDateRange dateRange,
             ReportsCalendarDayViewModel expectedStart,
             ReportsCalendarDayViewModel expectedEnd)
             => dateRange.StartDate.Year == expectedStart.CalendarMonth.Year
@@ -317,7 +317,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 public void MarksTheFirstTappedCellAsSelected(
                     int monthIndex, int dayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var dayViewModel = FindDayViewModel(monthIndex, dayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
 
@@ -333,7 +333,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 public void MarksTheFirstTappedCellAsStartOfSelection(
                     int monthIndex, int dayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var dayViewModel = FindDayViewModel(monthIndex, dayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
 
@@ -349,7 +349,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 public void MarksTheFirstTappedCellAsEndOfSelection(
                     int monthIndex, int dayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var dayViewModel = FindDayViewModel(monthIndex, dayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
 
@@ -371,7 +371,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     int secondMonthIndex,
                     int secondDayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var firstDayViewModel = FindDayViewModel(firstMonthIndex, firstDayindex);
                     var secondDayViewModel = FindDayViewModel(secondMonthIndex, secondDayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
@@ -393,7 +393,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     int secondMonthIndex,
                     int secondDayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var firstDayViewModel = FindDayViewModel(firstMonthIndex, firstDayindex);
                     var secondDayViewModel = FindDayViewModel(secondMonthIndex, secondDayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
@@ -415,7 +415,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     int secondMonthIndex,
                     int secondDayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var firstDayViewModel = FindDayViewModel(firstMonthIndex, firstDayindex);
                     var secondDayViewModel = FindDayViewModel(secondMonthIndex, secondDayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
@@ -437,7 +437,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     int secondMonthIndex,
                     int secondDayIndex)
                 {
-                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRangeParameter>();
+                    var dateRangeObserver = TestScheduler.CreateObserver<ReportsDateRange>();
                     var firstDayViewModel = FindDayViewModel(firstMonthIndex, firstDayindex);
                     var secondDayViewModel = FindDayViewModel(secondMonthIndex, secondDayIndex);
                     ViewModel.HighlightedDateRangeObservable.Subscribe(dateRangeObserver);
@@ -462,7 +462,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     }
                 }
 
-                private void assertDaysInMonthSelected(ReportsCalendarPageViewModel calendarPage, int startindex, int endIndex, ReportsDateRangeParameter highLightDateRange)
+                private void assertDaysInMonthSelected(ReportsCalendarPageViewModel calendarPage, int startindex, int endIndex, ReportsDateRange highLightDateRange)
                 {
                     for (int i = startindex; i <= endIndex; i++)
                         calendarPage.Days[i].IsSelected(highLightDateRange).Should().BeTrue();
@@ -504,7 +504,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var now = dates[1];
                 var end = dates[2];
                 TimeService.CurrentDateTime.Returns(now);
-                var selectedRange = ReportsDateRangeParameter.WithDates(start, end).WithSource(ReportsSource.Calendar);
+                var selectedRange = ReportsDateRange.WithDates(start, end).WithSource(ReportsSource.Calendar);
                 var customShortcut = new CustomShortcut(selectedRange, TimeService);
                 var errorObserver = TestScheduler.CreateObserver<Exception>();
                 var executionObserver = TestScheduler.CreateObserver<bool>();
@@ -525,14 +525,14 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
             private sealed class CustomShortcut : ReportsCalendarBaseQuickSelectShortcut
             {
-                private ReportsDateRangeParameter range;
+                private ReportsDateRange range;
 
-                public CustomShortcut(ReportsDateRangeParameter range, ITimeService timeService) : base(timeService, "", ReportPeriod.Unknown)
+                public CustomShortcut(ReportsDateRange range, ITimeService timeService) : base(timeService, "", ReportPeriod.Unknown)
                 {
                     this.range = range;
                 }
 
-                public override ReportsDateRangeParameter GetDateRange()
+                public override ReportsDateRange GetDateRange()
                     => range;
             }
         }

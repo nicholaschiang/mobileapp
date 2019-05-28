@@ -21,7 +21,7 @@ namespace Toggl.iOS.ViewSources
 
         private ISubject<ReportsCalendarBaseQuickSelectShortcut> shortcutTaps = new Subject<ReportsCalendarBaseQuickSelectShortcut>();
         private readonly UICollectionView collectionView;
-        private ReportsDateRangeParameter currentDateRange;
+        private ReportsDateRange currentDateRange;
         private IList<ReportsCalendarBaseQuickSelectShortcut> shortcuts = new List<ReportsCalendarBaseQuickSelectShortcut>();
 
         public IObservable<ReportsCalendarBaseQuickSelectShortcut> ShortcutTaps { get; }
@@ -66,7 +66,7 @@ namespace Toggl.iOS.ViewSources
             collectionView.ReloadData();
         }
 
-        public void UpdateSelection(ReportsDateRangeParameter dateRange)
+        public void UpdateSelection(ReportsDateRange dateRange)
         {
             currentDateRange = dateRange;
             collectionView.ReloadData();

@@ -36,7 +36,7 @@ namespace Toggl.Droid.ViewHolders
             shortcutText.Text = Item.Title;
         }
 
-        public void UpdateSelectionState(ReportsDateRangeParameter currentDateRange)
+        public void UpdateSelectionState(ReportsDateRange currentDateRange)
         {
             backgroundDrawable.SetColor(Item.IsSelected(currentDateRange) ? Color.ParseColor("#328fff") : Color.ParseColor("#3e3e3e"));
             backgroundDrawable.InvalidateSelf();

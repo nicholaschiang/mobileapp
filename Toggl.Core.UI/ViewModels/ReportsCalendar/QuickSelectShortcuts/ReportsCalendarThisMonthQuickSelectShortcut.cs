@@ -14,12 +14,12 @@ namespace Toggl.Core.UI.ViewModels.ReportsCalendar.QuickSelectShortcuts
         {
         }
 
-        public override ReportsDateRangeParameter GetDateRange()
+        public override ReportsDateRange GetDateRange()
         {
             var now = TimeService.CurrentDateTime.Date;
             var start = new DateTimeOffset(now.Year, now.Month, 1, 0, 0, 0, TimeSpan.Zero);
             var end = start.AddMonths(1).AddDays(-1);
-            return ReportsDateRangeParameter
+            return ReportsDateRange
                 .WithDates(start, end)
                 .WithSource(ReportsSource.ShortcutThisMonth);
         }

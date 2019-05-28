@@ -163,7 +163,7 @@ namespace Toggl.Droid.Views
                     => textView.Text = dayHeaders[index]);
         }
 
-        private void onDateRangeChanged(ReportsDateRangeParameter dateRange, List<ReportsCalendarBaseQuickSelectShortcut> shortcuts, List<ReportsCalendarPageViewModel> months)
+        private void onDateRangeChanged(ReportsDateRange dateRange, List<ReportsCalendarBaseQuickSelectShortcut> shortcuts, List<ReportsCalendarPageViewModel> months)
         {
             var anyShortcutIsSelected = shortcuts.Any(shortcut => shortcut.IsSelected(dateRange));
             if (!anyShortcutIsSelected) return;

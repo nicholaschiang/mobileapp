@@ -3,7 +3,7 @@ using Toggl.Core.Analytics;
 
 namespace Toggl.Core.UI.Parameters
 {
-    public sealed class ReportsDateRangeParameter
+    public sealed class ReportsDateRange
     {
         public DateTimeOffset StartDate { get; set; }
 
@@ -11,7 +11,7 @@ namespace Toggl.Core.UI.Parameters
 
         public ReportsSource Source { get; set; }
 
-        public static ReportsDateRangeParameter WithDates(
+        public static ReportsDateRange WithDates(
             DateTimeOffset start,
             DateTimeOffset end
         )
@@ -19,12 +19,12 @@ namespace Toggl.Core.UI.Parameters
             if (start > end)
                 (start, end) = (end, start);
 
-            return new ReportsDateRangeParameter { StartDate = start, EndDate = end, Source = ReportsSource.Other };
+            return new ReportsDateRange { StartDate = start, EndDate = end, Source = ReportsSource.Other };
         }
 
-        public ReportsDateRangeParameter WithSource(ReportsSource source)
+        public ReportsDateRange WithSource(ReportsSource source)
         {
-            return new ReportsDateRangeParameter { StartDate = this.StartDate, EndDate = this.EndDate, Source = source };
+            return new ReportsDateRange { StartDate = this.StartDate, EndDate = this.EndDate, Source = source };
         }
     }
 }
