@@ -48,7 +48,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private readonly Subject<Unit> reportSubject = new Subject<Unit>();
         private readonly BehaviorSubject<bool> isLoading = new BehaviorSubject<bool>(true);
         private readonly BehaviorSubject<IThreadSafeWorkspace> workspaceSubject = new BehaviorSubject<IThreadSafeWorkspace>(null);
-        private readonly BehaviorSubject<string> currentDateRangeStringSubject = new BehaviorSubject<string>(string.Empty);
         private readonly Subject<DateTimeOffset> startDateSubject = new Subject<DateTimeOffset>();
         private readonly Subject<DateTimeOffset> endDateSubject = new Subject<DateTimeOffset>();
         private readonly ISubject<TimeSpan> totalTimeSubject = new BehaviorSubject<TimeSpan>(TimeSpan.Zero);
@@ -67,8 +66,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private long workspaceId;
         private IThreadSafeWorkspace workspace;
         private long userId;
-        private DateFormat dateFormat;
-        private BeginningOfWeek beginningOfWeek;
 
         public IObservable<bool> IsLoadingObservable { get; }
 
@@ -157,8 +154,14 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .DistinctUntilChanged()
                 .AsDriver(schedulerProvider);
 
-            CurrentDateRangeStringObservable = currentDateRangeStringSubject
-                .DistinctUntilChanged()
+            CurrentDateRangeStringObservable = 
+                Observable.CombineLatest(
+                    startDateSubject,
+                    endDateSubject,
+                    dataSource.Preferences.Current.Select(p => p.DateFormat).DistinctUntilChanged(),
+                    dataSource.User.Current.Select(currentUser => currentUser.BeginningOfWeek).DistinctUntilChanged(),
+                    getCurrentDateRangeString
+                ).DistinctUntilChanged()
                 .AsDriver(schedulerProvider);
 
             WorkspacesObservable = interactorFactory.ObserveAllWorkspaces().Execute()
@@ -173,6 +176,27 @@ namespace Toggl.Core.UI.ViewModels.Reports
             SegmentsObservable = segmentsSubject.CombineLatest(DurationFormatObservable, applyDurationFormat);
             GroupedSegmentsObservable = SegmentsObservable.CombineLatest(DurationFormatObservable, groupSegments);
             ShowEmptyStateObservable = SegmentsObservable.CombineLatest(IsLoadingObservable, shouldShowEmptyState);
+
+            string getCurrentDateRangeString(DateTimeOffset startDate, DateTimeOffset endDate, DateFormat dateFormat, BeginningOfWeek beginningOfWeek)
+            {
+                if (startDate == default(DateTimeOffset) || endDate == default(DateTimeOffset))
+                    return "";
+
+                if (startDate == endDate)
+                    return $"{startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture)} ▾";
+
+                var firstDayOfCurrentWeek = timeService.CurrentDateTime.BeginningOfWeek(beginningOfWeek);
+                var lastDayOfCurrentWeek = firstDayOfCurrentWeek.AddDays(6);
+
+                var isCurrentWeek = startDate.Date == firstDayOfCurrentWeek && endDate.Date == lastDayOfCurrentWeek;
+                if (isCurrentWeek)
+                    return $"{Resources.ThisWeek} ▾";
+
+                var formattedStartDate = startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture);
+                var formattedEndDate = endDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture);
+
+                return $"{formattedStartDate} - {formattedEndDate} ▾";
+            }
         }
 
         public override async Task Initialize()
@@ -208,15 +232,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .Catch(Observable.Return<ProjectSummaryReport>(null))
                 .Subscribe(onReport)
                 .DisposedBy(disposeBag);
-
-            dataSource.Preferences.Current
-                .Subscribe(onPreferencesChanged)
-                .DisposedBy(disposeBag);
-
-            dataSource.User.Current
-                .Select(currentUser => currentUser.BeginningOfWeek)
-                .Subscribe(onBeginningOfWeekChanged)
-                .DisposedBy(disposeBag);
         }
 
         public override void ViewAppeared()
@@ -245,15 +260,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
         private bool viewAppearedForTheFirstTime()
             => startDate == default(DateTimeOffset);
-
-        private bool isCurrentWeek()
-        {
-            var firstDayOfCurrentWeek = timeService.CurrentDateTime.BeginningOfWeek(beginningOfWeek);
-            var lastDayOfCurrentWeek = firstDayOfCurrentWeek.AddDays(6);
-
-            return startDate.Date == firstDayOfCurrentWeek
-                   && endDate.Date == lastDayOfCurrentWeek;
-        }
 
         private static ReadOnlyCollection<SelectOption<IThreadSafeWorkspace>> readOnlyWorkspaceSelectOptions(IEnumerable<IThreadSafeWorkspace> workspaces)
             => workspaces
@@ -302,34 +308,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private void changeDateRange(ReportsDateRangeParameter dateRange)
         {
             LoadReport(workspaceId, dateRange.StartDate, dateRange.EndDate, source);
-        }
-
-        private void updateCurrentDateRangeString()
-        {
-            if (startDate == default(DateTimeOffset) || endDate == default(DateTimeOffset))
-                return;
-
-            if (startDate == endDate)
-            {
-                currentDateRangeStringSubject.OnNext($"{startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture)} ▾");
-                return;
-            }
-
-            currentDateRangeStringSubject.OnNext(isCurrentWeek()
-                ? $"{Resources.ThisWeek} ▾"
-                : $"{startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture)} - {endDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture)} ▾");
-        }
-
-        private void onPreferencesChanged(IThreadSafePreferences preferences)
-        {
-            dateFormat = preferences.DateFormat;
-            updateCurrentDateRangeString();
-        }
-
-        private void onBeginningOfWeekChanged(BeginningOfWeek beginningOfWeek)
-        {
-            this.beginningOfWeek = beginningOfWeek;
-            updateCurrentDateRangeString();
         }
 
         private IReadOnlyList<ChartSegment> applyDurationFormat(IReadOnlyList<ChartSegment> chartSegments, DurationFormat durationFormat)
@@ -445,8 +423,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
             workspaceSubject.OnNext(workspace);
             startDateSubject.OnNext(startDate);
             endDateSubject.OnNext(endDate);
-
-            updateCurrentDateRangeString();
 
             reportSubject.OnNext(Unit.Default);
         }
