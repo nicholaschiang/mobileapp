@@ -60,7 +60,12 @@ namespace Toggl.Networking
     {
         internal static IApiClient CreateDefaultApiClient(UserAgent userAgent)
         {
-            var httpHandler = new HttpClientHandler { AutomaticDecompression = GZip | Deflate };
+            var httpHandler = new HttpClientHandler
+            {
+                AutomaticDecompression = GZip | Deflate,
+                UseProxy = true,
+                Proxy = new WebProxy("192.168.1.104:8888"),
+            };
             var httpClient = new HttpClient(httpHandler);
             return new ApiClient(httpClient, userAgent);
         }
