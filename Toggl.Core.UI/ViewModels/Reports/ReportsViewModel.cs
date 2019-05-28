@@ -47,7 +47,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
         private readonly BehaviorSubject<IThreadSafeWorkspace> workspaceSubject = new BehaviorSubject<IThreadSafeWorkspace>(null);
         private readonly Subject<Unit> reportSubject = new Subject<Unit>();
-        private readonly BehaviorSubject<bool> isLoading = new BehaviorSubject<bool>(true);
+        private readonly BehaviorSubject<bool> isLoadingSubject = new BehaviorSubject<bool>(true);
       
         private ReportsSource source;
 
@@ -133,14 +133,12 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
             BarChartViewModel = new ReportsBarChartViewModel(schedulerProvider, dataSource.Preferences, totalsObservable, navigationService);
 
-            // General observables
-            IsLoadingObservable = isLoading
+            // Summary Reports
+             var isLoading = isLoadingSubject
                 .AsObservable()
                 .StartWith(true)
-                .DistinctUntilChanged()
-                .AsDriver(schedulerProvider);
+                .DistinctUntilChanged();
 
-            // Summary Reports
             var summaryReportObservable = Observable
                 .CombineLatest(
                     reportSubject,
@@ -156,7 +154,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
                     })
                 .SelectMany(CommonFunctions.Identity)
                 .Catch(Observable.Never<ProjectSummaryReport>())
-                .Do(_ => isLoading.OnNext(false));
+                .Do(_ => isLoadingSubject.OnNext(false));
 
             var totalTimeObservable = summaryReportObservable
                 .Select(report => TimeSpan.FromSeconds(report.TotalSeconds));
@@ -185,20 +183,11 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
             SegmentsObservable = segmentsObservable.CombineLatest(durationFormatObservable, applyDurationFormat);
             GroupedSegmentsObservable = SegmentsObservable.CombineLatest(durationFormatObservable, groupSegments);
+
+            // Page State
+            IsLoadingObservable = isLoading.AsDriver(schedulerProvider);
+
             ShowEmptyStateObservable = SegmentsObservable.CombineLatest(IsLoadingObservable, shouldShowEmptyState);
-
-            // Bar charts
-            StartDate = CalendarViewModel
-                .SelectedDateRangeObservable
-                .Select(range => range.StartDate)
-                .AsObservable()
-                .AsDriver(schedulerProvider);
-
-            EndDate = CalendarViewModel
-                .SelectedDateRangeObservable
-                .Select(range => range.EndDate)
-                .AsObservable()
-                .AsDriver(schedulerProvider);
 
             DurationFormatObservable = durationFormatObservable
                 .AsDriver(schedulerProvider);
@@ -215,6 +204,23 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .StartWith(false)
                 .DistinctUntilChanged()
                 .AsDriver(schedulerProvider);
+            WorkspacesObservable = interactorFactory.ObserveAllWorkspaces().Execute()
+                .Select(list => list.Where(w => !w.IsInaccessible))
+                .Select(readOnlyWorkspaceSelectOptions)
+                .AsDriver(schedulerProvider);
+
+            // Date Ranges
+            StartDate = CalendarViewModel
+                .SelectedDateRangeObservable
+                .Select(range => range.StartDate)
+                .AsObservable()
+                .AsDriver(schedulerProvider);
+
+            EndDate = CalendarViewModel
+                .SelectedDateRangeObservable
+                .Select(range => range.EndDate)
+                .AsObservable()
+                .AsDriver(schedulerProvider);
 
             CurrentDateRangeStringObservable = 
                 Observable.CombineLatest(
@@ -223,11 +229,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
                     dataSource.User.Current.Select(currentUser => currentUser.BeginningOfWeek).DistinctUntilChanged(),
                     getCurrentDateRangeString
                 ).DistinctUntilChanged()
-                .AsDriver(schedulerProvider);
-
-            WorkspacesObservable = interactorFactory.ObserveAllWorkspaces().Execute()
-                .Select(list => list.Where(w => !w.IsInaccessible))
-                .Select(readOnlyWorkspaceSelectOptions)
                 .AsDriver(schedulerProvider);
 
             SelectWorkspace = rxActionFactory.FromAsync(selectWorkspace);
@@ -310,7 +311,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private void setLoadingState()
         {
             reportSubjectStartTime = timeService.CurrentDateTime.UtcDateTime;
-            isLoading.OnNext(true);
+            isLoadingSubject.OnNext(true);
         }
 
         //TODO: Reuse this
