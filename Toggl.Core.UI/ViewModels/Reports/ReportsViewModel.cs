@@ -40,18 +40,15 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
         private readonly ITimeService timeService;
         private readonly ITogglDataSource dataSource;
-        private readonly IInteractorFactory interactorFactory;
         private readonly IAnalyticsService analyticsService;
-        private readonly IIntentDonationService intentDonationService;
+        private readonly IInteractorFactory interactorFactory;
         private readonly IStopwatchProvider stopwatchProvider;
+        private readonly IIntentDonationService intentDonationService;
 
-        private BehaviorSubject<IThreadSafeWorkspace> workspaceSubject;
+        private readonly BehaviorSubject<IThreadSafeWorkspace> workspaceSubject = new BehaviorSubject<IThreadSafeWorkspace>(null);
         private readonly Subject<Unit> reportSubject = new Subject<Unit>();
         private readonly BehaviorSubject<bool> isLoading = new BehaviorSubject<bool>(true);
-        private readonly ISubject<TimeSpan> totalTimeSubject = new BehaviorSubject<TimeSpan>(TimeSpan.Zero);
-        private readonly ISubject<float?> billablePercentageSubject = new Subject<float?>();
-        private readonly ISubject<IReadOnlyList<ChartSegment>> segmentsSubject = new Subject<IReadOnlyList<ChartSegment>>();
-
+      
         private ReportsSource source;
 
         [Obsolete("This should be removed, replaced by something that is actually used or turned into a constant.")]
@@ -60,34 +57,30 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private long userId;
         private DateTime reportSubjectStartTime;
 
-        public IObservable<bool> IsLoadingObservable { get; }
-
-        public IObservable<TimeSpan> TotalTimeObservable
-            => totalTimeSubject.AsObservable();
-
-        public IObservable<bool> TotalTimeIsZeroObservable
-            => TotalTimeObservable.Select(time => time.Ticks == 0);
-
-        public IObservable<DurationFormat> DurationFormatObservable { get; private set; }
-
-        public IObservable<float?> BillablePercentageObservable => billablePercentageSubject.AsObservable();
-
+        // Sub-ViewModels
         public ReportsBarChartViewModel BarChartViewModel { get; }
         public ReportsCalendarViewModel CalendarViewModel { get; }
 
+        // Report observables
+        public IObservable<TimeSpan> TotalTimeObservable { get; }
+        public IObservable<bool> TotalTimeIsZeroObservable { get; }
+        public IObservable<float?> BillablePercentageObservable { get; }
+        public IObservable<DurationFormat> DurationFormatObservable { get; }
         public IObservable<IReadOnlyList<ChartSegment>> SegmentsObservable { get; private set; }
         public IObservable<IReadOnlyList<ChartSegment>> GroupedSegmentsObservable { get; private set; }
+        public IObservable<bool> WorkspaceHasBillableFeatureEnabled { get; }
 
-        public IObservable<bool> ShowEmptyStateObservable { get; private set; }
-
-        public IObservable<string> CurrentDateRangeStringObservable { get; }
-
+        // Page state
+        public IObservable<bool> IsLoadingObservable { get; }
+        public IObservable<bool> ShowEmptyStateObservable { get; }
         public IObservable<string> WorkspaceNameObservable { get; }
         public ICollection<SelectOption<IThreadSafeWorkspace>> Workspaces { get; private set; }
         public IObservable<ICollection<SelectOption<IThreadSafeWorkspace>>> WorkspacesObservable { get; }
-        public IObservable<DateTimeOffset> StartDate { get; }
+
+        // Date Ranges
         public IObservable<DateTimeOffset> EndDate { get; }
-        public IObservable<bool> WorkspaceHasBillableFeatureEnabled { get; }
+        public IObservable<DateTimeOffset> StartDate { get; }
+        public IObservable<string> CurrentDateRangeStringObservable { get; }
 
         public UIAction SelectWorkspace { get; }
 
@@ -120,17 +113,81 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
             CalendarViewModel = new ReportsCalendarViewModel(timeService, dataSource, intentDonationService, rxActionFactory, navigationService);
 
-            var totalsObservable = Observable.CombineLatest(
-                reportSubject,
-                CalendarViewModel.SelectedDateRangeObservable,
-                workspaceSubject.Select(w => w.Id).DistinctUntilChanged(),
-                (_, range, workspaceId) => interactorFactory.GetReportsTotals(userId, workspaceId, range.StartDate, range.EndDate).Execute()
-                ).SelectMany(CommonFunctions.Identity)
+            var currentWorkspaceId = workspaceSubject
+                .Select(w => w?.Id)
+                .Where(id => id != null)
+                .Select(id => id.Value)
+                .DistinctUntilChanged();
+
+            var totalsObservable = Observable
+                .CombineLatest(
+                    reportSubject,
+                    CalendarViewModel.SelectedDateRangeObservable,
+                    currentWorkspaceId,
+                    (_, range, workspaceId) => interactorFactory
+                        .GetReportsTotals(userId, workspaceId, range.StartDate, range.EndDate)
+                        .Execute())
+                .SelectMany(CommonFunctions.Identity)
                 .Catch<ITimeEntriesTotals, OfflineException>(_ => Observable.Return<ITimeEntriesTotals>(null))
                 .Where(report => report != null);
+
             BarChartViewModel = new ReportsBarChartViewModel(schedulerProvider, dataSource.Preferences, totalsObservable, navigationService);
 
-            IsLoadingObservable = isLoading.AsObservable().StartWith(true).AsDriver(schedulerProvider);
+            // General observables
+            IsLoadingObservable = isLoading
+                .AsObservable()
+                .StartWith(true)
+                .DistinctUntilChanged()
+                .AsDriver(schedulerProvider);
+
+            // Summary Reports
+            var summaryReportObservable = Observable
+                .CombineLatest(
+                    reportSubject,
+                    CalendarViewModel.SelectedDateRangeObservable.Where(rangeContainsValidDates),
+                    currentWorkspaceId,
+                    (_, range, workspaceId) =>
+                    {
+                        setLoadingState();
+
+                        return interactorFactory
+                            .GetProjectSummary(workspaceId, range.StartDate, range.EndDate)
+                            .Execute();
+                    })
+                .SelectMany(CommonFunctions.Identity)
+                .Catch(Observable.Never<ProjectSummaryReport>())
+                .Do(_ => isLoading.OnNext(false));
+
+            var totalTimeObservable = summaryReportObservable
+                .Select(report => TimeSpan.FromSeconds(report.TotalSeconds));
+
+            var durationFormatObservable = dataSource.Preferences.Current
+                .Select(prefs => prefs.DurationFormat);
+
+            TotalTimeObservable = totalTimeObservable
+                .DistinctUntilChanged()
+                .AsDriver(schedulerProvider);
+
+            TotalTimeIsZeroObservable = totalTimeObservable
+                .Select(time => time.Ticks == 0)
+                .DistinctUntilChanged()
+                .AsDriver(schedulerProvider);
+
+            BillablePercentageObservable = summaryReportObservable
+                .Select(report => report.TotalSeconds is 0 ? null : (float?)report.BillablePercentage)
+                .DistinctUntilChanged()
+                .AsDriver(schedulerProvider);
+
+            var segmentsObservable = isLoading
+                .Where(CommonFunctions.Identity)
+                .Select(_ => new ChartSegment[0])
+                .Merge(summaryReportObservable.Select(report => report.Segments));
+
+            SegmentsObservable = segmentsObservable.CombineLatest(durationFormatObservable, applyDurationFormat);
+            GroupedSegmentsObservable = SegmentsObservable.CombineLatest(durationFormatObservable, groupSegments);
+            ShowEmptyStateObservable = SegmentsObservable.CombineLatest(IsLoadingObservable, shouldShowEmptyState);
+
+            // Bar charts
             StartDate = CalendarViewModel
                 .SelectedDateRangeObservable
                 .Select(range => range.StartDate)
@@ -143,7 +200,8 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .AsObservable()
                 .AsDriver(schedulerProvider);
 
-            SelectWorkspace = rxActionFactory.FromAsync(selectWorkspace);
+            DurationFormatObservable = durationFormatObservable
+                .AsDriver(schedulerProvider);
 
             WorkspaceNameObservable = workspaceSubject
                 .Select(workspace => workspace?.Name ?? string.Empty)
@@ -172,13 +230,11 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .Select(readOnlyWorkspaceSelectOptions)
                 .AsDriver(schedulerProvider);
 
-            DurationFormatObservable = dataSource.Preferences.Current
-                .Select(prefs => prefs.DurationFormat)
-                .AsDriver(schedulerProvider);
+            SelectWorkspace = rxActionFactory.FromAsync(selectWorkspace);
 
-            SegmentsObservable = segmentsSubject.CombineLatest(DurationFormatObservable, applyDurationFormat);
-            GroupedSegmentsObservable = SegmentsObservable.CombineLatest(DurationFormatObservable, groupSegments);
-            ShowEmptyStateObservable = SegmentsObservable.CombineLatest(IsLoadingObservable, shouldShowEmptyState);
+            bool rangeContainsValidDates(ReportsDateRange range)
+                => range.StartDate != default(DateTimeOffset)
+                && range.EndDate != default(DateTimeOffset);
 
             string getCurrentDateRangeString(ReportsDateRange range, DateFormat dateFormat, BeginningOfWeek beginningOfWeek)
             {
@@ -220,20 +276,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
             interactorFactory.GetDefaultWorkspace()
                 .TrackException<InvalidOperationException, IThreadSafeWorkspace>("ReportsViewModel.Initialize")
                 .Execute()
-                .Subscribe(workspace =>
-                    workspaceSubject = new BehaviorSubject<IThreadSafeWorkspace>(workspace));
-
-            // TODO: Uncomment
-            //reportSubject
-            //    .AsObservable()
-            //    .Do(setLoadingState)
-            //    .SelectMany( _ =>
-            //        startDate == default(DateTimeOffset) || endDate == default(DateTimeOffset)
-            //            ? Observable.Empty<ProjectSummaryReport>()
-            //            : interactorFactory.GetProjectSummary(workspaceId, startDate, endDate).Execute())
-            //    .Catch(Observable.Return<ProjectSummaryReport>(null))
-            //    .Subscribe(onReport)
-            //    .DisposedBy(disposeBag);
+                .Subscribe(workspace => workspaceSubject.OnNext(workspace));
         }
 
         public override void ViewAppeared()
@@ -264,30 +307,13 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .ToList()
                 .AsReadOnly();
 
-        private void setLoadingState(Unit obj)
+        private void setLoadingState()
         {
             reportSubjectStartTime = timeService.CurrentDateTime.UtcDateTime;
             isLoading.OnNext(true);
-            segmentsSubject.OnNext(new ChartSegment[0]);
         }
 
-        private void onReport(ProjectSummaryReport report)
-        {
-            if (report == null)
-            {
-                isLoading.OnNext(false);
-                trackReportsEvent(false);
-                return;
-            }
-
-            totalTimeSubject.OnNext(TimeSpan.FromSeconds(report.TotalSeconds));
-            billablePercentageSubject.OnNext(report.TotalSeconds is 0 ? null : (float?)report.BillablePercentage);
-            segmentsSubject.OnNext(report.Segments);
-            isLoading.OnNext(false);
-
-            trackReportsEvent(true);
-        }
-
+        //TODO: Reuse this
         private void trackReportsEvent(bool success)
         {
             var totalDays = 0; //TODO: Recalculate this
