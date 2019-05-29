@@ -147,7 +147,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .SubscribeOn(schedulerProvider.BackgroundScheduler)
                 .SelectMany(CommonFunctions.Identity)
                 .Catch<ProjectSummaryReport, Exception>(ex =>
-                    Observable.Never<ProjectSummaryReport>())
+                    Observable.Return(ProjectSummaryReport.Empty))
                 .Do(_ => isLoadingSubject.OnNext(false));
 
             var totalTimeObservable = summaryReportObservable
@@ -170,10 +170,8 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .DistinctUntilChanged()
                 .AsDriver(schedulerProvider);
 
-            var segmentsObservable = isLoading
-                .Where(CommonFunctions.Identity)
-                .Select(_ => new ChartSegment[0])
-                .Merge(summaryReportObservable.Select(report => report.Segments))
+            var segmentsObservable = summaryReportObservable
+                .Select(report => report.Segments)
                 .CombineLatest(durationFormatObservable, applyDurationFormat);
 
             SegmentsObservable = segmentsObservable
