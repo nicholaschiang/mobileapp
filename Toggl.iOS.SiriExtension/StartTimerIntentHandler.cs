@@ -27,6 +27,7 @@ namespace SiriExtension
         {
             if (togglAPI == null)
             {
+                Console.WriteLine("Khoi APITOKEN");
                 var userActivity = new NSUserActivity(startTimerActivityType);
                 userActivity.SetResponseText(Resources.SiriShortcutLoginToUseShortcut);
                 completion(new StartTimerIntentResponse(StartTimerIntentResponseCode.FailureNoApiToken, userActivity));
@@ -41,6 +42,7 @@ namespace SiriExtension
             var timeEntry = createTimeEntry(intent);
             togglAPI.TimeEntries.Create(timeEntry).Subscribe(te =>
             {
+                Console.WriteLine("Khoi create success");
                 SharedStorage.instance.SetNeedsSync(true);
                 SharedStorage.instance.AddSiriTrackingEvent(SiriTrackingEvent.StartTimer(te));
 
@@ -48,6 +50,7 @@ namespace SiriExtension
                 completion(response);
             }, exception =>
             {
+                Console.WriteLine($"Khoi create exception {exception.Message}");
                 SharedStorage.instance.AddSiriTrackingEvent(SiriTrackingEvent.Error(exception.Message));
                 var userActivity = new NSUserActivity(startTimerActivityType);
                 userActivity.SetResponseText(Resources.SomethingWentWrongTryAgain);
@@ -57,6 +60,7 @@ namespace SiriExtension
 
         private TimeEntry createTimeEntry(StartTimerIntent intent)
         {
+                Console.WriteLine("Khoi createTimeEntry");
             var workspaceId = intent.Workspace == null ? SharedStorage.instance.GetDefaultWorkspaceId() : (long)Convert.ToDouble(intent.Workspace.Identifier);
 
             if (string.IsNullOrEmpty(intent.EntryDescription))
