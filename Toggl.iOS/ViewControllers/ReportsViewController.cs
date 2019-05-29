@@ -168,10 +168,6 @@ namespace Toggl.iOS.ViewControllers
                 calendarViewController.View.TranslatesAutoresizingMaskIntoConstraints = false;
                 calendarViewController.DidMoveToParentViewController(this);
             }
-            else
-            {
-                ViewModel.CalendarViewModel.SelectInitialShortcut();
-            }
 
             alreadyLoadedCalendar = true;
         }

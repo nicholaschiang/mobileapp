@@ -173,15 +173,23 @@ namespace Toggl.Core.UI.ViewModels.Reports
             var segmentsObservable = isLoading
                 .Where(CommonFunctions.Identity)
                 .Select(_ => new ChartSegment[0])
-                .Merge(summaryReportObservable.Select(report => report.Segments));
+                .Merge(summaryReportObservable.Select(report => report.Segments))
+                .CombineLatest(durationFormatObservable, applyDurationFormat);
 
-            SegmentsObservable = segmentsObservable.CombineLatest(durationFormatObservable, applyDurationFormat);
-            GroupedSegmentsObservable = SegmentsObservable.CombineLatest(durationFormatObservable, groupSegments);
+            SegmentsObservable = segmentsObservable
+                .AsDriver(schedulerProvider);
+
+            GroupedSegmentsObservable = segmentsObservable
+                .CombineLatest(durationFormatObservable, groupSegments)
+                .AsDriver(schedulerProvider);
 
             // Page State
             IsLoadingObservable = isLoading.AsDriver(schedulerProvider);
 
-            ShowEmptyStateObservable = SegmentsObservable.CombineLatest(IsLoadingObservable, shouldShowEmptyState);
+            ShowEmptyStateObservable = segmentsObservable
+                .CombineLatest(isLoading, shouldShowEmptyState)
+                .DistinctUntilChanged()
+                .AsDriver(schedulerProvider);
 
             DurationFormatObservable = durationFormatObservable
                 .AsDriver(schedulerProvider);
@@ -198,6 +206,7 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .StartWith(false)
                 .DistinctUntilChanged()
                 .AsDriver(schedulerProvider);
+
             WorkspacesObservable = interactorFactory.ObserveAllWorkspaces().Execute()
                 .Select(list => list.Where(w => !w.IsInaccessible))
                 .Select(readOnlyWorkspaceSelectOptions)
