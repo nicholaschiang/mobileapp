@@ -124,10 +124,9 @@ namespace Toggl.Core.UI.ViewModels.Reports
                     reportSubject,
                     CalendarViewModel.SelectedDateRangeObservable,
                     currentWorkspaceId,
-                    (_, range, workspaceId) => interactorFactory
-                        .GetReportsTotals(userId, workspaceId, range.StartDate, range.EndDate)
-                        .Execute())
+                    loadTotals)
                 .SelectMany(CommonFunctions.Identity)
+                .SubscribeOn(schedulerProvider.BackgroundScheduler)
                 .Catch<ITimeEntriesTotals, OfflineException>(_ => Observable.Return<ITimeEntriesTotals>(null))
                 .Where(report => report != null);
 
@@ -144,16 +143,11 @@ namespace Toggl.Core.UI.ViewModels.Reports
                     reportSubject,
                     CalendarViewModel.SelectedDateRangeObservable.Where(rangeContainsValidDates),
                     currentWorkspaceId,
-                    (_, range, workspaceId) =>
-                    {
-                        setLoadingState();
-
-                        return interactorFactory
-                            .GetProjectSummary(workspaceId, range.StartDate, range.EndDate)
-                            .Execute();
-                    })
+                    loadSummary)
+                .SubscribeOn(schedulerProvider.BackgroundScheduler)
                 .SelectMany(CommonFunctions.Identity)
-                .Catch(Observable.Never<ProjectSummaryReport>())
+                .Catch<ProjectSummaryReport, Exception>(ex =>
+                    Observable.Never<ProjectSummaryReport>())
                 .Do(_ => isLoadingSubject.OnNext(false));
 
             var totalTimeObservable = summaryReportObservable
@@ -232,6 +226,19 @@ namespace Toggl.Core.UI.ViewModels.Reports
                 .AsDriver(schedulerProvider);
 
             SelectWorkspace = rxActionFactory.FromAsync(selectWorkspace);
+
+            IObservable<ITimeEntriesTotals> loadTotals(Unit _, ReportsDateRange range, long workspaceId)
+                => interactorFactory
+                    .GetReportsTotals(userId, workspaceId, range.StartDate, range.EndDate)
+                    .Execute();
+
+            IObservable<ProjectSummaryReport> loadSummary(Unit _, ReportsDateRange range, long workspaceId)
+            {
+                setLoadingState();
+                return interactorFactory
+                    .GetProjectSummary(workspaceId, range.StartDate, range.EndDate)
+                    .Execute();
+            }
 
             bool rangeContainsValidDates(ReportsDateRange range)
                 => range.StartDate != default(DateTimeOffset)
