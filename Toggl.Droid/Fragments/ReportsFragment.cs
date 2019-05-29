@@ -16,7 +16,6 @@ namespace Toggl.Droid.Fragments
 {
     public sealed partial class ReportsFragment : ReactiveTabFragment<ReportsViewModel>, IScrollableToTop
     {
-        private static readonly TimeSpan toggleCalendarThrottleDuration = TimeSpan.FromMilliseconds(300);
         private ReportsRecyclerAdapter reportsRecyclerAdapter;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -62,7 +61,6 @@ namespace Toggl.Droid.Fragments
                 .DisposedBy(DisposeBag);
 
             toolbarCurrentDateRangeText.Rx().Tap()
-                .Throttle(toggleCalendarThrottleDuration)
                 .Subscribe(toggleCalendar)
                 .DisposedBy(DisposeBag);
 
