@@ -3,146 +3,119 @@ using Toggl.Core.UI.ViewModels;
 using Toggl.Core.UI.ViewModels.Calendar;
 using Toggl.Core.UI.ViewModels.Reports;
 using Toggl.Core.UI.ViewModels.Settings;
+using Toggl.Core.UI.ViewModels.Settings.Siri;
 using Toggl.iOS.ViewControllers;
 using Toggl.iOS.ViewControllers.Calendar;
 using Toggl.iOS.ViewControllers.Settings;
+using Toggl.iOS.ViewControllers.Settings.Siri;
+using Toggl.Shared.Extensions;
 using UIKit;
 
 namespace Toggl.iOS.Presentation
 {
     public static class ViewControllerLocator
     {
-        public static UIViewController GetViewController<TViewModel>(TViewModel viewModel, bool shouldWrapInNavigationController = false) where TViewModel : IViewModel
+        public static UIViewController GetViewController<TViewModel>(TViewModel viewModel)
+            where TViewModel : IViewModel
         {
-            UIViewController viewController = null;
-
             switch (viewModel)
             {
-                case AboutViewModel aboutViewModel:
-                    viewController = new AboutViewController(aboutViewModel);
-                    break;
-                case BrowserViewModel browserViewModel:
-                    viewController = new BrowserViewController(browserViewModel);
-                    break;
-                case CalendarViewModel calendarViewModel:
-                    viewController = new CalendarViewController(calendarViewModel);
-                    break;
-                case CalendarPermissionDeniedViewModel calendarPermissionDeniedViewModel:
-                    viewController = new CalendarPermissionDeniedViewController(calendarPermissionDeniedViewModel);
-                    break;
-                case CalendarSettingsViewModel calendarSettingsViewModel:
-                    viewController = new CalendarSettingsViewController(calendarSettingsViewModel);
-                    break;
-                case EditDurationViewModel editDurationViewModel:
-                    viewController = new EditDurationViewController(editDurationViewModel);
-                    break;
-                case EditProjectViewModel editProjectViewModel:
-                    viewController = new EditProjectViewController(editProjectViewModel);
-                    break;
-                case EditTimeEntryViewModel editTimeEntryViewModel:
-                    viewController = new EditTimeEntryViewController(editTimeEntryViewModel);
-                    break;
-                case ForgotPasswordViewModel forgotPasswordViewModel:
-                    viewController = new ForgotPasswordViewController(forgotPasswordViewModel);
-                    break;
-                case LicensesViewModel licensesViewModel:
-                    viewController = new LicensesViewController(licensesViewModel);
-                    break;
-                case LoginViewModel loginViewModel:
-                    viewController = LoginViewController.NewInstance(loginViewModel);
-                    break;
-                case MainTabBarViewModel mainTabBarViewModel:
-                    viewController = new MainTabBarController(mainTabBarViewModel);
-                    break;
-                case MainViewModel mainViewModel:
-                    viewController = new MainViewController(mainViewModel);
-                    break;
-                case NotificationSettingsViewModel notificationSettingsViewModel:
-                    viewController = new NotificationSettingsViewController(notificationSettingsViewModel);
-                    break;
-                case NoWorkspaceViewModel noWorkspaceViewModel:
-                    viewController = new NoWorkspaceViewController(noWorkspaceViewModel);
-                    break;
-                case OnboardingViewModel onboardingViewModel:
-                    viewController = new OnboardingViewController(onboardingViewModel);
-                    break;
-                case OutdatedAppViewModel outdatedAppViewModel:
-                    viewController = new OutdatedAppViewController(outdatedAppViewModel);
-                    break;
-                case ReportsViewModel reportsViewModel:
-                    viewController = new ReportsViewController(reportsViewModel);
-                    break;
-                case ReportsCalendarViewModel reportsCalendarViewModel:
-                    viewController = new ReportsCalendarViewController(reportsCalendarViewModel);
-                    break;
-                case SelectBeginningOfWeekViewModel selectBeginningOfWeekViewModel:
-                    viewController = new SelectBeginningOfWeekViewController(selectBeginningOfWeekViewModel);
-                    break;
-                case SelectClientViewModel selectClientViewModel:
-                    viewController = new SelectClientViewController(selectClientViewModel);
-                    break;
-                case SelectColorViewModel selectColorViewModel:
-                    viewController = new SelectColorViewController(selectColorViewModel);
-                    break;
-                case SelectCountryViewModel selectCountryViewModel:
-                    viewController = new SelectCountryViewController(selectCountryViewModel);
-                    break;
-                case SelectDateFormatViewModel selectDateFormatViewModel:
-                    viewController = new SelectDateFormatViewController(selectDateFormatViewModel);
-                    break;
-                case SelectDateTimeViewModel selectDateTimeViewModel:
-                    viewController = new SelectDateTimeViewController(selectDateTimeViewModel);
-                    break;
-                case SelectDefaultWorkspaceViewModel selectDefaultWorkspaceViewModel:
-                    viewController = new SelectDefaultWorkspaceViewController(selectDefaultWorkspaceViewModel);
-                    break;
-                case SelectDurationFormatViewModel selectDurationFormatViewModel:
-                    viewController = new SelectDurationFormatViewController(selectDurationFormatViewModel);
-                    break;
-                case SelectProjectViewModel selectProjectViewModel:
-                    viewController = new SelectProjectViewController(selectProjectViewModel);
-                    break;
-                case SelectTagsViewModel selectTagsViewModel:
-                    viewController = new SelectTagsViewController(selectTagsViewModel);
-                    break;
-                case SelectUserCalendarsViewModel selectUserCalendarsViewModel:
-                    viewController = new SelectUserCalendarsViewController(selectUserCalendarsViewModel);
-                    break;
-                case SelectWorkspaceViewModel selectWorkspaceViewModel:
-                    viewController = new SelectWorkspaceViewController(selectWorkspaceViewModel);
-                    break;
-                case SendFeedbackViewModel sendFeedbackViewModel:
-                    viewController = new SendFeedbackViewController(sendFeedbackViewModel);
-                    break;
-                case SettingsViewModel settingsViewModel:
-                    viewController = new SettingsViewController(settingsViewModel);
-                    break;
-                case SignupViewModel signupViewModel:
-                    viewController = new SignupViewController(signupViewModel);
-                    break;
-                case StartTimeEntryViewModel startTimeEntryViewModel:
-                    viewController = new StartTimeEntryViewController(startTimeEntryViewModel);
-                    break;
-                case SyncFailuresViewModel syncFailuresViewModel:
-                    viewController = new SyncFailuresViewController(syncFailuresViewModel);
-                    break;
-                case TermsOfServiceViewModel termsOfServiceViewModel:
-                    viewController = new TermsOfServiceViewController(termsOfServiceViewModel);
-                    break;
-                case TokenResetViewModel tokenResetViewModel:
-                    viewController = new TokenResetViewController(tokenResetViewModel);
-                    break;
-                case UpcomingEventsNotificationSettingsViewModel upcomingEventsNotificationSettingsViewModel:
-                    viewController = new UpcomingEventsNotificationSettingsViewController(upcomingEventsNotificationSettingsViewModel);
-                    break;
+                case AboutViewModel vm:
+                    return new AboutViewController(vm);
+                case BrowserViewModel vm:
+                    return new BrowserViewController(vm);
+                case CalendarViewModel vm:
+                    return new CalendarViewController(vm);
+                case CalendarPermissionDeniedViewModel vm:
+                    return new CalendarPermissionDeniedViewController(vm);
+                case CalendarSettingsViewModel vm:
+                    return new CalendarSettingsViewController(vm);
+                case EditDurationViewModel vm:
+                    return new EditDurationViewController(vm);
+                case EditProjectViewModel vm:
+                    return new EditProjectViewController(vm);
+                case EditTimeEntryViewModel vm:
+                    return new EditTimeEntryViewController(vm);
+                case ForgotPasswordViewModel vm:
+                    return new ForgotPasswordViewController(vm);
+                case LicensesViewModel vm:
+                    return new LicensesViewController(vm);
+                case LoginViewModel vm:
+                    return LoginViewController.NewInstance(vm);
+                case MainTabBarViewModel vm:
+                    return new MainTabBarController(vm);
+                case MainViewModel vm:
+                    return new MainViewController(vm);
+                case NotificationSettingsViewModel vm:
+                    return new NotificationSettingsViewController(vm);
+                case NoWorkspaceViewModel vm:
+                    return new NoWorkspaceViewController(vm);
+                case OnboardingViewModel vm:
+                    return new OnboardingViewController(vm);
+                case OutdatedAppViewModel vm:
+                    return new OutdatedAppViewController(vm);
+                case PasteFromClipboardViewModel vm:
+                    return new PasteFromClipboardViewController(vm);
+                case ReportsViewModel vm:
+                    return new ReportsViewController(vm);
+                case ReportsCalendarViewModel vm:
+                    return new ReportsCalendarViewController(vm);
+                case SelectBeginningOfWeekViewModel vm:
+                    return new SelectBeginningOfWeekViewController(vm);
+                case SelectClientViewModel vm:
+                    return new SelectClientViewController(vm);
+                case SelectColorViewModel vm:
+                    return new SelectColorViewController(vm);
+                case SelectCountryViewModel vm:
+                    return new SelectCountryViewController(vm);
+                case SelectDateFormatViewModel vm:
+                    return new SelectDateFormatViewController(vm);
+                case SelectDateTimeViewModel vm:
+                    return new SelectDateTimeViewController(vm);
+                case SelectDefaultWorkspaceViewModel vm:
+                    return new SelectDefaultWorkspaceViewController(vm);
+                case SelectDurationFormatViewModel vm:
+                    return new SelectDurationFormatViewController(vm);
+                case SelectProjectViewModel vm:
+                    return new SelectProjectViewController(vm);
+                case SelectTagsViewModel vm:
+                    return new SelectTagsViewController(vm);
+                case SelectUserCalendarsViewModel vm:
+                    return new SelectUserCalendarsViewController(vm);
+                case SelectWorkspaceViewModel vm:
+                    return new SelectWorkspaceViewController(vm);
+                case SendFeedbackViewModel vm:
+                    return new SendFeedbackViewController(vm);
+                case SettingsViewModel vm:
+                    return new SettingsViewController(vm);
+                case SignupViewModel vm:
+                    return new SignupViewController(vm);
+                case SiriShortcutsCustomTimeEntryViewModel vm:
+                    return new SiriShortcutsCustomTimeEntryViewController(vm);
+                case SiriShortcutsSelectReportPeriodViewModel vm:
+                    return new SiriShortcutsSelectReportPeriodViewController(vm);
+                case SiriShortcutsViewModel vm:
+                    return new SiriShortcutsViewController(vm);
+                case SiriWorkflowsViewModel vm:
+                    return new SiriWorkflowsViewController(vm);
+                case StartTimeEntryViewModel vm:
+                    return new StartTimeEntryViewController(vm);
+                case SyncFailuresViewModel vm:
+                    return new SyncFailuresViewController(vm);
+                case TermsOfServiceViewModel vm:
+                    return new TermsOfServiceViewController(vm);
+                case TokenResetViewModel vm:
+                    return new TokenResetViewController(vm);
+                case UpcomingEventsNotificationSettingsViewModel vm:
+                    return new UpcomingEventsNotificationSettingsViewController(vm);
                 default:
                     throw new Exception($"Failed to create ViewController for ViewModel of type {viewModel.GetType().Name}");
             }
-
-            return shouldWrapInNavigationController
-                ? wrapInNavigationController(viewController)
-                : viewController;
         }
+
+        public static UIViewController GetNavigationViewController<TViewModel>(TViewModel viewModel)
+            where TViewModel : IViewModel
+            => GetViewController(viewModel).Apply(wrapInNavigationController);
 
         private static UIViewController wrapInNavigationController(UIViewController viewController)
             => new UINavigationController(viewController);

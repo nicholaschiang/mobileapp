@@ -28,7 +28,7 @@ namespace Toggl.iOS.ViewControllers
 
             UIViewController createTabFor(ViewModel childViewModel)
             {
-                var viewController = ViewControllerLocator.GetViewController(childViewModel, true);
+                var viewController = ViewControllerLocator.GetNavigationViewController(childViewModel);
                 var item = new UITabBarItem();
                 item.Title = "";
                 item.Image = UIImage.FromBundle(imageNameForType[childViewModel.GetType()]);

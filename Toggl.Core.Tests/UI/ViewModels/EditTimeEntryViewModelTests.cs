@@ -858,7 +858,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     newWorkspaceId = te.WorkspaceId;
                     return te;
                 });
-                var selectProjectParameter = SelectProjectParameter.WithIds(newProjectId, newTaskId, newWorkspaceId);
+                var selectProjectParameter = new SelectProjectParameter(newProjectId, newTaskId, newWorkspaceId);
                 NavigationService
                     .Navigate<SelectProjectViewModel, SelectProjectParameter, SelectProjectParameter>(Arg.Any<SelectProjectParameter>(), ViewModel.View)
                     .Returns(selectProjectParameter);
@@ -883,7 +883,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     newWorkspaceId = te.WorkspaceId;
                     return te;
                 });
-                var selectProjectParameter = SelectProjectParameter.WithIds(newProjectId, newTaskId, newWorkspaceId);
+                var selectProjectParameter = new SelectProjectParameter(newProjectId, newTaskId, newWorkspaceId);
                 NavigationService
                     .Navigate<SelectProjectViewModel, SelectProjectParameter, SelectProjectParameter>(Arg.Any<SelectProjectParameter>(), ViewModel.View)
                     .Returns(selectProjectParameter);
@@ -908,7 +908,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     newWorkspaceId = te.WorkspaceId + 1;
                     return te;
                 });
-                var selectProjectParameter = SelectProjectParameter.WithIds(newProjectId, newTaskId, newWorkspaceId);
+                var selectProjectParameter = new SelectProjectParameter(newProjectId, newTaskId, newWorkspaceId);
                 NavigationService
                     .Navigate<SelectProjectViewModel, SelectProjectParameter, SelectProjectParameter>(Arg.Any<SelectProjectParameter>(), ViewModel.View)
                     .Returns(selectProjectParameter);
@@ -1016,7 +1016,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     return te;
                 });
                 NavigationService
-                    .Navigate<SelectTagsViewModel, (long[], long), long[]>(Arg.Any<(long[], long)>(), ViewModel.View)
+                    .Navigate<SelectTagsViewModel, SelectTagsParameter, long[]>(Arg.Any<SelectTagsParameter>(), ViewModel.View)
                     .Returns(newTags);
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
@@ -1168,7 +1168,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     Active = true
                 };
 
-                var parameter = SelectProjectParameter.WithIds(projectId, taskId, WorkspaceIdWithBillableAvailable);
+                var parameter = new SelectProjectParameter(projectId, taskId, WorkspaceIdWithBillableAvailable);
                 NavigationService
                     .Navigate<SelectProjectViewModel, SelectProjectParameter, SelectProjectParameter>(Arg.Any<SelectProjectParameter>(), ViewModel.View)
                     .Returns(parameter);
@@ -1295,7 +1295,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Returns(tagsObservable);
 
                 NavigationService
-                    .Navigate<SelectTagsViewModel, (long[], long), long[]>(Arg.Any<(long[], long)>(), ViewModel.View)
+                    .Navigate<SelectTagsViewModel, SelectTagsParameter, long[]>(Arg.Any<SelectTagsParameter>(), ViewModel.View)
                     .Returns(tagsIds);
             }
 
@@ -1317,8 +1317,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 NavigationService
                     .Received()
-                    .Navigate<SelectTagsViewModel, (long[] tagIds, long workspaceId), long[]>(
-                        Arg.Is<(long[] tagIds, long workspaceId)>(tuple => tuple.tagIds.SetEquals(tagIds, null)),
+                    .Navigate<SelectTagsViewModel, SelectTagsParameter, long[]>(
+                        Arg.Is<SelectTagsParameter>(tuple => tuple.TagIds.SetEquals(tagIds, null)),
                         ViewModel.View)
                     .Wait();
             }
@@ -1340,8 +1340,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await NavigationService
                     .Received()
-                    .Navigate<SelectTagsViewModel, (long[] tagIds, long workspaceId), long[]>(
-                        Arg.Is<(long[] tagIds, long workspaceId)>(tuple => tuple.workspaceId == workspaceId), 
+                    .Navigate<SelectTagsViewModel, SelectTagsParameter, long[]>(
+                        Arg.Is<SelectTagsParameter>(tuple => tuple.WorkspaceId == workspaceId),
                         ViewModel.View);
             }
 

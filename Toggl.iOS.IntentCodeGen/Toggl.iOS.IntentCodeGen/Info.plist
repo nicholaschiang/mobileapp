@@ -25,6 +25,7 @@
 		<string>ContinueTimerIntent</string>
 		<string>ShowReportIntent</string>
 		<string>ShowReportPeriodIntent</string>
+		<string>StartTimerFromClipboardIntent</string>
 		<string>StartTimerIntent</string>
 		<string>StopTimerIntent</string>
 	</array>

@@ -395,7 +395,6 @@
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Services\PermissionsCheckerAndroid.cs" />
     <Compile Include="Services\CalendarServiceAndroid.cs" />
-    <Compile Include="Services\NoopIntentDonationServiceAndroid.cs" />
     <Compile Include="Startup\AndroidSchedulerProvider.cs" />
     <Compile Include="Startup\SplashScreen.cs" />
     <Compile Include="Startup\SplashScreen.DeepLink.cs">

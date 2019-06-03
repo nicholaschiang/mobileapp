@@ -43,7 +43,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private readonly IAnalyticsService analyticsService;
         private readonly IInteractorFactory interactorFactory;
         private readonly IStopwatchProvider stopwatchProvider;
-        private readonly IIntentDonationService intentDonationService;
 
         private readonly BehaviorSubject<IThreadSafeWorkspace> workspaceSubject = new BehaviorSubject<IThreadSafeWorkspace>(null);
         private readonly Subject<Unit> reportSubject = new Subject<Unit>();
@@ -89,7 +88,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
             INavigationService navigationService,
             IInteractorFactory interactorFactory,
             IAnalyticsService analyticsService,
-            IIntentDonationService intentDonationService,
             ISchedulerProvider schedulerProvider,
             IStopwatchProvider stopwatchProvider,
             IRxActionFactory rxActionFactory)
@@ -102,16 +100,15 @@ namespace Toggl.Core.UI.ViewModels.Reports
             Ensure.Argument.IsNotNull(interactorFactory, nameof(interactorFactory));
             Ensure.Argument.IsNotNull(schedulerProvider, nameof(schedulerProvider));
             Ensure.Argument.IsNotNull(stopwatchProvider, nameof(stopwatchProvider));
-            Ensure.Argument.IsNotNull(intentDonationService, nameof(intentDonationService));
+            Ensure.Argument.IsNotNull(navigationService, nameof(navigationService));
 
             this.dataSource = dataSource;
             this.timeService = timeService;
             this.analyticsService = analyticsService;
             this.interactorFactory = interactorFactory;
             this.stopwatchProvider = stopwatchProvider;
-            this.intentDonationService = intentDonationService;
 
-            CalendarViewModel = new ReportsCalendarViewModel(timeService, dataSource, intentDonationService, rxActionFactory, navigationService);
+            CalendarViewModel = new ReportsCalendarViewModel(timeService, dataSource, rxActionFactory, navigationService);
 
             var currentWorkspaceId = workspaceSubject
                 .Select(w => w?.Id)
@@ -258,21 +255,37 @@ namespace Toggl.Core.UI.ViewModels.Reports
 
                 if (startDate == default(DateTimeOffset) || endDate == default(DateTimeOffset))
                     return "";
+                
+                var currentTime = timeService.CurrentDateTime.RoundDownToLocalDate();
 
-                if (startDate == endDate)
-                    return $"{startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture)} ▾";
+                if (startDate == endDate && startDate == currentTime)
+                    return Resources.Today;
 
-                var firstDayOfCurrentWeek = timeService.CurrentDateTime.BeginningOfWeek(beginningOfWeek);
-                var lastDayOfCurrentWeek = firstDayOfCurrentWeek.AddDays(6);
+                if (startDate == endDate && startDate == currentTime.AddDays(-1))
+                    return Resources.Yesterday;
 
-                var isCurrentWeek = startDate.Date == firstDayOfCurrentWeek && endDate.Date == lastDayOfCurrentWeek;
-                if (isCurrentWeek)
-                    return $"{Resources.ThisWeek} ▾";
+                if (range.IsCurrentWeek(currentTime, beginningOfWeek))
+                    return Resources.ThisWeek;
 
-                var formattedStartDate = startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture);
-                var formattedEndDate = endDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture);
+                if (range.IsLastWeek(currentTime, beginningOfWeek))
+                    return Resources.LastWeek;
 
-                return $"{formattedStartDate} - {formattedEndDate} ▾";
+                if (range.IsCurrentMonth(currentTime))
+                    return Resources.ThisMonth;
+
+                if (range.IsLastMonth(currentTime))
+                    return Resources.LastMonth;
+
+                if (range.IsCurrentYear(currentTime))
+                    return Resources.ThisYear;
+
+                if (range.IsLastYear(currentTime))
+                    return Resources.LastYear;
+
+                var startDateText = startDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture);
+                var endDateText = endDate.ToString(dateFormat.Short, CultureInfo.InvariantCulture);
+                var dateRangeText = $"{startDateText} - {endDateText}";
+                return dateRangeText;
             }
         }
 
@@ -281,6 +294,10 @@ namespace Toggl.Core.UI.ViewModels.Reports
             await base.Initialize();
 
             await CalendarViewModel.Initialize();
+
+            // TODO: Fix the parameter usage
+            // CalendarViewModel.SelectPeriod(parameter.ReportPeriod);
+            // this.parameter = parameter;
 
             WorkspacesObservable
                 .Subscribe(data => Workspaces = data)
@@ -302,8 +319,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
             stopwatchProvider.Remove(MeasuredOperation.OpenReportsViewForTheFirstTime);
             firstTimeOpenedFromMainTabBarStopwatch?.Stop();
             firstTimeOpenedFromMainTabBarStopwatch = null;
-
-            intentDonationService.DonateShowReport();
 
             CalendarViewModel.ViewAppeared();
             reportSubject.OnNext(Unit.Default);

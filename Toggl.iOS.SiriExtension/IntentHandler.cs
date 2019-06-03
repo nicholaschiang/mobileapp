@@ -22,6 +22,8 @@ namespace SiriExtension
                     return new StopTimerIntentHandler(APIHelper.GetTogglAPI());
                 case StartTimerIntent _:
                     return new StartTimerIntentHandler(APIHelper.GetTogglAPI());
+                case StartTimerFromClipboardIntent _:
+                    return new StartTimerFromClipboardIntentHandler(APIHelper.GetTogglAPI());
                 case ContinueTimerIntent _:
                     return new ContinueTimerIntentHandler(APIHelper.GetTogglAPI());
                 default:

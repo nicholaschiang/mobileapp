@@ -15,6 +15,7 @@ using Toggl.Core.Sync.States.Pull;
 using Toggl.Core.Tests.Generators;
 using Toggl.Core.Tests.Mocks;
 using Toggl.Shared.Models;
+using Toggl.Storage;
 using Toggl.Storage.Models;
 using Xunit;
 
@@ -38,7 +39,13 @@ namespace Toggl.Core.Tests.Sync.States.Pull
             protected void PrepareDatabase(IEnumerable<IThreadSafeWorkspace> workspaces)
             {
                 var accessibleWorkspaces = workspaces.Where(ws => !ws.IsInaccessible);
-                DataSource.GetAll().Returns(Observable.Return(accessibleWorkspaces));
+                DataSource.GetAll(Arg.Any<Func<IDatabaseWorkspace, bool>>())
+                    .Returns(callInfo =>
+                    {
+                        var filter = callInfo.Arg<Func<IDatabaseWorkspace, bool>>();
+                        var filteredWorkspaces = accessibleWorkspaces.Where<IThreadSafeWorkspace>(filter).ToList();
+                        return Observable.Return(filteredWorkspaces);
+                    });
             }
 
             protected void PrepareFetch(List<IWorkspace> workspaces)
@@ -231,6 +238,26 @@ namespace Toggl.Core.Tests.Sync.States.Pull
                 var parameter = ((Transition<IEnumerable<IWorkspace>>)transition).Parameter;
 
                 parameter.Should().Match(newWorkspaces => newWorkspaces.All(ws => ws.Id == 3));
+            }
+
+            [Fact, LogIfTooSlow]
+            public async Task ReturnsNewWorkspacesDetectedIfStoredWorkspaceIsAPlaceholderAndHasSameId()
+            {
+                PrepareDatabase(new[]
+                {
+                    new MockWorkspace { Id = 1 },
+                    new MockWorkspace { Id = 2, SyncStatus = SyncStatus.RefetchingNeeded }
+                });
+                PrepareFetch(new List<IWorkspace>
+                {
+                    new MockWorkspace { Id = 1 },
+                    new MockWorkspace { Id = 2 }
+                });
+
+                var transition = await state.Start(FetchObservables);
+                var parameter = ((Transition<IEnumerable<IWorkspace>>)transition).Parameter;
+
+                parameter.Should().Match(newWorkspaces => newWorkspaces.All(ws => ws.Id == 2));
             }
 
             [Fact, LogIfTooSlow]

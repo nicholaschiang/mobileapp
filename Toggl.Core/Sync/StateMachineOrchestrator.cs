@@ -45,6 +45,9 @@ namespace Toggl.Core.Sync
                 case SyncState.CleanUp:
                     startSync(SyncState.CleanUp, entryPoints.StartCleanUp);
                     break;
+                case SyncState.PullTimeEntries:
+                    startSync(SyncState.PullTimeEntries, entryPoints.StartPullTimeEntries);
+                    break;
                 case SyncState.Sleep:
                     goToSleep();
                     break;

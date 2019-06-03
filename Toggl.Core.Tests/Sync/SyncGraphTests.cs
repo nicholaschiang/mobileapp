@@ -8,6 +8,7 @@ using Toggl.Core.DataSources;
 using Toggl.Core.Sync;
 using Toggl.Storage;
 using Toggl.Networking;
+using Toggl.Storage.Settings;
 using Xunit;
 
 namespace Toggl.Core.Tests.Sync
@@ -42,6 +43,7 @@ namespace Toggl.Core.Tests.Sync
                 Substitute.For<IScheduler>(),
                 Substitute.For<ITimeService>(),
                 Substitute.For<IAnalyticsService>(),
+                Substitute.For<ILastTimeUsageStorage>(),
                 entryPoints,
                 Substitute.For<ISyncStateQueue>()
             );

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NSubstitute;
 using Toggl.Core.Services;
 using Toggl.Core.Sync;
+using Toggl.Storage.Settings;
 using Xunit;
 
 namespace Toggl.Core.Tests.Services
@@ -18,11 +19,12 @@ namespace Toggl.Core.Tests.Services
             protected ISyncManager SyncManager { get; } = Substitute.For<ISyncManager>();
             protected IBackgroundService BackgroundService { get; } = Substitute.For<IBackgroundService>();
             protected ITimeService TimeService { get; } = Substitute.For<ITimeService>();
+            protected ILastTimeUsageStorage LastTimeUsageStorage { get; } = Substitute.For<ILastTimeUsageStorage>();
 
             protected BaseAutomaticSyncingServiceTest()
             {
                 BackgroundService.AppResumedFromBackground.Returns(AppResumedFromBackground.AsObservable());
-                AutomaticSyncingService = new AutomaticSyncingService(BackgroundService, TimeService);
+                AutomaticSyncingService = new AutomaticSyncingService(BackgroundService, TimeService, LastTimeUsageStorage);
             }
         }
 

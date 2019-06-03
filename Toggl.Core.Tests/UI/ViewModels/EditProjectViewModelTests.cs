@@ -126,7 +126,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                             .Select(p => p.Where<IThreadSafeProject>(callInfo.Arg<ProjectPredicate>())));
 
                 NavigationService
-                    .Navigate<SelectWorkspaceViewModel, long, long>(Arg.Any<long>(), ViewModel.View)
+                    .Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(Arg.Any<SelectWorkspaceParameters>(), ViewModel.View)
                     .Returns(Task.FromResult(1L));
 
             }
@@ -494,7 +494,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                         .Execute()
                         .Returns(Observable.Return(defaultWorkspace));
                     NavigationService
-                       .Navigate<SelectWorkspaceViewModel, long, long>(Arg.Any<long>(), View)
+                       .Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(Arg.Any<SelectWorkspaceParameters>(), View)
                        .Returns(Task.FromResult(selectedWorkspaceId));
                 }
 
@@ -608,14 +608,14 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 TestScheduler.Start();
 
                 NavigationService.Received()
-                    .Navigate<SelectWorkspaceViewModel, long, long>(Arg.Any<long>(), ViewModel.View);
+                    .Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(Arg.Any<SelectWorkspaceParameters>(), ViewModel.View);
             }
 
             [Fact, LogIfTooSlow]
             public void SetsTheReturnedWorkspaceNameAsTheWorkspaceNameProperty()
             {
                 NavigationService
-                    .Navigate<SelectWorkspaceViewModel, long, long>(Arg.Any<long>(), ViewModel.View)
+                    .Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(Arg.Any<SelectWorkspaceParameters>(), ViewModel.View)
                     .Returns(Task.FromResult(workspaceId));
                 TestScheduler.Start();
                 var workspaceObserver = TestScheduler.CreateObserver<string>();
@@ -631,7 +631,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             public void ResetsTheClientNameWhenTheWorkspaceChanges()
             {
                 NavigationService
-                    .Navigate<SelectWorkspaceViewModel, long, long>(Arg.Any<long>(), ViewModel.View)
+                    .Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(Arg.Any<SelectWorkspaceParameters>(), ViewModel.View)
                     .Returns(Task.FromResult(workspaceId));
                 var clientObserver = TestScheduler.CreateObserver<string>();
                 ViewModel.ClientName.Subscribe(clientObserver);
@@ -650,7 +650,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Navigate<SelectColorViewModel, ColorParameters, Color>(Arg.Any<ColorParameters>(), ViewModel.View)
                     .Returns(Task.FromResult(someColor));
                 NavigationService
-                    .Navigate<SelectWorkspaceViewModel, long, long>(Arg.Any<long>(), ViewModel.View)
+                    .Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(Arg.Any<SelectWorkspaceParameters>(), ViewModel.View)
                     .Returns(Task.FromResult(workspaceId));
                 InteractorFactory.AreCustomColorsEnabledForWorkspace(workspaceId).Execute()
                     .Returns(Observable.Return(false));

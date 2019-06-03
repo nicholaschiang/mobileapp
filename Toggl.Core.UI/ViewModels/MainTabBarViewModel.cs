@@ -51,7 +51,6 @@ namespace Toggl.Core.UI.ViewModels
             INavigationService navigationService,
             IRemoteConfigService remoteConfigService,
             ISuggestionProviderContainer suggestionProviders,
-            IIntentDonationService intentDonationService,
             IAccessRestrictionStorage accessRestrictionStorage,
             IStopwatchProvider stopwatchProvider,
             IRxActionFactory rxActionFactory,
@@ -74,7 +73,6 @@ namespace Toggl.Core.UI.ViewModels
             Ensure.Argument.IsNotNull(remoteConfigService, nameof(remoteConfigService));
             Ensure.Argument.IsNotNull(suggestionProviders, nameof(suggestionProviders));
             Ensure.Argument.IsNotNull(accessRestrictionStorage, nameof(accessRestrictionStorage));
-            Ensure.Argument.IsNotNull(intentDonationService, nameof(intentDonationService));
             Ensure.Argument.IsNotNull(schedulerProvider, nameof(schedulerProvider));
             Ensure.Argument.IsNotNull(stopwatchProvider, nameof(stopwatchProvider));
             Ensure.Argument.IsNotNull(rxActionFactory, nameof(rxActionFactory));
@@ -98,7 +96,6 @@ namespace Toggl.Core.UI.ViewModels
                 navigationService,
                 remoteConfigService,
                 suggestionProviders,
-                intentDonationService,
                 accessRestrictionStorage,
                 schedulerProvider,
                 stopwatchProvider,
@@ -110,7 +107,6 @@ namespace Toggl.Core.UI.ViewModels
                 navigationService,
                 interactorFactory,
                 analyticsService,
-                intentDonationService,
                 schedulerProvider,
                 stopwatchProvider,
                 rxActionFactory);
@@ -140,7 +136,6 @@ namespace Toggl.Core.UI.ViewModels
                 onboardingStorage,
                 navigationService,
                 privateSharedStorageService,
-                intentDonationService,
                 stopwatchProvider,
                 rxActionFactory,
                 permissionsChecker,

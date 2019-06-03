@@ -38,6 +38,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>org-appextension-feature-password-management</string>
+		<string>shortcuts</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Toggl for Devs</string>

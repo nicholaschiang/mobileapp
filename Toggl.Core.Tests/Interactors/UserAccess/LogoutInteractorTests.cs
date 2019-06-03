@@ -28,7 +28,6 @@ namespace Toggl.Core.Tests.Interactors.UserAccess
                 Database,
                 UserPreferences,
                 PrivateSharedStorageService,
-                IntentDonationService,
                 UserAccessManager,
                 LogoutSource.Settings);
         }
@@ -135,14 +134,6 @@ namespace Toggl.Core.Tests.Interactors.UserAccess
             await interactor.Execute();
 
             PrivateSharedStorageService.Received().ClearAll();
-        }
-
-        [Fact, LogIfTooSlow]
-        public async Task ClearsDonatedIntents()
-        {
-            await interactor.Execute();
-
-            IntentDonationService.Received().ClearAll();
         }
     }
 }

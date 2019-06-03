@@ -12,6 +12,7 @@ using Toggl.Core.Sync;
 using Toggl.Core.Sync.States;
 using Toggl.Storage;
 using Toggl.Networking;
+using Toggl.Storage.Settings;
 
 namespace SyncDiagramGenerator
 {
@@ -228,6 +229,7 @@ namespace SyncDiagramGenerator
                 Substitute.For<IScheduler>(),
                 Substitute.For<ITimeService>(),
                 Substitute.For<IAnalyticsService>(),
+                Substitute.For<ILastTimeUsageStorage>(),
                 entryPoints,
                 Substitute.For<ISyncStateQueue>()
             );

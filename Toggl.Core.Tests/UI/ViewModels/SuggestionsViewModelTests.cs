@@ -258,7 +258,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Returns(Observable.Return(timeEntry));
                 await ViewModel.Initialize();
 
-                var auxObservable = TestScheduler.CreateObserver<Unit>();
+                var auxObservable = TestScheduler.CreateObserver<IThreadSafeTimeEntry>();
                 ViewModel.StartTimeEntry.ExecuteSequentally(suggestion, suggestion)
                     .Subscribe(auxObservable);
 
@@ -273,7 +273,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var suggestion = createSuggestion();
                 await ViewModel.Initialize();
 
-                var auxObservable = TestScheduler.CreateObserver<Unit>();
+                var auxObservable = TestScheduler.CreateObserver<IThreadSafeTimeEntry>();
                 ViewModel.StartTimeEntry.ExecuteSequentally(suggestion, suggestion)
                     .Subscribe(auxObservable);
 

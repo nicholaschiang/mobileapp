@@ -32,6 +32,7 @@
 				<string>ShowReportIntent</string>
 				<string>ShowReportPeriodIntent</string>
 				<string>StartTimerIntent</string>
+				<string>StartTimerFromClipboardIntent</string>
 				<string>ContinueTimerIntent</string>
 			</array>
 		</dict>

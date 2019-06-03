@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using FluentAssertions;
-using FsCheck;
 using FsCheck.Xunit;
 using Microsoft.Reactive.Testing;
 using NSubstitute;
 using Toggl.Core.Models.Interfaces;
 using Toggl.Core.Analytics;
+using Toggl.Core.Models;
 using Toggl.Core.UI.Parameters;
 using Toggl.Core.UI.ViewModels;
 using Toggl.Core.UI.ViewModels.ReportsCalendar;
 using Toggl.Core.UI.ViewModels.ReportsCalendar.QuickSelectShortcuts;
-using Toggl.Core.Services;
 using Toggl.Core.Tests.TestExtensions;
 using Toggl.Core.Tests.Generators;
 using Toggl.Shared;
 using Xunit;
+using Task = System.Threading.Tasks.Task;
 
 namespace Toggl.Core.Tests.UI.ViewModels
 {
@@ -28,7 +27,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             : BaseViewModelTests<ReportsCalendarViewModel>
         {
             protected override ReportsCalendarViewModel CreateViewModel()
-                => new ReportsCalendarViewModel(TimeService, DataSource, IntentDonationService, RxActionFactory, NavigationService);
+                => new ReportsCalendarViewModel(TimeService, DataSource, RxActionFactory, NavigationService);
         }
 
         public sealed class TheConstructor : ReportsCalendarViewModelTest
@@ -38,19 +37,17 @@ namespace Toggl.Core.Tests.UI.ViewModels
             public void ThrowsIfAnyOfTheArgumentsIsNull(
                 bool useTimeService,
                 bool useDataSource,
-                bool useIntentDonationService,
                 bool useRxActionFactory,
                 bool useNavigationService
             )
             {
                 var timeService = useTimeService ? TimeService : null;
                 var dataSource = useDataSource ? DataSource : null;
-                var intentDonationService = useIntentDonationService ? IntentDonationService : null;
                 var rxActionFactory = useRxActionFactory ? RxActionFactory : null;
                 var navigationService = useNavigationService ? NavigationService : null;
 
                 Action tryingToConstructWithEmptyParameters =
-                    () => new ReportsCalendarViewModel(timeService, dataSource, intentDonationService, rxActionFactory, navigationService);
+                    () => new ReportsCalendarViewModel(timeService, dataSource, rxActionFactory, navigationService);
 
                 tryingToConstructWithEmptyParameters
                     .Should().Throw<ArgumentNullException>();
@@ -115,7 +112,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 };
                 var now = new DateTimeOffset(2020, 4, 2, 1, 1, 1, TimeSpan.Zero);
                 TimeService.CurrentDateTime.Returns(now);
-                
+
                 await ViewModel.Initialize();
 
                 for (int i = 0; i < ViewModel.QuickSelectShortcuts.Count; i++)

@@ -6,7 +6,6 @@
 //
 using Foundation;
 using System.CodeDom.Compiler;
-using Toggl.iOS.Views;
 
 namespace Toggl.iOS.ViewControllers
 {
@@ -92,7 +91,7 @@ namespace Toggl.iOS.ViewControllers
 		UIKit.UIView HelpView { get; set; }
 
 		[Outlet]
-		ActivityIndicatorView LoggingOutActivityIndicatorView { get; set; }
+		Toggl.iOS.Views.ActivityIndicatorView LoggingOutActivityIndicatorView { get; set; }
 
 		[Outlet]
 		UIKit.UIImageView LoggingOutIndicator { get; set; }
@@ -135,6 +134,9 @@ namespace Toggl.iOS.ViewControllers
 		UIKit.UIView SendFeedbackSuccessView { get; set; }
 
 		[Outlet]
+		UIKit.UIView ShortcutsSettingsView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel SmartAlertCellLabel { get; set; }
 
 		[Outlet]
@@ -150,7 +152,7 @@ namespace Toggl.iOS.ViewControllers
 		UIKit.UIView SyncedView { get; set; }
 
 		[Outlet]
-		ActivityIndicatorView SyncingActivityIndicatorView { get; set; }
+		Toggl.iOS.Views.ActivityIndicatorView SyncingActivityIndicatorView { get; set; }
 
 		[Outlet]
 		UIKit.UIImageView SyncingIndicator { get; set; }
@@ -177,6 +179,9 @@ namespace Toggl.iOS.ViewControllers
 		UIKit.UILabel VersionLabel { get; set; }
 
 		[Outlet]
+		UIKit.UIView WorkflowsSettingsView { get; set; }
+
+		[Outlet]
 		UIKit.UILabel WorkspaceCellLabel { get; set; }
 
 		[Outlet]
@@ -187,7 +192,7 @@ namespace Toggl.iOS.ViewControllers
 
 		[Outlet]
 		UIKit.UILabel YourProfileCellLabel { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (AboutCellLabel != null) {
@@ -298,6 +303,16 @@ namespace Toggl.iOS.ViewControllers
 			if (FormatSettingsTitle != null) {
 				FormatSettingsTitle.Dispose ();
 				FormatSettingsTitle = null;
+			}
+
+			if (GroupSimilarTimeEntriesLabel != null) {
+				GroupSimilarTimeEntriesLabel.Dispose ();
+				GroupSimilarTimeEntriesLabel = null;
+			}
+
+			if (GroupSimilarTimeEntriesSwitch != null) {
+				GroupSimilarTimeEntriesSwitch.Dispose ();
+				GroupSimilarTimeEntriesSwitch = null;
 			}
 
 			if (HelpCellLabel != null) {
@@ -470,14 +485,14 @@ namespace Toggl.iOS.ViewControllers
 				YourProfileCellLabel = null;
 			}
 
-			if (GroupSimilarTimeEntriesLabel != null) {
-				GroupSimilarTimeEntriesLabel.Dispose ();
-				GroupSimilarTimeEntriesLabel = null;
+			if (ShortcutsSettingsView != null) {
+				ShortcutsSettingsView.Dispose ();
+				ShortcutsSettingsView = null;
 			}
 
-			if (GroupSimilarTimeEntriesSwitch != null) {
-				GroupSimilarTimeEntriesSwitch.Dispose ();
-				GroupSimilarTimeEntriesSwitch = null;
+			if (WorkflowsSettingsView != null) {
+				WorkflowsSettingsView.Dispose ();
+				WorkflowsSettingsView = null;
 			}
 		}
 	}

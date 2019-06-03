@@ -10,6 +10,7 @@ using static System.Math;
 using System.Reactive.Disposables;
 using System.Threading;
 using Toggl.iOS.Views;
+using CoreFoundation;
 
 namespace Toggl.iOS.Extensions
 {
@@ -44,7 +45,7 @@ namespace Toggl.iOS.Extensions
 
             void toggleVisibilityOnMainThread(bool shouldBeVisible)
             {
-                UIApplication.SharedApplication.InvokeOnMainThread(
+                DispatchQueue.MainQueue.DispatchAsync(
                     () => toggleVisibility(shouldBeVisible));
             }
 

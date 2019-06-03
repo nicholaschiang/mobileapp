@@ -23,7 +23,6 @@ namespace Toggl.Core.Tests
         protected ITogglApi Api { get; } = Substitute.For<ITogglApi>();
         protected IUserPreferences UserPreferences { get; } = Substitute.For<IUserPreferences>();
         protected IAnalyticsService AnalyticsService { get; } = Substitute.For<IAnalyticsService>();
-        protected IIntentDonationService IntentDonationService { get; } = Substitute.For<IIntentDonationService>();
         protected IPlatformInfo PlatformInfo { get; } = Substitute.For<IPlatformInfo>();
         protected INotificationService NotificationService { get; } = Substitute.For<INotificationService>();
         protected ILastTimeUsageStorage LastTimeUsageStorage { get; } = Substitute.For<ILastTimeUsageStorage>();
@@ -58,7 +57,6 @@ namespace Toggl.Core.Tests
                 new Lazy<INotificationService>(() => NotificationService),
                 new Lazy<ILastTimeUsageStorage>(() => LastTimeUsageStorage),
                 new Lazy<IApplicationShortcutCreator>(() => ApplicationShortcutCreator),
-                new Lazy<IIntentDonationService>(() => IntentDonationService),
                 new Lazy<IPrivateSharedStorageService>(() => PrivateSharedStorageService)
             );
         }

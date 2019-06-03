@@ -72,5 +72,7 @@ namespace Toggl.iOS
                 completionHandler();
             });
         }
+
+
     }
 }

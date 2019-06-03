@@ -56,10 +56,6 @@ namespace Toggl.Core.UI
         protected override ITogglDatabase CreateDatabase()
             => MockDatabase;
 
-        internal IIntentDonationService MockIntentDonationService { get; set; }
-        protected override IIntentDonationService CreateIntentDonationService()
-            => MockIntentDonationService;
-
         internal IKeyValueStorage MockKeyValueStorage { get; set; }
         protected override IKeyValueStorage CreateKeyValueStorage()
             => MockKeyValueStorage;

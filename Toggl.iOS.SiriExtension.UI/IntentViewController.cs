@@ -10,6 +10,7 @@ using CoreFoundation;
 using CoreAnimation;
 using Toggl.iOS.ExtensionKit.Extensions;
 using Toggl.iOS.Intents;
+using Toggl.Shared;
 
 namespace Toggl.iOS.SiriExtension.UI
 {
@@ -67,9 +68,46 @@ namespace Toggl.iOS.SiriExtension.UI
 
                     if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Ready)
                     {
-                        desiredSize = showMessage($"Start tracking {startTimerIntent.EntryDescription ?? "time"}?");
+                        var message = string.IsNullOrEmpty(startTimerIntent.EntryDescription)
+                            ? Resources.SiriStartTimerWithEmptyDescConfirmationMessage
+                            : string.Format(Resources.SiriStartTimerConfirmationMessage,
+                                startTimerIntent.EntryDescription);
+                        desiredSize = showMessage(message);
                     }
 
+                    if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Failure)
+                    {
+                        if (interaction.IntentResponse is StartTimerIntentResponse response)
+                        {
+                            var message = response.UserActivity.GetResponseText();
+                            desiredSize = showMessage(message);
+                        }
+                    }
+
+                    break;
+                case StartTimerFromClipboardIntent _:
+                    var description = interaction.IntentResponse.UserActivity.GetResponseText();
+                    if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Success)
+                    {
+                        desiredSize = showStartTimerSuccess(description);
+                    }
+
+                    if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Ready)
+                    {
+                        var message = string.IsNullOrEmpty(description)
+                            ? Resources.SiriStartTimerWithEmptyDescConfirmationMessage
+                            : string.Format(Resources.SiriStartTimerConfirmationMessage, description);
+                        desiredSize = showMessage(message);
+                    }
+
+                    if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Failure)
+                    {
+                        if (interaction.IntentResponse is StartTimerFromClipboardIntentResponse response)
+                        {
+                            var message = response.UserActivity.GetResponseText();
+                            desiredSize = showMessage(message);
+                        }
+                    }
                     break;
                 case StopTimerIntent _:
                     if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Success)
@@ -83,16 +121,17 @@ namespace Toggl.iOS.SiriExtension.UI
                     if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Ready)
                     {
                         var entryDescription = interaction.IntentResponse.UserActivity.GetEntryDescription();
-                        desiredSize =
-                            showMessage(
-                                $"Stop tracking {(!string.IsNullOrEmpty(entryDescription) ? entryDescription : "time")}?");
+                        var message = string.IsNullOrEmpty(entryDescription)
+                            ? Resources.SiriStopTimerWithEmptyDescConfirmationMessage
+                            : string.Format(Resources.SiriStopTimerConfirmationMessage, entryDescription);
+                        desiredSize = showMessage(message);
                     }
 
                     if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Failure)
                     {
                         if (interaction.IntentResponse is StopTimerIntentResponse response)
                         {
-                            var message = interaction.IntentResponse.UserActivity.GetResponseText();
+                            var message = response.UserActivity.GetResponseText();
                             desiredSize = showMessage(message);
                         }
                     }
@@ -111,9 +150,11 @@ namespace Toggl.iOS.SiriExtension.UI
                     if (interaction.IntentHandlingStatus == INIntentHandlingStatus.Ready)
                     {
                         var entryDescription = interaction.IntentResponse.UserActivity.GetEntryDescription();
-                        desiredSize =
-                            showMessage(
-                                $"Start tracking {(!string.IsNullOrEmpty(entryDescription) ? entryDescription : "time")}?");
+
+                        var message = string.IsNullOrEmpty(entryDescription)
+                            ? Resources.SiriStartTimerWithEmptyDescConfirmationMessage
+                            : string.Format(Resources.SiriStartTimerConfirmationMessage, entryDescription);
+                        desiredSize = showMessage(message);
                     }
 
                     break;
@@ -127,10 +168,10 @@ namespace Toggl.iOS.SiriExtension.UI
 
         private CGSize showStartTimerSuccess(string description)
         {
-            entryInfoView.DescriptionLabel.Text = "";
-            entryInfoView.TimeLabel.Text = "";
+            entryInfoView.DescriptionLabel.Text = string.Empty;
+            entryInfoView.TimeLabel.Text = string.Empty;
 
-            var attributedString = new NSMutableAttributedString(string.IsNullOrEmpty(description) ? "No Description" : description);
+            var attributedString = new NSMutableAttributedString(string.IsNullOrEmpty(description) ? Resources.NoDescription : description);
             entryInfoView.DescriptionLabel.AttributedText = attributedString;
 
             var start = DateTimeOffset.Now;
@@ -150,7 +191,7 @@ namespace Toggl.iOS.SiriExtension.UI
 
         private CGSize showMessage(string confirmationText)
         {
-            confirmationView.ConfirmationLabel.Text = "";
+            confirmationView.ConfirmationLabel.Text = string.Empty;
 
             var attributedString = new NSMutableAttributedString(confirmationText, boldAttributes);
 
@@ -172,7 +213,7 @@ namespace Toggl.iOS.SiriExtension.UI
         {
             entryInfoView.TimeLabel.Text = secondsToString(response.EntryDuration.DoubleValue);
 
-            var attributedString = new NSMutableAttributedString(response.EntryDescription ?? "", boldAttributes);
+            var attributedString = new NSMutableAttributedString(response.EntryDescription ?? string.Empty, boldAttributes);
 
             var startTime = DateTimeOffset.FromUnixTimeSeconds(response.EntryStart.LongValue).ToLocalTime();
             var endTime = DateTimeOffset.FromUnixTimeSeconds(response.EntryStart.LongValue + response.EntryDuration.LongValue).ToLocalTime();

@@ -64,7 +64,7 @@
     <MtouchLink>Full</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>Daneel_AppStore</CodesignProvision>
+    <CodesignProvision>Daneel AppStore</CodesignProvision>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -1200,6 +1200,27 @@
     <ImageAsset Include="Resources\Images.xcassets\stripes.imageset\stripes%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboard.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboard.imageset\pasteFromClipboard.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\clipboardInstruction.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\clipboardInstruction.imageset\clipboardInstruction.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboardEnabled.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboardEnabled.imageset\pasteFromClipboardEnabled.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -1215,12 +1236,59 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-167x167.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="ViewControllers\OnboardingViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\MainViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\EditTimeEntryViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\Settings\Siri\SiriShortcutsSelectReportPeriodViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\Settings\Siri\SiriShortcutsViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\StartTimeEntryViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\EditDurationViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\SelectProjectViewController.xib" />
@@ -1303,6 +1371,14 @@
     <InterfaceDefinition Include="Views\Reports\ReportsOverviewCardView.xib" />
     <InterfaceDefinition Include="Views\Reports\ReportsBarChartCardView.xib" />
     <InterfaceDefinition Include="Views\EntityCreation\CreateEntityViewCell.xib" />
+    <InterfaceDefinition Include="Views\Settings\SiriShortcutCell.xib" />
+    <InterfaceDefinition Include="Views\Settings\CustomSiriShortcutCell.xib" />
+    <InterfaceDefinition Include="Views\Settings\SiriShortcutTableViewHeader.xib" />
+    <InterfaceDefinition Include="Views\Settings\SiriShortcutReportPeriodCell.xib" />
+    <InterfaceDefinition Include="Views\Settings\SiriWorkflowCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Settings\Siri\SiriShortcutsCustomTimeEntryViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\Settings\Siri\PasteFromClipboardViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\Settings\Siri\SiriWorkflowsViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -1331,6 +1407,8 @@
     <Compile Include="Presentation\RootPresenter.cs" />
     <Compile Include="Presentation\ViewControllerLocator.cs" />
     <Compile Include="Services\PermissionsCheckerIos.cs" />
+    <Compile Include="Models\SiriShortcut.cs" />
+    <Compile Include="Models\SiriShortcutType.cs" />
     <Compile Include="Services\CalendarServiceIos.cs" />
     <Compile Include="Extensions\Reactive\NSConstraintExtensions.cs" />
     <Compile Include="Extensions\Reactive\UIApplicationExtensions.cs" />
@@ -1341,7 +1419,7 @@
     <Compile Include="Extensions\Reactive\UITableViewExtensions.cs" />
     <Compile Include="Extensions\Reactive\UITextViewExtensions.cs" />
     <Compile Include="Extensions\Reactive\UIViewExtensions.cs" />
-    <Compile Include="Services\IntentDonationServiceIos.cs" />
+    <Compile Include="Services\IntentDonationService.cs" />
     <Compile Include="Services\UserDefaultsStorageIos.cs" />
     <Compile Include="Startup\AppDelegate.Deeplink.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
@@ -1372,9 +1450,19 @@
     <Compile Include="ViewControllers\Reactive\ReactiveViewController.PermissionsHandler.cs">
       <DependentUpon>ReactiveViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutsSelectReportPeriodViewController.cs" />
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutsSelectReportPeriodViewController.designer.cs">
+      <DependentUpon>SiriShortcutsSelectReportPeriodViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutsViewController.cs" />
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutsViewController.designer.cs">
+      <DependentUpon>SiriShortcutsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutViewModel.cs" />
     <Compile Include="ViewControllers\SyncFailuresViewController.cs" />
     <Compile Include="ViewSources\Generic\CollectionView\ReloadCollectionViewSource.cs" />
     <Compile Include="ViewSources\Generic\TableView\BaseTableViewSource.cs" />
+    <Compile Include="ViewSources\SiriShortcutsTableViewSource.cs" />
     <Compile Include="ViewSources\TimeEntriesLogViewSource.cs" />
     <Compile Include="ViewControllers\MainViewController.cs" />
     <Compile Include="ViewControllers\MainViewController.designer.cs">
@@ -1843,7 +1931,39 @@
       <DependentUpon>ReportsBarChartCardView.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\IScrollableToTop.cs" />
+    <Compile Include="Views\Settings\SiriShortcutCell.cs" />
+    <Compile Include="Views\Settings\SiriShortcutCell.designer.cs">
+      <DependentUpon>SiriShortcutCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\CustomSiriShortcutCell.cs" />
+    <Compile Include="Views\Settings\CustomSiriShortcutCell.designer.cs">
+      <DependentUpon>CustomSiriShortcutCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\SiriShortcutTableViewHeader.cs" />
+    <Compile Include="Views\Settings\SiriShortcutTableViewHeader.designer.cs">
+      <DependentUpon>SiriShortcutTableViewHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\SiriShortcutReportPeriodCell.cs" />
+    <Compile Include="Views\Settings\SiriShortcutReportPeriodCell.designer.cs">
+      <DependentUpon>SiriShortcutReportPeriodCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\SiriWorkflowCell.cs" />
+    <Compile Include="Views\Settings\SiriWorkflowCell.designer.cs">
+      <DependentUpon>SiriWorkflowCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutsCustomTimeEntryViewController.cs" />
+    <Compile Include="ViewControllers\Settings\Siri\SiriShortcutsCustomTimeEntryViewController.designer.cs">
+      <DependentUpon>SiriShortcutsCustomTimeEntryViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Settings\Siri\PasteFromClipboardViewController.cs" />
+    <Compile Include="ViewControllers\Settings\Siri\PasteFromClipboardViewController.designer.cs">
+      <DependentUpon>PasteFromClipboardViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EmailTextField.cs" />
+    <Compile Include="ViewControllers\Settings\Siri\SiriWorkflowsViewController.cs" />
+    <Compile Include="ViewControllers\Settings\Siri\SiriWorkflowsViewController.designer.cs">
+      <DependentUpon>SiriWorkflowsViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Toggl.Core.UI\Toggl.Core.UI.csproj">
@@ -1873,20 +1993,25 @@
     <ProjectReference Include="..\Toggl.iOS.IntentBinding\Toggl.iOS.IntentBinding.csproj">
       <Project>{A1BBF640-E712-4E35-8E3F-AE07C7C7EDB0}</Project>
       <Name>Toggl.iOS.IntentBinding</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\Toggl.iOS.SiriExtension\Toggl.iOS.SiriExtension.csproj">
       <IsAppExtension>true</IsAppExtension>
       <Project>{48C970FE-E13F-4664-A2FD-4EBFD2DD131E}</Project>
       <Name>Toggl.iOS.SiriExtension</Name>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\Toggl.iOS.ExtensionKit\Toggl.iOS.ExtensionKit.csproj">
       <Project>{ACA2821E-0FF9-4036-BFF6-E775BB4E6732}</Project>
       <Name>Toggl.iOS.ExtensionKit</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\Toggl.iOS.SiriExtension.UI\Toggl.iOS.SiriExtension.UI.csproj">
       <IsAppExtension>true</IsAppExtension>
       <Project>{BC329A24-95D6-4D02-95B5-2AA699D8873A}</Project>
       <Name>Toggl.iOS.SiriExtension.UI</Name>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1901,6 +2026,7 @@
     <Folder Include="Resources\Images.xcassets\icCheckBoxChecked.imageset\" />
     <Folder Include="Resources\Images.xcassets\icCheckBoxUnchecked.imageset\" />
     <Folder Include="Resources\Images.xcassets\icErrorSmall.imageset\" />
+    <Folder Include="Resources\Images.xcassets\icGears.imageset\" />
     <Folder Include="Resources\Images.xcassets\icGoogleColored.imageset\" />
     <Folder Include="Resources\Images.xcassets\icIllustrationCalendar.imageset\" />
     <Folder Include="Resources\Images.xcassets\icIllustrationErrorSpider.imageset\" />
@@ -1912,6 +2038,7 @@
     <Folder Include="Resources\Images.xcassets\icIllustrationTagsSmall.imageset\" />
     <Folder Include="Resources\Images.xcassets\icLoader.imageset\" />
     <Folder Include="Resources\Images.xcassets\icProjectDot.imageset\" />
+    <Folder Include="Resources\Images.xcassets\icRoundStop.imageset\" />
     <Folder Include="Resources\Images.xcassets\icSearch.imageset\" />
     <Folder Include="Resources\Images.xcassets\icTime.imageset\" />
     <Folder Include="Resources\Images.xcassets\icWarning.imageset\" />

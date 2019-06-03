@@ -39,7 +39,8 @@ namespace Toggl.iOS.Intents
         LastWeek = 4,
         ThisMonth = 5,
         LastMonth = 6,
-        ThisYear = 7
+        ThisYear = 7,
+        LastYear = 8
     }
 
     [Native]
@@ -52,6 +53,20 @@ namespace Toggl.iOS.Intents
         Success,
         Failure,
         FailureRequiringAppLaunch
+    }
+
+    [Native]
+    public enum StartTimerFromClipboardIntentResponseCode : long
+    {
+        Unspecified = 0,
+        Ready,
+        ContinueInApp,
+        InProgress,
+        Success,
+        Failure,
+        FailureRequiringAppLaunch,
+        FailureNoApiToken = 100,
+        FailureSyncConflict
     }
 
     [Native]

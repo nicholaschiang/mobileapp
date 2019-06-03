@@ -91,17 +91,27 @@
 					<key>INEnumValueName</key>
 					<string>ThisYear</string>
 				</dict>
+				<dict>
+					<key>INEnumValueDisplayName</key>
+					<string>Last Year</string>
+					<key>INEnumValueDisplayNameID</key>
+					<string>XDraDt</string>
+					<key>INEnumValueIndex</key>
+					<integer>8</integer>
+					<key>INEnumValueName</key>
+					<string>LastYear</string>
+				</dict>
 			</array>
 		</dict>
 	</array>
 	<key>INIntentDefinitionModelVersion</key>
 	<string>1.0</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>18C54</string>
+	<string>18E226</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>10B61</string>
+	<string>10E125</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>10.1</string>
+	<string>10.2</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -273,7 +283,7 @@
 			<key>INIntentDescriptionID</key>
 			<string>hxXp2c</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>3</integer>
+			<integer>5</integer>
 			<key>INIntentName</key>
 			<string>ShowReportPeriod</string>
 			<key>INIntentParameterCombinations</key>
@@ -293,6 +303,21 @@
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>7JD33K</string>
 				</dict>
+				<key>period,workspace</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<true/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>for ${period} in ${workspace}</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>2VrJyI</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<false/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Show report </string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>uAAbQw</string>
+				</dict>
 			</dict>
 			<key>INIntentParameters</key>
 			<array>
@@ -309,6 +334,18 @@
 					<integer>3</integer>
 					<key>INIntentParameterType</key>
 					<string>Integer</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>2</integer>
+					<key>INIntentParameterName</key>
+					<string>workspace</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>5</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
 				</dict>
 			</array>
 			<key>INIntentResponse</key>
@@ -454,18 +491,33 @@
 			<string>StartTimer</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>with no parameters</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>cAT3Em</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>3JuKf9</string>
+				</dict>
 				<key>billable,entryDescription,workspace</key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string>in ${workspace}</string>
+					<string>${entryDescription}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>KKrxVY</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Start timer for ${entryDescription}</string>
+					<string>Start timer</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>IUEfYE</string>
 				</dict>
@@ -474,13 +526,13 @@
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string>in ${workspace}</string>
+					<string>${entryDescription}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>Mr6glC</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Start timer for ${entryDescription}</string>
+					<string>Start timer</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>xGukxu</string>
 				</dict>
@@ -489,13 +541,13 @@
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string>in ${workspace}</string>
+					<string>${entryDescription}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>5xqJdx</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Start timer for ${entryDescription}</string>
+					<string>Start timer</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>tjn3qS</string>
 				</dict>
@@ -504,13 +556,13 @@
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string>in ${workspace}</string>
+					<string>${entryDescription}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>msGSif</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Start timer for ${entryDescription}</string>
+					<string>Start timer</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>ArvZvi</string>
 				</dict>
@@ -519,13 +571,13 @@
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string>in ${workspace}</string>
+					<string>${entryDescription}</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>bHlXe3</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Start timer for ${entryDescription}</string>
+					<string>Start timer</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>dZOAcx</string>
 				</dict>
@@ -682,12 +734,12 @@
 			<string>ContinueTimer</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
-				<key>workspace</key>
+				<key></key>
 				<dict>
 					<key>INIntentParameterCombinationIsPrimary</key>
 					<false/>
 					<key>INIntentParameterCombinationSubtitle</key>
-					<string>in ${workspace}</string>
+					<string>Continue last time entry</string>
 					<key>INIntentParameterCombinationSubtitleID</key>
 					<string>0DhbDI</string>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
@@ -699,20 +751,7 @@
 				</dict>
 			</dict>
 			<key>INIntentParameters</key>
-			<array>
-				<dict>
-					<key>INIntentParameterDisplayPriority</key>
-					<integer>1</integer>
-					<key>INIntentParameterName</key>
-					<string>workspace</string>
-					<key>INIntentParameterSupportsMultipleValues</key>
-					<false/>
-					<key>INIntentParameterTag</key>
-					<integer>2</integer>
-					<key>INIntentParameterType</key>
-					<string>Object</string>
-				</dict>
-			</array>
+			<array/>
 			<key>INIntentResponse</key>
 			<dict>
 				<key>INIntentResponseCodes</key>
@@ -782,6 +821,224 @@
 			<string>Continue tracking</string>
 			<key>INIntentTitleID</key>
 			<string>DcWrhF</string>
+			<key>INIntentType</key>
+			<string>Custom</string>
+			<key>INIntentUserConfirmationRequired</key>
+			<false/>
+			<key>INIntentVerb</key>
+			<string>Start</string>
+		</dict>
+		<dict>
+			<key>INIntentCategory</key>
+			<string>start</string>
+			<key>INIntentDescription</key>
+			<string>Start a new time tracking from clipboard</string>
+			<key>INIntentDescriptionID</key>
+			<string>Rv6kvt</string>
+			<key>INIntentLastParameterTag</key>
+			<integer>9</integer>
+			<key>INIntentName</key>
+			<string>StartTimerFromClipboard</string>
+			<key>INIntentParameterCombinations</key>
+			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>with no parameters</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>1L6L4u</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer from clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>JErccw</string>
+				</dict>
+				<key>projectId,tags,billable,workspace</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>for ${projectId} in ${workspace}</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>XDhgAw</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer from clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>E8rYzi</string>
+				</dict>
+				<key>workspace</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<true/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>in ${workspace}</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>bCeUiv</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer from clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>3gmF02</string>
+				</dict>
+				<key>workspace,billable</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>in ${workspace}</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>Q15AN4</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer from clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>T5OmeC</string>
+				</dict>
+				<key>workspace,billable,projectId</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>for ${projectId} in ${workspace}</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>vtK4O7</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer from clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>ftAUTw</string>
+				</dict>
+				<key>workspace,billable,tags</key>
+				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<false/>
+					<key>INIntentParameterCombinationSubtitle</key>
+					<string>in ${workspace}</string>
+					<key>INIntentParameterCombinationSubtitleID</key>
+					<string>ciMjmD</string>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Start timer from clipboard</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>Q7oQLD</string>
+				</dict>
+			</dict>
+			<key>INIntentParameters</key>
+			<array>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterName</key>
+					<string>workspace</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>2</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>2</integer>
+					<key>INIntentParameterName</key>
+					<string>billable</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>7</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>3</integer>
+					<key>INIntentParameterName</key>
+					<string>projectId</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<false/>
+					<key>INIntentParameterTag</key>
+					<integer>6</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>4</integer>
+					<key>INIntentParameterName</key>
+					<string>tags</string>
+					<key>INIntentParameterSupportsMultipleValues</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>9</integer>
+					<key>INIntentParameterType</key>
+					<string>Object</string>
+				</dict>
+			</array>
+			<key>INIntentResponse</key>
+			<dict>
+				<key>INIntentResponseCodes</key>
+				<array>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string></string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>81kduA</string>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<false/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Time-tracking started.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>Np6x0m</string>
+						<key>INIntentResponseCodeName</key>
+						<string>success</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Log in to use this shortcut.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>C2Ujo0</string>
+						<key>INIntentResponseCodeName</key>
+						<string>failureNoApiToken</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<false/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>App data is outdated.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>yhKeN0</string>
+						<key>INIntentResponseCodeName</key>
+						<string>failureSyncConflict</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<false/>
+					</dict>
+				</array>
+				<key>INIntentResponseLastParameterTag</key>
+				<integer>0</integer>
+				<key>INIntentResponseParameters</key>
+				<array/>
+			</dict>
+			<key>INIntentRestrictions</key>
+			<integer>0</integer>
+			<key>INIntentTitle</key>
+			<string>Start time tracking from clipboard</string>
+			<key>INIntentTitleID</key>
+			<string>3fSmL9</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
 			<key>INIntentUserConfirmationRequired</key>

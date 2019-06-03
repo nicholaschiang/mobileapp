@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using Toggl.Core.Models.Interfaces;
@@ -17,6 +16,8 @@ using Toggl.Core.UI.ViewModels.Reports;
 using Toggl.Core.Tests.TestExtensions;
 using Toggl.Core.Interactors;
 using Toggl.Core.UI.Views;
+using Toggl.Core.Models;
+using Task = System.Threading.Tasks.Task;
 
 namespace Toggl.Core.Tests.UI.ViewModels
 {
@@ -47,7 +48,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     NavigationService,
                     InteractorFactory,
                     AnalyticsService,
-                    IntentDonationService,
                     SchedulerProvider,
                     StopwatchProvider,
                     RxActionFactory
@@ -66,23 +66,20 @@ namespace Toggl.Core.Tests.UI.ViewModels
         {
             [Theory, LogIfTooSlow]
             [ConstructorData]
-            public void ThrowsIfAnyOfTheArgumentsIsNull(
-                bool useDataSource,
-                bool useTimeService,
-                bool useNavigationService,
-                bool useAnalyticsService,
-                bool useInteractorFactory,
-                bool useIntentDonationService,
-                bool useSchedulerProvider,
-                bool useStopwatchProvider,
-                bool useRxActionFactory)
+            public void ThrowsIfAnyOfTheArgumentsIsNull(bool useDataSource,
+                                                        bool useTimeService,
+                                                        bool useNavigationService,
+                                                        bool useAnalyticsService,
+                                                        bool useInteractorFactory,
+                                                        bool useSchedulerProvider,
+                                                        bool useStopwatchProvider,
+                                                        bool useRxActionFactory)
             {
                 var timeService = useTimeService ? TimeService : null;
                 var reportsProvider = useDataSource ? DataSource : null;
                 var navigationService = useNavigationService ? NavigationService : null;
                 var interactorFactory = useInteractorFactory ? InteractorFactory : null;
                 var analyticsService = useAnalyticsService ? AnalyticsService : null;
-                var intentDonationService = useIntentDonationService ? IntentDonationService : null;
                 var schedulerProvider = useSchedulerProvider ? SchedulerProvider : null;
                 var stopwatchProvider = useStopwatchProvider ? StopwatchProvider : null;
                 var rxActionFactory = useRxActionFactory ? RxActionFactory : null;
@@ -93,7 +90,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                                                navigationService,
                                                interactorFactory,
                                                analyticsService,
-                                               intentDonationService,
                                                schedulerProvider,
                                                stopwatchProvider,
                                                rxActionFactory);
@@ -260,7 +256,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     TimeService.CurrentDateTime.Returns(now);
                     ViewModel.CurrentDateRangeStringObservable.Subscribe(observer);
                     await ViewModel.Initialize();
-                    ViewModel.CalendarViewModel.SelectPeriod(Core.Services.ReportPeriod.ThisWeek);
+                    ViewModel.CalendarViewModel.SelectPeriod(ReportPeriod.ThisWeek);
 
                     TestScheduler.Start();
                     observer.LastEmittedValue().Should().Be($"{Resources.ThisWeek} ▾");
@@ -330,7 +326,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 ViewModel.GroupedSegmentsObservable.Subscribe(groupedSegmentsObservable);
 
                 TestScheduler.Start();
-                
+
                 await Initialize();
 
                 var actualSegments = segmentsObservable.Values().Last();
@@ -633,7 +629,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 InteractorFactory.GetWorkspaceFeaturesById(workspace.Id)
                     .Execute()
                     .Returns(workspaceFeaturesObservable);
-                
+
                 View.Select(Arg.Any<string>(), Arg.Any<IEnumerable<SelectOption<IThreadSafeWorkspace>>>(), Arg.Any<int>())
                     .Returns(workspaceObservable);
             }

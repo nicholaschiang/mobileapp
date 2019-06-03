@@ -36,7 +36,6 @@ namespace Toggl.Core.Tests.UI
                 MockBrowserService = Substitute.For<IBrowserService>(),
                 MockCalendarService = Substitute.For<ICalendarService>(),
                 MockDatabase = Substitute.For<ITogglDatabase>(),
-                MockIntentDonationService = Substitute.For<IIntentDonationService>(),
                 MockKeyValueStorage = Substitute.For<IKeyValueStorage>(),
                 MockLastTimeUsageStorage = Substitute.For<ILastTimeUsageStorage>(),
                 MockLicenseProvider = Substitute.For<ILicenseProvider>(),
@@ -57,7 +56,7 @@ namespace Toggl.Core.Tests.UI
                 MockTimeService = Substitute.For<ITimeService>(),
                 MockSyncManager = Substitute.For<ISyncManager>(),
             });
-            
+
             var viewModelTypes = typeof(MainViewModel).Assembly
                 .GetTypes()
                 .Where(isViewModel);

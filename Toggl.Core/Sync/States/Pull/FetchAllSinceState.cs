@@ -1,28 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using Toggl.Core.Extensions;
+using Toggl.Networking;
 using Toggl.Shared.Extensions;
 using Toggl.Shared.Models;
 using Toggl.Storage;
-using Toggl.Networking;
+
 
 namespace Toggl.Core.Sync.States.Pull
 {
-    internal sealed class FetchAllSinceState : ISyncState
+    internal sealed class FetchAllSinceState : BaseFetchSinceState
     {
-        private const int sinceDateLimitMonths = 2;
-        private const int fetchTimeEntriesForMonths = 2;
-        private const int timeEntriesEndDateInclusiveExtraDaysCount = 2;
-
-        private readonly ITogglApi api;
-        private readonly ISinceParameterRepository since;
-        private readonly ITimeService timeService;
-        private readonly ILeakyBucket leakyBucket;
         private readonly IRateLimiter limiter;
 
-        public StateResult<TimeSpan> PreventOverloadingServer { get; } = new StateResult<TimeSpan>();
-        public StateResult<IFetchObservables> Done { get; } = new StateResult<IFetchObservables>();
+        protected override int NumberOfHttpRequests => 9;
 
         public FetchAllSinceState(
             ITogglApi api,
@@ -30,29 +21,12 @@ namespace Toggl.Core.Sync.States.Pull
             ITimeService timeService,
             ILeakyBucket leakyBucket,
             IRateLimiter limiter)
+            : base(api, leakyBucket, since, timeService)
         {
-            this.api = api;
-            this.since = since;
-            this.timeService = timeService;
-            this.leakyBucket = leakyBucket;
             this.limiter = limiter;
         }
 
-        public IObservable<ITransition> Start() => Observable.Create<ITransition>(observer =>
-        {
-            if (!leakyBucket.TryClaimFreeSlots(numberOfSlots: 9, timeToFreeSlot: out var timeToNextFreeSlot))
-            {
-                observer.CompleteWith(PreventOverloadingServer.Transition(timeToNextFreeSlot));
-                return () => { };
-            }
-
-            var observables = fetchInWaves();
-
-            observer.CompleteWith(Done.Transition(observables));
-            return () => { };
-        });
-
-        private IFetchObservables fetchInWaves()
+        protected override IFetchObservables Fetch()
         {
             var (workspaces, user, features) = firstWave();
             var (preferences, tags, clients) = secondWave(workspaces, user, features);
@@ -66,17 +40,17 @@ namespace Toggl.Core.Sync.States.Pull
         {
             var workspaces =
                 limiter.WaitForFreeSlot()
-                    .ThenExecute(() => api.Workspaces.GetAll())
+                    .ThenExecute(() => Api.Workspaces.GetAll())
                     .ConnectedReplay();
 
             var user =
                 limiter.WaitForFreeSlot()
-                    .ThenExecute(() => api.User.Get())
+                    .ThenExecute(() => Api.User.Get())
                     .ConnectedReplay();
 
             var features =
                 limiter.WaitForFreeSlot()
-                    .ThenExecute(() => api.WorkspaceFeatures.GetAll())
+                    .ThenExecute(() => Api.WorkspaceFeatures.GetAll())
                     .ConnectedReplay();
 
             return (workspaces, user, features);
@@ -89,17 +63,17 @@ namespace Toggl.Core.Sync.States.Pull
         {
             var preferences =
                 workspaces.ThenExecute(limiter.WaitForFreeSlot)
-                    .ThenExecute(() => api.Preferences.Get())
+                    .ThenExecute(() => Api.Preferences.Get())
                     .ConnectedReplay();
 
             var tags =
                 user.ThenExecute(limiter.WaitForFreeSlot)
-                    .ThenExecute(() => fetchRecentIfPossible(api.Tags.GetAllSince, api.Tags.GetAll))
+                    .ThenExecute(() => FetchRecentIfPossible(Api.Tags.GetAllSince, Api.Tags.GetAll))
                     .ConnectedReplay();
 
             var clients =
                 features.ThenExecute(limiter.WaitForFreeSlot)
-                    .ThenExecute(() => fetchRecentIfPossible(api.Clients.GetAllSince, api.Clients.GetAll))
+                    .ThenExecute(() => FetchRecentIfPossible(Api.Clients.GetAllSince, Api.Clients.GetAll))
                     .ConnectedReplay();
 
             return (preferences, tags, clients);
@@ -110,39 +84,20 @@ namespace Toggl.Core.Sync.States.Pull
         {
             var projects =
                 preferences.ThenExecute(limiter.WaitForFreeSlot)
-                    .ThenExecute(() => fetchRecentIfPossible(api.Projects.GetAllSince, api.Projects.GetAll))
+                    .ThenExecute(() => FetchRecentIfPossible(Api.Projects.GetAllSince, Api.Projects.GetAll))
                     .ConnectedReplay();
 
             var timeEntries =
                 tags.ThenExecute(limiter.WaitForFreeSlot)
-                    .ThenExecute(() => fetchRecentIfPossible(api.TimeEntries.GetAllSince, fetchTwoMonthsOfTimeEntries))
+                    .ThenExecute(() => FetchRecentIfPossible(Api.TimeEntries.GetAllSince, FetchTwoMonthsOfTimeEntries))
                     .ConnectedReplay();
 
             var tasks =
                 clients.ThenExecute(limiter.WaitForFreeSlot)
-                    .ThenExecute(() => fetchRecentIfPossible(api.Tasks.GetAllSince, api.Tasks.GetAll))
+                    .ThenExecute(() => FetchRecentIfPossible(Api.Tasks.GetAllSince, Api.Tasks.GetAll))
                     .ConnectedReplay();
 
             return (projects, timeEntries, tasks);
         }
-
-        private IObservable<List<ITimeEntry>> fetchTwoMonthsOfTimeEntries()
-            => api.TimeEntries.GetAll(
-                start: timeService.CurrentDateTime.AddMonths(-fetchTimeEntriesForMonths),
-                end: timeService.CurrentDateTime.AddDays(timeEntriesEndDateInclusiveExtraDaysCount));
-
-        private IObservable<List<T>> fetchRecentIfPossible<T>(
-            Func<DateTimeOffset, IObservable<List<T>>> getAllSince,
-            Func<IObservable<List<T>>> getAll)
-            where T : ILastChangedDatable
-        {
-            var threshold = since.Get<T>();
-            return threshold.HasValue && isWithinLimit(threshold.Value)
-                ? getAllSince(threshold.Value)
-                : getAll();
-        }
-
-        private bool isWithinLimit(DateTimeOffset threshold)
-            => threshold > timeService.CurrentDateTime.AddMonths(-sinceDateLimitMonths);
     }
 }

@@ -47,6 +47,9 @@ namespace Toggl.Storage.Settings
         RatingViewOutcome? RatingViewOutcome();
         DateTimeOffset? RatingViewOutcomeTime();
 
+        bool DidShowSiriClipboardInstruction();
+        void SetDidShowSiriClipboardInstruction(bool value);
+
         void Reset();
     }
 }

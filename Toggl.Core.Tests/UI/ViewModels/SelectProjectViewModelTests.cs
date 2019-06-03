@@ -25,7 +25,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
     {
         public abstract class SelectProjectViewModelTest : BaseViewModelTests<SelectProjectViewModel, SelectProjectParameter, SelectProjectParameter>
         {
-            protected SelectProjectParameter DefaultParameter { get; } = SelectProjectParameter.WithIds(null, null, 1);
+            protected SelectProjectParameter DefaultParameter { get; } = new SelectProjectParameter(null, null, 1);
 
             protected override SelectProjectViewModel CreateViewModel()
             => new SelectProjectViewModel(DataSource, RxActionFactory, InteractorFactory, NavigationService, SchedulerProvider, StopwatchProvider);
@@ -75,7 +75,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [InlineData(124235)]
             public async Task ReturnsTheSameProjectIdThatWasPassedToTheViewModel(long? projectId)
             {
-                await ViewModel.Initialize(SelectProjectParameter.WithIds(projectId, 10, 11));
+                await ViewModel.Initialize(new SelectProjectParameter(projectId, 10, 11));
 
                 ViewModel.Close.Execute();
 
@@ -90,7 +90,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [InlineData(124235)]
             public async Task ReturnsTheSameTaskIdThatWasPassedToTheViewModel(long? taskId)
             {
-                await ViewModel.Initialize(SelectProjectParameter.WithIds(10, taskId, 11));
+                await ViewModel.Initialize(new SelectProjectParameter(10, taskId, 11));
 
                 ViewModel.Close.Execute();
 
@@ -159,7 +159,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var selectedTask = new TaskSuggestion(task);
 
                 ViewModel.SelectProject.Execute(selectedTask);
-                
+
                 (await ViewModel.ReturnedValue())
                     .ProjectId.Should().Be(task.ProjectId);
             }
@@ -197,7 +197,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 long workspaceId = 420;
                 ViewModel.SelectProject
                     .Execute(ProjectSuggestion.NoProject(workspaceId, ""));
-                
+
                 (await ViewModel.ReturnedValue())
                     .WorkspaceId.Should().Be(workspaceId);
             }
@@ -207,7 +207,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 var oldWorkspaceId = 10;
                 var newWorkspaceId = 11;
-                ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, oldWorkspaceId));
+
+                ViewModel.Initialize(new SelectProjectParameter(null, null, oldWorkspaceId));
+
                 var project = Substitute.For<IThreadSafeProject>();
                 project.WorkspaceId.Returns(newWorkspaceId);
 
@@ -225,7 +227,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
             public void DoesNotShowsAlertIfWorkspaceIsNotGoingToBeChanged()
             {
                 var workspaceId = 10;
-                ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, workspaceId));
+
+                ViewModel.Initialize(new SelectProjectParameter(null, null, workspaceId));
+
                 var project = Substitute.For<IThreadSafeProject>();
                 project.WorkspaceId.Returns(workspaceId);
 
@@ -297,7 +301,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     var projectName = "Some project";
                     var createEntitySuggestion = new CreateEntitySuggestion(Resources.CreateProject, projectName);
 
-                    await ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, 10));
+                    await ViewModel.Initialize(new SelectProjectParameter(null, null, 10));
 
                     ViewModel.SelectProject.Execute(createEntitySuggestion);
                     TestScheduler.Start();
@@ -311,7 +315,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     var projectName = "New project name";
                     var createProjectSuggestion = new CreateEntitySuggestion(Resources.CreateProject, projectName);
                     setupProjectCreationResult(null );
-                    await ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, 10));
+
+                    await ViewModel.Initialize(new SelectProjectParameter(null, null, 10));
+
                     TestScheduler.Start();
 
                     ViewModel.SelectProject.Execute(createProjectSuggestion);
@@ -327,7 +333,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     InteractorFactory.GetAllWorkspaces().Execute().Returns(Observable.Return(new[] { workspace } ));
                     const long projectId = 10;
                     setupProjectCreationResult(projectId);
-                    await ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, 10));
+
+                    await ViewModel.Initialize(new SelectProjectParameter(null, null, 10));
+
                     var projectName = "Some Project";
                     var createProjectSuggestion = new CreateEntitySuggestion(Resources.CreateProject, projectName);
 
@@ -599,7 +607,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .GetProjectsAutocompleteSuggestions(Arg.Any<IList<string>>())
                     .Execute()
                     .Returns(suggestionsObservable);
-                var parameter = SelectProjectParameter.WithIds(null, null, 0);
+                var parameter = new SelectProjectParameter(null, null, 0);
                 var observer = TestScheduler.CreateObserver<IEnumerable<SectionModel<string, AutocompleteSuggestion>>>();
                 ViewModel.Suggestions.Subscribe(observer);
 
@@ -623,7 +631,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Execute()
                     .Returns(suggestionsObservable);
                 long selectedProjectId = 5;
-                var parameter = SelectProjectParameter.WithIds(selectedProjectId, null, 0);
+                var parameter = new SelectProjectParameter(selectedProjectId, null, 0);
                 var observer = TestScheduler.CreateObserver<IEnumerable<SectionModel<string, AutocompleteSuggestion>>>();
                 ViewModel.Suggestions.Subscribe(observer);
 
@@ -803,7 +811,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsEmpty.Subscribe(observer);
 
-                await ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, workspaceId));
+                await ViewModel.Initialize(new SelectProjectParameter(null, null, workspaceId));
+
                 TestScheduler.Start();
 
                 observer.Messages.First().Value.Value.Should().BeTrue();
@@ -818,7 +827,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsEmpty.Subscribe(observer);
 
-                await ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, workspaceId));
+                await ViewModel.Initialize(new SelectProjectParameter(null, null, workspaceId));
+
                 TestScheduler.Start();
 
                 observer.Messages.First().Value.Value.Should().BeTrue();
@@ -830,7 +840,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsEmpty.Subscribe(observer);
 
-                await ViewModel.Initialize(SelectProjectParameter.WithIds(null, null, workspaceId));
+                await ViewModel.Initialize(new SelectProjectParameter(null, null, workspaceId));
+
                 TestScheduler.Start();
 
                 observer.Messages.Should().HaveCount(2);

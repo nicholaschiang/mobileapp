@@ -70,7 +70,13 @@ namespace Toggl.Core.Analytics
 
         IAnalyticsEvent OfflineModeDetected { get; }
 
+        IAnalyticsEvent<int> WorkspacePlaceholdersCreated { get; }
+
         IAnalyticsEvent<int> ProjectPlaceholdersCreated { get; }
+
+        IAnalyticsEvent<int> TaskPlaceholdersCreated { get; }
+
+        IAnalyticsEvent<int> TagPlaceholdersCreated { get; }
 
         IAnalyticsEvent<EditViewTapSource> EditViewTapped { get; }
 

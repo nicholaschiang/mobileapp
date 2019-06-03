@@ -109,6 +109,14 @@ namespace Toggl.iOS.ViewControllers
                 .BindAction(ViewModel.OpenAboutView)
                 .DisposedBy(DisposeBag);
 
+            ShortcutsSettingsView.Rx()
+                .BindAction(ViewModel.OpenSiriShortcuts)
+                .DisposedBy(DisposeBag);
+
+            WorkflowsSettingsView.Rx()
+                .BindAction(ViewModel.OpenSiriWorkflows)
+                .DisposedBy(DisposeBag);
+
             FeedbackView.Rx()
                 .BindAction(ViewModel.SubmitFeedback)
                 .DisposedBy(DisposeBag);

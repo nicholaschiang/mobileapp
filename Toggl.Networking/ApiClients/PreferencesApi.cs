@@ -25,7 +25,7 @@ namespace Toggl.Networking.ApiClients
 
         public IObservable<IPreferences> Update(IPreferences preferences)
         {
-            var body = serializer.Serialize(preferences as Preferences ?? new Preferences(preferences), SerializationReason.Post, null);
+            var body = serializer.Serialize(preferences as Preferences ?? new Preferences(preferences), SerializationReason.Post);
             return SendRequest(endPoints.Post, new[] { AuthHeader }, body)
                 .Select(_ => preferences);
         }

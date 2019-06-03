@@ -66,7 +66,7 @@ namespace Toggl.Networking.ApiClients
                 CountryId = countryId,
                 Timezone = timezone
             };
-            var json = serializer.Serialize(dto, SerializationReason.Post, null);
+            var json = serializer.Serialize(dto, SerializationReason.Post);
             return SendRequest<User>(endPoints.Post, new HttpHeader[0], json)
                 .Catch<IUser, BadRequestException>(badRequestException
                     => badRequestException.LocalizedApiErrorMessage == userAlreadyExistsApiErrorMessage
@@ -89,7 +89,7 @@ namespace Toggl.Networking.ApiClients
                 Timezone = timezone
             };
 
-            var json = serializer.Serialize(parameters, SerializationReason.Post, null);
+            var json = serializer.Serialize(parameters, SerializationReason.Post);
             return SendRequest<User>(endPoints.PostWithGoogle, new HttpHeader[0], json);
         }
 

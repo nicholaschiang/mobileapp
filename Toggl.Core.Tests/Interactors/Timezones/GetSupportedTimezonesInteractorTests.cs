@@ -2,7 +2,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Toggl.Core.Interactors.Timezones;
-using Toggl.Core.Serialization;
 using Xunit;
 
 namespace Toggl.Core.Tests.Interactors.Timezones
@@ -14,7 +13,7 @@ namespace Toggl.Core.Tests.Interactors.Timezones
             [Fact, LogIfTooSlow]
             public async Task ReturnsTheTimezonesApiResponse()
             {
-                var interactor = new GetSupportedTimezonesInteractor(new JsonSerializer());
+                var interactor = new GetSupportedTimezonesInteractor();
 
                 var returnedTimezones = await interactor.Execute();
 

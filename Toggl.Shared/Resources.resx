@@ -223,6 +223,18 @@ Please try again.</value>
     <data name="InaccessibleProject" xml:space="preserve">
     <value>(inaccessible project)</value>
   </data>
+    <data name="WorkspacePlaceholder" xml:space="preserve">
+    <value>(unsynced workspace)</value>
+  </data>
+  <data name="ProjectPlaceholder" xml:space="preserve">
+    <value>(unsynced project)</value>
+  </data>
+  <data name="TaskPlaceholder" xml:space="preserve">
+    <value>(unsynced task)</value>
+  </data>
+  <data name="TagPlaceholder" xml:space="preserve">
+    <value>(unsynced tag)</value>
+  </data>
     <data name="SyncCompleted" xml:space="preserve">
     <value>Synced</value>
   </data>
@@ -257,8 +269,11 @@ Start the timer and your most used time entries will appear here.</value>
     <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-    <data name="ConfirmDeleteNewTETitle" xml:space="preserve">
-      <value>Would you like to discard this time entry?</value>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>    
+  <data name="ConfirmDeleteNewTETitle" xml:space="preserve">
+    <value>Would you like to discard this time entry?</value>
   </data>
     <data name="ContinueEditing" xml:space="preserve">
     <value>Continue Editing</value>
@@ -368,7 +383,19 @@ Start the timer and your most used time entries will appear here.</value>
     <data name="LastYear" xml:space="preserve">
     <value>Last year</value>
   </data>
-    <data name="WorkingOnThis" xml:space="preserve">
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ReportPeriod" xml:space="preserve">
+    <value>Report period</value>
+  </data>
+  <data name="SiriReportPeriodInstruction" xml:space="preserve">
+    <value>Ask Siri to view a report for this period</value>
+  </data>
+  <data name="SiriCustomTimeEntryInstruction" xml:space="preserve">
+    <value>Ask Siri to start a timer with these entry details</value>
+  </data>
+  <data name="WorkingOnThis" xml:space="preserve">
     <value>Working on this?</value>
   </data>
     <data name="WorkingOnThese" xml:space="preserve">
@@ -914,16 +941,100 @@ Use them to add keywords to your time entries.</value>
     <data name="ContinueTimerInvocationPhrase" xml:space="preserve">
     <value>Continue tracking</value>
   </data>
-    <data name="TwelveHoursFormat">
-        <value>h tt</value>
-    </data>
-    <data name="TwentyFourHoursFormat">
-        <value>HH:mm</value>
-    </data>
-    <data name="EditingTwelveHoursFormat">
-        <value>h:mm tt</value>
-    </data>
-    <data name="EditingTwentyFourHoursFormat">
-        <value>HH:mm</value>
-    </data>
+  <data name="ContinueTimerInvocationPhrase">
+      <value>Continue timer</value>
+  </data>
+  <data name="NumberOfTasksPlural" xml:space="preserve">
+    <value>{0} Tasks</value>
+  </data>
+  <data name="NumberOfTasksSingular" xml:space="preserve">
+    <value>{0} Task</value>
+  </data>
+  <data name="TwelveHoursFormat">
+    <value>h tt</value>
+  </data>
+  <data name="TwentyFourHoursFormat">
+    <value>HH:mm</value>
+  </data>
+  <data name="EditingTwelveHoursFormat">
+    <value>h:mm tt</value>
+  </data>
+  <data name="EditingTwentyFourHoursFormat">
+    <value>HH:mm</value>
+  </data>
+  <data name="Siri Shortcuts" xml:space="preserve">
+    <value>Siri Shortcuts</value>
+  </data>
+  <data name="Siri Shortcuts Description" xml:space="preserve">
+    <value>Add shortcuts to control Toggl with Siri and the Shortcuts app</value>
+  </data>
+  <data name="Siri Workflows Description" xml:space="preserve">
+    <value>Chain your Toggl shortcuts with those from other apps</value>
+  </data>
+  <data name="SiriShortcutCustomTimeEntryTitle" xml:space="preserve">
+    <value>Time entry details</value>
+  </data>
+  <data name="SiriShortcutDescriptionFromClipboard" xml:space="preserve">
+    <value>Description from Clipboard</value>
+  </data>
+  <data name="SiriClipboardInstructionTitle" xml:space="preserve">
+    <value>Paste Description from Clipboard</value>
+  </data>
+  <data name="SiriClipboardInstructionDescription" xml:space="preserve">
+    <value>When you choose this option, whatever text has been copied to the system’s clipboard will be used as the description for the time entry.</value>
+  </data>
+  <data name="SiriClipboardInstructionDoNotShowAgain" xml:space="preserve">
+    <value>Don’t show this again</value>
+  </data>
+  <data name="SiriClipboardHintLabel" xml:space="preserve">
+    <value>When you run this shortcut, the Description will be pasted from Clipboard</value>
+  </data>
+  <data name="Siri Workflows" xml:space="preserve">
+    <value>Siri Workflows</value>
+  </data>
+  <data name="CantOpenWorkflowTitle" xml:space="preserve">
+    <value>Can't open Shortcut</value>
+  </data>
+  <data name="CantOpenWorkflowDescription" xml:space="preserve">
+    <value>The Shortcuts app is not installed</value>
+  </data>
+  <data name="SiriTrackEntrySuggestedInvocationPhrase" xml:space="preserve">
+    <value>Track {0}</value>
+  </data>
+  <data name="SiriShowReportSuggestedInvocationPhrase" xml:space="preserve">
+    <value>Show {0}'s time</value>
+  </data>
+  <data name="SiriStartTimerConfirmationMessage" xml:space="preserve">
+    <value>Start tracking {0}?</value>
+  </data>
+  <data name="SiriStartTimerWithEmptyDescConfirmationMessage" xml:space="preserve">
+    <value>Start tracking time?</value>
+  </data>
+  <data name="SiriStopTimerConfirmationMessage" xml:space="preserve">
+    <value>Stop tracking {0}?</value>
+  </data>
+  <data name="SiriStopTimerWithEmptyDescConfirmationMessage" xml:space="preserve">
+    <value>Stop tracking time?</value>
+  </data>
+  <data name="SiriShortcutLoginToUseShortcut" xml:space="preserve">
+    <value>Log in to use this shortcut.</value>
+  </data>
+  <data name="SiriShortcutOpenTheAppToSync" xml:space="preserve">
+    <value>Open the app to sync your data, then try again.</value>
+  </data>
+  <data name="SiriDurationWithSeconds" xml:space="preserve">
+    <value>{0} seconds</value>
+  </data>
+  <data name="SiriDurationWithMinutesAndSeconds" xml:space="preserve">
+    <value>{0} minutes and {1} seconds</value>
+  </data>
+  <data name="SiriDurationWithHoursAndSeconds" xml:space="preserve">
+    <value>{0} hours and {1} seconds</value>
+  </data>
+  <data name="SiriDurationWithHoursMinutesAndSeconds" xml:space="preserve">
+    <value>{0} hours and {1} minutes and {2} seconds</value>
+  </data>
+  <data name="SiriNoCurrentEntryRunning" xml:space="preserve">
+    <value>There's no entry currently running.</value>
+  </data>
 </root>

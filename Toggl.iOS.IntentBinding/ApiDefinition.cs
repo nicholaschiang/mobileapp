@@ -9,9 +9,6 @@ namespace Toggl.iOS.Intents
 	[BaseType (typeof(INIntent))]
 	interface ContinueTimerIntent
 	{
-		// @property (readwrite, copy, nonatomic) INObject * _Nullable workspace;
-		[NullAllowed, Export ("workspace", ArgumentSemantic.Copy)]
-		INObject Workspace { get; set; }
 	}
 
 	// @protocol ContinueTimerIntentHandling <NSObject>
@@ -96,6 +93,10 @@ namespace Toggl.iOS.Intents
 		// @property (assign, readwrite, nonatomic) ShowReportPeriodReportPeriod period;
 		[Export ("period", ArgumentSemantic.Assign)]
 		ShowReportPeriodReportPeriod Period { get; set; }
+
+		// @property (readwrite, copy, nonatomic) INObject * _Nullable workspace;
+		[NullAllowed, Export ("workspace", ArgumentSemantic.Copy)]
+		INObject Workspace { get; set; }
 	}
 
 	// @protocol ShowReportPeriodIntentHandling <NSObject>
@@ -135,6 +136,57 @@ namespace Toggl.iOS.Intents
 		// @property (readonly, nonatomic) ShowReportPeriodIntentResponseCode code;
 		[Export ("code")]
 		ShowReportPeriodIntentResponseCode Code { get; }
+	}
+
+	// @interface StartTimerFromClipboardIntent : INIntent
+	[BaseType (typeof(INIntent))]
+	interface StartTimerFromClipboardIntent
+	{
+		// @property (readwrite, copy, nonatomic) INObject * _Nullable workspace;
+		[NullAllowed, Export ("workspace", ArgumentSemantic.Copy)]
+		INObject Workspace { get; set; }
+
+		// @property (readwrite, copy, nonatomic) INObject * _Nullable billable;
+		[NullAllowed, Export ("billable", ArgumentSemantic.Copy)]
+		INObject Billable { get; set; }
+
+		// @property (readwrite, copy, nonatomic) INObject * _Nullable projectId;
+		[NullAllowed, Export ("projectId", ArgumentSemantic.Copy)]
+		INObject ProjectId { get; set; }
+
+		// @property (readwrite, copy, nonatomic) NSArray<INObject *> * _Nullable tags;
+		[NullAllowed, Export ("tags", ArgumentSemantic.Copy)]
+		INObject[] Tags { get; set; }
+	}
+
+	// @protocol StartTimerFromClipboardIntentHandling <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject))]
+	interface StartTimerFromClipboardIntentHandling
+	{
+		// @required -(void)handleStartTimerFromClipboard:(StartTimerFromClipboardIntent * _Nonnull)intent completion:(void (^ _Nonnull)(StartTimerFromClipboardIntentResponse * _Nonnull))completion;
+		[Abstract]
+		[Export ("handleStartTimerFromClipboard:completion:")]
+		void HandleStartTimerFromClipboard (StartTimerFromClipboardIntent intent, Action<StartTimerFromClipboardIntentResponse> completion);
+
+		// @optional -(void)confirmStartTimerFromClipboard:(StartTimerFromClipboardIntent * _Nonnull)intent completion:(void (^ _Nonnull)(StartTimerFromClipboardIntentResponse * _Nonnull))completion;
+		[Export ("confirmStartTimerFromClipboard:completion:")]
+		void ConfirmStartTimerFromClipboard (StartTimerFromClipboardIntent intent, Action<StartTimerFromClipboardIntentResponse> completion);
+	}
+
+	// @interface StartTimerFromClipboardIntentResponse : INIntentResponse
+	[BaseType (typeof(INIntentResponse))]
+	[DisableDefaultCtor]
+	interface StartTimerFromClipboardIntentResponse
+	{
+		// -(instancetype _Nonnull)initWithCode:(StartTimerFromClipboardIntentResponseCode)code userActivity:(NSUserActivity * _Nullable)userActivity __attribute__((objc_designated_initializer));
+		[Export ("initWithCode:userActivity:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (StartTimerFromClipboardIntentResponseCode code, [NullAllowed] NSUserActivity userActivity);
+
+		// @property (readonly, nonatomic) StartTimerFromClipboardIntentResponseCode code;
+		[Export ("code")]
+		StartTimerFromClipboardIntentResponseCode Code { get; }
 	}
 
 	// @interface StartTimerIntent : INIntent

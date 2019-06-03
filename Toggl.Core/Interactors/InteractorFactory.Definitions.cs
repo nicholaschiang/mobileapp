@@ -32,7 +32,6 @@ namespace Toggl.Core.Interactors
         private readonly Lazy<INotificationService> lazyNotificationService;
         private readonly Lazy<ILastTimeUsageStorage> lazyLastTimeUsageStorage;
         private readonly Lazy<IApplicationShortcutCreator> lazyShortcutCreator;
-        private readonly Lazy<IIntentDonationService> lazyIntentDonationService;
         private readonly Lazy<IPrivateSharedStorageService> lazyPrivateSharedStorageService;
         private readonly ReportsMemoryCache reportsMemoryCache = new ReportsMemoryCache();
 
@@ -49,7 +48,6 @@ namespace Toggl.Core.Interactors
         private IApplicationShortcutCreator shortcutCreator => lazyShortcutCreator.Value;
         private INotificationService notificationService => lazyNotificationService.Value;
         private ILastTimeUsageStorage lastTimeUsageStorage => lazyLastTimeUsageStorage.Value;
-        private IIntentDonationService intentDonationService => lazyIntentDonationService.Value;
         private IPrivateSharedStorageService privateSharedStorageService => lazyPrivateSharedStorageService.Value;
 
         public InteractorFactory(
@@ -68,7 +66,6 @@ namespace Toggl.Core.Interactors
             Lazy<INotificationService> notificationService,
             Lazy<ILastTimeUsageStorage> lastTimeUsageStorage,
             Lazy<IApplicationShortcutCreator> shortcutCreator,
-            Lazy<IIntentDonationService> intentDonationService,
             Lazy<IPrivateSharedStorageService> privateSharedStorageService)
         {
             Ensure.Argument.IsNotNull(api, nameof(api));
@@ -86,7 +83,6 @@ namespace Toggl.Core.Interactors
             Ensure.Argument.IsNotNull(userAccessManager, nameof(userAccessManager));
             Ensure.Argument.IsNotNull(notificationService, nameof(notificationService));
             Ensure.Argument.IsNotNull(lastTimeUsageStorage, nameof(lastTimeUsageStorage));
-            Ensure.Argument.IsNotNull(intentDonationService, nameof(intentDonationService));
             Ensure.Argument.IsNotNull(privateSharedStorageService, nameof(privateSharedStorageService));
 
             this.api = api;
@@ -105,7 +101,6 @@ namespace Toggl.Core.Interactors
             lazyStopwatchProvider = stopwatchProvider;
             lazyNotificationService = notificationService;
             lazyLastTimeUsageStorage = lastTimeUsageStorage;
-            lazyIntentDonationService = intentDonationService;
             lazyPrivateSharedStorageService = privateSharedStorageService;
         }
     }

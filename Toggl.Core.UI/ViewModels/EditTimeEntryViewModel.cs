@@ -343,7 +343,7 @@ namespace Toggl.Core.UI.ViewModels
             selectProjectStopwatch.Start();
 
             var chosenProject = await Navigate<SelectProjectViewModel, SelectProjectParameter, SelectProjectParameter>(
-                    SelectProjectParameter.WithIds(projectId, taskId, workspaceId));
+                                    new SelectProjectParameter(projectId, taskId, workspaceId));
 
             if (chosenProject.WorkspaceId == workspaceId
                 && chosenProject.ProjectId == projectId
@@ -400,7 +400,7 @@ namespace Toggl.Core.UI.ViewModels
 
             var currentTags = tagIds.OrderBy(CommonFunctions.Identity).ToArray();
 
-            var chosenTags = await Navigate<SelectTagsViewModel, (long[], long), long[]>((currentTags, workspaceId));
+            var chosenTags = await Navigate<SelectTagsViewModel, SelectTagsParameter, long[]>(new SelectTagsParameter(currentTags, workspaceId));
 
             if (chosenTags.OrderBy(CommonFunctions.Identity).SequenceEqual(currentTags))
                 return;
@@ -517,6 +517,7 @@ namespace Toggl.Core.UI.ViewModels
             interactorFactory
                 .UpdateMultipleTimeEntries(timeEntriesDtos)
                 .Execute()
+                .ObserveOn(schedulerProvider.MainScheduler)
                 .SubscribeToErrorsAndCompletion((Exception ex) => Finish(), () => Finish())
                 .DisposedBy(disposeBag);
         }

@@ -156,6 +156,10 @@ namespace Toggl.iOS.ViewControllers
                 .BindAction(ViewModel.Done)
                 .DisposedBy(DisposeBag);
 
+            ViewModel.Done.Elements
+                .Subscribe(IosDependencyContainer.Instance.IntentDonationService.DonateStartTimeEntry)
+                .DisposedBy(DisposeBag);
+
             BillableButton.Rx()
                 .BindAction(ViewModel.ToggleBillable)
                 .DisposedBy(DisposeBag);

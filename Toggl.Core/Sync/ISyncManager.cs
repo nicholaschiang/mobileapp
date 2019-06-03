@@ -11,6 +11,7 @@ namespace Toggl.Core.Sync
 
         IObservable<SyncState> PushSync();
         IObservable<SyncState> ForceFullSync();
+        IObservable<SyncState> PullTimeEntries();
         IObservable<SyncState> CleanUp();
 
         IObservable<SyncState> Freeze();

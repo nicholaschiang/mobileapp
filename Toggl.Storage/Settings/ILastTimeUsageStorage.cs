@@ -10,10 +10,14 @@ namespace Toggl.Storage.Settings
 
         DateTimeOffset? LastLogin { get; }
 
+        DateTimeOffset? LastTimePlaceholdersWereCreated { get; }
+
         void SetFullSyncAttempt(DateTimeOffset now);
 
         void SetSuccessfulFullSync(DateTimeOffset now);
 
         void SetLogin(DateTimeOffset now);
+
+        void SetPlaceholdersWereCreated(DateTimeOffset now);
     }
 }

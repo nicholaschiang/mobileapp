@@ -300,14 +300,6 @@ namespace Toggl.Core.Tests.Interactors
                     te => te.Start == ValidTime
                 ));
             }
-
-            [Fact, LogIfTooSlow]
-            public async Task DonatesTheIntent()
-            {
-                await CallInteractor(CreatePrototype(ValidTime, ValidDescription, true, ProjectId));
-
-                IntentDonationService.Received().DonateStartTimeEntry(Arg.Any<IWorkspace>(), Arg.Any<ITimeEntry>());
-            }
         }
     }
 }

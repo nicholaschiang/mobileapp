@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Toggl.Shared.Models;
 using static Toggl.Networking.Serialization.SerializationReason;
 
 namespace Toggl.Networking.Serialization
@@ -11,12 +10,11 @@ namespace Toggl.Networking.Serialization
     {
         private readonly JsonSerializerSettings defaultSettings = SerializerSettings.For(new DefaultContractResolver());
 
-        private JsonSerializerSettings postSettings(IWorkspaceFeatureCollection features)
+        private JsonSerializerSettings postSettings()
             => SerializerSettings.For(new FilterPropertiesContractResolver(
                 new List<IPropertiesFilter>
                 {
-                    new IgnoreAttributeFilter<IgnoreWhenPostingAttribute>(),
-                    new RequiresFeatureAttributeFilter(features)
+                    new IgnoreAttributeFilter<IgnoreWhenPostingAttribute>()
                 }));
 
         public T Deserialize<T>(string json)
@@ -31,11 +29,11 @@ namespace Toggl.Networking.Serialization
             }
         }
 
-        public string Serialize<T>(T data, SerializationReason reason = Default, IWorkspaceFeatureCollection features = null)
+        public string Serialize<T>(T data, SerializationReason reason = Default)
         {
             try
             {
-                return JsonConvert.SerializeObject(data, Formatting.None, getSettings(reason, features));
+                return JsonConvert.SerializeObject(data, Formatting.None, getSettings(reason));
             }
             catch (Exception e)
             {
@@ -43,12 +41,12 @@ namespace Toggl.Networking.Serialization
             }
         }
 
-        private JsonSerializerSettings getSettings(SerializationReason reason, IWorkspaceFeatureCollection features)
+        private JsonSerializerSettings getSettings(SerializationReason reason)
         {
             switch (reason)
             {
                 case Post:
-                    return postSettings(features);
+                    return postSettings();
                 default:
                     return defaultSettings;
             }

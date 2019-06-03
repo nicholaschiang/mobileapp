@@ -185,7 +185,7 @@ namespace Toggl.Core.UI.ViewModels
             return currentWorkspace.FirstAsync().SelectMany(workspaceFromViewModel);
 
             IObservable<IThreadSafeWorkspace> workspaceFromViewModel(IThreadSafeWorkspace currentWorkspace)
-                => Navigate<SelectWorkspaceViewModel, long, long>(currentWorkspace.Id)
+                => Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(new SelectWorkspaceParameters(Resources.SetDefaultWorkspace, currentWorkspace.Id))
                     .ToObservable()
                     .SelectMany(selectedWorkspaceId => workspaceFromId(selectedWorkspaceId, currentWorkspace));
 

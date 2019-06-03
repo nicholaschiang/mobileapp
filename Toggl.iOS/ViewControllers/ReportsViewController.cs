@@ -152,6 +152,8 @@ namespace Toggl.iOS.ViewControllers
         {
             base.ViewDidAppear(animated);
 
+            IosDependencyContainer.Instance.IntentDonationService.DonateShowReport();
+
             if (alreadyLoadedCalendar)
                 return;
 

@@ -15,21 +15,21 @@ namespace Toggl.iOS
     public sealed partial class AppDelegate : UIApplicationDelegate, IUNUserNotificationCenterDelegate
     {
         private const ApiEnvironment environment =
-#if USE_PRODUCTION_API
-                        ApiEnvironment.Production;
-#else
-                        ApiEnvironment.Staging;
-#endif
+        #if USE_PRODUCTION_API
+            ApiEnvironment.Production;
+        #else
+            ApiEnvironment.Staging;
+        #endif
 
         private CompositePresenter compositePresenter;
         public override UIWindow Window { get; set; }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-#if !USE_PRODUCTION_API
+            #if !USE_PRODUCTION_API
             System.Net.ServicePointManager.ServerCertificateValidationCallback
                   += (sender, certificate, chain, sslPolicyErrors) => true;
-#endif
+            #endif
 
             initializeAnalytics();
 
@@ -72,14 +72,15 @@ namespace Toggl.iOS
             if (url.Scheme == ApplicationUrls.Scheme)
             {
                 handleDeeplink(url);
+                return true;
             }
 
             #if USE_ANALYTICS
             var openUrlOptions = new UIApplicationOpenUrlOptions(options);
             return Google.SignIn.SignIn.SharedInstance.HandleUrl(url, openUrlOptions.SourceApplication, openUrlOptions.Annotation);
-            #else
-            return false;
             #endif
+
+            return false;
         }
 
         public override void ReceiveMemoryWarning(UIApplication application)

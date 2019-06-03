@@ -11,7 +11,7 @@ namespace Toggl.iOS.ExtensionKit
         private const string NeedsSyncKey = "NeedsSyncKey";
         private const string UserIdKey = "UserId";
         private const string SiriTrackingEventsKey = "SiriTrackingEventsKey";
-        private const string LastUpdateKey = "LastUpdateKey";
+        private const string DefaultWorkspaceId = "DefaultWorkspaceId";
 
         private NSUserDefaults userDefaults;
 
@@ -45,9 +45,9 @@ namespace Toggl.iOS.ExtensionKit
             userDefaults.Synchronize();
         }
 
-        public void SetLastUpdateDate(DateTimeOffset date)
+        public void SetDefaultWorkspaceId(long workspaceId)
         {
-            userDefaults.SetDouble(date.ToUnixTimeMilliseconds(), LastUpdateKey);
+            userDefaults.SetDouble(workspaceId, DefaultWorkspaceId);
             userDefaults.Synchronize();
         }
 
@@ -73,7 +73,7 @@ namespace Toggl.iOS.ExtensionKit
 
         public bool GetNeedsSync() => userDefaults.BoolForKey(NeedsSyncKey);
 
-        public DateTimeOffset GetLastUpdateDate() => DateTimeOffset.FromUnixTimeMilliseconds((long)userDefaults.DoubleForKey(LastUpdateKey));
+        public long GetDefaultWorkspaceId() => (long)userDefaults.DoubleForKey(DefaultWorkspaceId);
 
         public void DeleteEverything()
         {

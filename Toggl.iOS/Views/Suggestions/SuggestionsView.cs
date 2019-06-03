@@ -28,7 +28,7 @@ namespace Toggl.iOS.Suggestions
         public SuggestionsView()
         {
             TranslatesAutoresizingMaskIntoConstraints = false;
-            BackgroundColor = UIColor.White;
+            BackgroundColor = UIColor.Clear;
             ClipsToBounds = true;
 
             heightConstraint = HeightAnchor.ConstraintEqualTo(0);

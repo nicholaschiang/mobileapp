@@ -67,9 +67,9 @@ namespace Toggl.Networking.ApiClients
         // Entity result
 
         protected IObservable<T> SendRequest<T>(Endpoint endpoint, HttpHeader header, T entity,
-            SerializationReason serializationReason, IWorkspaceFeatureCollection features = null)
+            SerializationReason serializationReason)
         {
-            var body = serializer.Serialize(entity, serializationReason, features);
+            var body = serializer.Serialize(entity, serializationReason);
             return SendRequest<T>(endpoint, header, body);
         }
 

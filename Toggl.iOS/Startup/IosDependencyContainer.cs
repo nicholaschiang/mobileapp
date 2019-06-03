@@ -26,6 +26,7 @@ namespace Toggl.iOS
         private readonly Lazy<SettingsStorage> settingsStorage;
 
         public INavigationService MvxNavigationService { get; internal set; }
+        public IntentDonationService IntentDonationService { get; }
 
         public new static IosDependencyContainer Instance { get; private set; }
 
@@ -42,6 +43,7 @@ namespace Toggl.iOS
             : base(environment, new UserAgent(platform.ToString(), version))
         {
             this.viewPresenter = viewPresenter;
+            IntentDonationService = new IntentDonationService(AnalyticsService);
 
             var appVersion = Version.Parse(version);
 
@@ -62,9 +64,6 @@ namespace Toggl.iOS
 
         protected override ITogglDatabase CreateDatabase()
             => new Database();
-
-        protected override IIntentDonationService CreateIntentDonationService()
-            => new IntentDonationServiceIos(AnalyticsService);
 
         protected override IKeyValueStorage CreateKeyValueStorage()
             => new UserDefaultsStorageIos();

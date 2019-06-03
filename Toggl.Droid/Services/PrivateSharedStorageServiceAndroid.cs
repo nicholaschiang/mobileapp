@@ -9,6 +9,7 @@ namespace Toggl.Droid.Services
     {
         private static string apiTokenKey = "SharedStorageApiTokenKey";
         private static string userIdKey = "SharedStorageUserIdKey";
+        private static string defaultWorkspaceIdKey = "SharedStorageDefaultWorkspaceIdKey";
 
         private readonly IKeyValueStorage keyValueStorage;
 
@@ -28,8 +29,9 @@ namespace Toggl.Droid.Services
             keyValueStorage.SetLong(userIdKey, userId);
         }
 
-        public void SaveLastUpdateDate(DateTimeOffset date)
+        public void SaveDefaultWorkspaceId(long workspaceId)
         {
+            keyValueStorage.SetLong(defaultWorkspaceIdKey, workspaceId);
         }
 
         public void ClearAll()

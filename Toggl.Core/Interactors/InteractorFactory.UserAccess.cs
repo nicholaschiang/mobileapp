@@ -16,7 +16,6 @@ namespace Toggl.Core.Interactors
                 database,
                 userPreferences,
                 privateSharedStorageService,
-                intentDonationService,
                 userAccessManager,
                 source);
     }

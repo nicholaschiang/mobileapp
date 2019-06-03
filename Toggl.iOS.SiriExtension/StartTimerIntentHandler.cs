@@ -9,6 +9,7 @@ using Toggl.iOS.ExtensionKit.Analytics;
 using Toggl.iOS.ExtensionKit.Extensions;
 using Toggl.iOS.Intents;
 using Toggl.Networking;
+using Toggl.Shared;
 
 namespace SiriExtension
 {
@@ -27,35 +28,17 @@ namespace SiriExtension
             if (togglAPI == null)
             {
                 var userActivity = new NSUserActivity(startTimerActivityType);
-                userActivity.SetResponseText("Log in to use this shortcut.");
+                userActivity.SetResponseText(Resources.SiriShortcutLoginToUseShortcut);
                 completion(new StartTimerIntentResponse(StartTimerIntentResponseCode.FailureNoApiToken, userActivity));
                 return;
             }
 
-            var lastUpdated = SharedStorage.instance.GetLastUpdateDate();
-            togglAPI.TimeEntries.GetAllSince(lastUpdated)
-                .Subscribe(tes =>
-                    {
-                        // If there are no changes since last sync, or there are changes in the server but not in the app, we are ok
-                        if (tes.Count == 0 || tes.OrderBy(te => te.At).Last().At >= lastUpdated)
-                        {
-                            completion(new StartTimerIntentResponse(StartTimerIntentResponseCode.Ready, null));
-                        }
-                        else
-                        {
-                            var userActivity = new NSUserActivity(startTimerActivityType);
-                            userActivity.SetResponseText("Open the app to sync your data, then try again.");
-                            completion(new StartTimerIntentResponse(StartTimerIntentResponseCode.FailureSyncConflict, userActivity));
-                        }
-                    }
-                );
+            completion(new StartTimerIntentResponse(StartTimerIntentResponseCode.Ready, null));
         }
 
         public override void HandleStartTimer(StartTimerIntent intent, Action<StartTimerIntentResponse> completion)
         {
-            var workspaceId = (long)Convert.ToDouble(intent.Workspace.Identifier);
-
-            var timeEntry = createTimeEntry(workspaceId, intent);
+            var timeEntry = createTimeEntry(intent);
             togglAPI.TimeEntries.Create(timeEntry).Subscribe(te =>
             {
                 SharedStorage.instance.SetNeedsSync(true);
@@ -67,13 +50,15 @@ namespace SiriExtension
             {
                 SharedStorage.instance.AddSiriTrackingEvent(SiriTrackingEvent.Error(exception.Message));
                 var userActivity = new NSUserActivity(startTimerActivityType);
-                userActivity.SetResponseText("Something went wrong, please try again.");
+                userActivity.SetResponseText(Resources.SomethingWentWrongTryAgain);
                 completion(new StartTimerIntentResponse(StartTimerIntentResponseCode.Failure, userActivity));
             });
         }
 
-        private TimeEntry createTimeEntry(long workspaceId, StartTimerIntent intent)
+        private TimeEntry createTimeEntry(StartTimerIntent intent)
         {
+            var workspaceId = intent.Workspace == null ? SharedStorage.instance.GetDefaultWorkspaceId() : (long)Convert.ToDouble(intent.Workspace.Identifier);
+
             if (string.IsNullOrEmpty(intent.EntryDescription))
             {
                 return new TimeEntry(workspaceId, null, null, false, DateTimeOffset.Now, null, "", new long[0], (long)SharedStorage.instance.GetUserId(), 0, null, DateTimeOffset.Now);

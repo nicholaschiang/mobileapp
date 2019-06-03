@@ -53,7 +53,6 @@ namespace Toggl.Core
         private readonly Lazy<ILastTimeUsageStorage> lastTimeUsageStorage;
         private readonly Lazy<IApplicationShortcutCreator> shortcutCreator;
         private readonly Lazy<IBackgroundSyncService> backgroundSyncService;
-        private readonly Lazy<IIntentDonationService> intentDonationService;
         private readonly Lazy<IAutomaticSyncingService> automaticSyncingService;
         private readonly Lazy<IAccessRestrictionStorage> accessRestrictionStorage;
         private readonly Lazy<ISyncErrorHandlingService> syncErrorHandlingService;
@@ -86,7 +85,6 @@ namespace Toggl.Core
         public IErrorHandlingService ErrorHandlingService => errorHandlingService.Value;
         public ILastTimeUsageStorage LastTimeUsageStorage => lastTimeUsageStorage.Value;
         public IBackgroundSyncService BackgroundSyncService => backgroundSyncService.Value;
-        public IIntentDonationService IntentDonationService => intentDonationService.Value;
         public IAutomaticSyncingService AutomaticSyncingService => automaticSyncingService.Value;
         public IAccessRestrictionStorage AccessRestrictionStorage => accessRestrictionStorage.Value;
         public ISyncErrorHandlingService SyncErrorHandlingService => syncErrorHandlingService.Value;
@@ -123,7 +121,6 @@ namespace Toggl.Core
             errorHandlingService = new Lazy<IErrorHandlingService>(CreateErrorHandlingService);
             lastTimeUsageStorage = new Lazy<ILastTimeUsageStorage>(CreateLastTimeUsageStorage);
             backgroundSyncService = new Lazy<IBackgroundSyncService>(CreateBackgroundSyncService);
-            intentDonationService = new Lazy<IIntentDonationService>(CreateIntentDonationService);
             automaticSyncingService = new Lazy<IAutomaticSyncingService>(CreateAutomaticSyncingService);
             accessRestrictionStorage = new Lazy<IAccessRestrictionStorage>(CreateAccessRestrictionStorage);
             syncErrorHandlingService = new Lazy<ISyncErrorHandlingService>(CreateSyncErrorHandlingService);
@@ -164,7 +161,6 @@ namespace Toggl.Core
         protected abstract ILastTimeUsageStorage CreateLastTimeUsageStorage();
         protected abstract IApplicationShortcutCreator CreateShortcutCreator();
         protected abstract IBackgroundSyncService CreateBackgroundSyncService();
-        protected abstract IIntentDonationService CreateIntentDonationService();
         protected abstract IAccessRestrictionStorage CreateAccessRestrictionStorage();
         protected abstract IPrivateSharedStorageService CreatePrivateSharedStorageService();
         protected abstract ISuggestionProviderContainer CreateSuggestionProviderContainer();
@@ -176,7 +172,7 @@ namespace Toggl.Core
             => new BackgroundService(TimeService, AnalyticsService);
 
         protected virtual IAutomaticSyncingService CreateAutomaticSyncingService()
-            => new AutomaticSyncingService(BackgroundService, TimeService);
+            => new AutomaticSyncingService(BackgroundService, TimeService, LastTimeUsageStorage);
 
         protected virtual ISyncErrorHandlingService CreateSyncErrorHandlingService()
             => new SyncErrorHandlingService(ErrorHandlingService);
@@ -224,7 +220,6 @@ namespace Toggl.Core
             notificationService,
             lastTimeUsageStorage,
             shortcutCreator,
-            intentDonationService,
             privateSharedStorageService
         );
 

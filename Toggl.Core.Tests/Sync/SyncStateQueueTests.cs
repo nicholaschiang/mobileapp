@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using Toggl.Core.Tests.TestExtensions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -31,6 +32,9 @@ namespace Toggl.Core.Tests.Sync
                             break;
                         case CleanUp:
                             queue.QueueCleanUp();
+                            break;
+                        case PullTimeEntries:
+                            queue.QueuePullTimeEntries();
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -112,6 +116,16 @@ namespace Toggl.Core.Tests.Sync
                 DequeuedStates.ShouldBeSameEventsAs(CleanUp);
             }
 
+            [Fact, LogIfTooSlow]
+            public void StartsPullTimeEntriesIfOnlyCleanUpIsQueue()
+            {
+                QueueSyncs(PullTimeEntries);
+
+                Dequeue();
+
+                DequeuedStates.ShouldBeSameEventsAs(PullTimeEntries);
+            }
+
             [Property]
             public void AlwaysReturnsTheStateItRuns(bool[] pushPull)
             {
@@ -191,6 +205,16 @@ namespace Toggl.Core.Tests.Sync
                     Pull, Push, CleanUp, Sleep
                 );
             }
+
+            [Fact, LogIfTooSlow]
+            public void AlwaysPullsTimeEntriesFirst()
+            {
+                QueueSyncs(CleanUp, Push, Pull, PullTimeEntries);
+
+                var state = Dequeue();
+
+                state.Should().Be(PullTimeEntries);
+            }
         }
 
         public sealed class TheClearMethod : BaseStateQueueTests
@@ -221,6 +245,17 @@ namespace Toggl.Core.Tests.Sync
             public void ClearsCleanUp()
             {
                 QueueSyncs(CleanUp);
+
+                Clear();
+                var returnValues = DequeueUntilSleep();
+
+                returnValues.ShouldBeSameEventsAs(Sleep);
+            }
+
+            [Fact, LogIfTooSlow]
+            public void ClearsPullTimeEntries()
+            {
+                QueueSyncs(PullTimeEntries);
 
                 Clear();
                 var returnValues = DequeueUntilSleep();

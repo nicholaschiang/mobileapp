@@ -23,7 +23,6 @@ using Toggl.Networking.Network;
 using System.Reactive;
 using System.Reactive.Disposables;
 using Toggl.Core.Interactors.Timezones;
-using Toggl.Core.Serialization;
 
 namespace Toggl.Core.UI.ViewModels
 {
@@ -268,7 +267,7 @@ namespace Toggl.Core.UI.ViewModels
             isLoadingSubject.OnNext(true);
             errorMessageSubject.OnNext(string.Empty);
 
-            var supportedTimezonesObs = new GetSupportedTimezonesInteractor(new JsonSerializer()).Execute();
+            var supportedTimezonesObs = new GetSupportedTimezonesInteractor().Execute();
             signupDisposable = supportedTimezonesObs
                 .Select(supportedTimezones => supportedTimezones.FirstOrDefault(tz => platformInfo.TimezoneIdentifier == tz))
                 .SelectMany(timezone

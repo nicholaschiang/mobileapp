@@ -14,7 +14,8 @@ typedef NS_ENUM(NSInteger, ShowReportPeriodReportPeriod) {
     ShowReportPeriodReportPeriodLastWeek = 4,
     ShowReportPeriodReportPeriodThisMonth = 5,
     ShowReportPeriodReportPeriodLastMonth = 6,
-    ShowReportPeriodReportPeriodThisYear = 7
+    ShowReportPeriodReportPeriodThisYear = 7,
+    ShowReportPeriodReportPeriodLastYear = 8
 } API_AVAILABLE(ios(12.0), watchos(5.0));
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,6 +24,7 @@ API_AVAILABLE(ios(12.0), watchos(5.0))
 @interface ShowReportPeriodIntent : INIntent
 
 @property (readwrite, assign, nonatomic) ShowReportPeriodReportPeriod period;
+@property (readwrite, copy, nullable, nonatomic) INObject *workspace;
 
 @end
 

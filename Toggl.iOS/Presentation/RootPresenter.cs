@@ -30,7 +30,9 @@ namespace Toggl.iOS.Presentation
         protected override void PresentOnMainThread<TInput, TOutput>(ViewModel<TInput, TOutput> viewModel, IView view)
         {
             var shouldWrapInNavigationController = !(viewModel is MainTabBarViewModel);
-            UIViewController rootViewController = ViewControllerLocator.GetViewController(viewModel, shouldWrapInNavigationController);
+            var rootViewController = shouldWrapInNavigationController
+                ? ViewControllerLocator.GetNavigationViewController(viewModel)
+                : ViewControllerLocator.GetViewController(viewModel);
 
             var oldRootViewController = Window.RootViewController;
 

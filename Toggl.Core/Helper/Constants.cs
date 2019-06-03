@@ -11,6 +11,10 @@ namespace Toggl.Core.Helper
         public const int DefaultTimeEntryDurationForManualModeInMinutes = 30;
         public const int HoursPerDay = 24;
 
+        public const int SinceDateLimitMonths = 2;
+        public const int FetchTimeEntriesForMonths = 2;
+        public const int TimeEntriesEndDateInclusiveExtraDaysCount = 2;
+
         public static readonly DateTimeOffset EarliestAllowedStartTime = new DateTimeOffset(2006, 1, 1, 0, 0, 0, TimeSpan.Zero);
         public static readonly DateTimeOffset LatestAllowedStartTime = new DateTimeOffset(2030, 12, 31, 23, 59, 59, TimeSpan.Zero);
 

@@ -144,7 +144,7 @@ namespace Toggl.iOS.Views
         public void EditingStarted(UITextView textView)
         {
             isFocused = true;
-            if (Text.Length == 0)
+            if (string.IsNullOrEmpty(Text))
             {
                 // this will force the text view to change the color of the text
                 // so if the person starts typing a multistage character, the color

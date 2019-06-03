@@ -1,14 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using Toggl.Shared.Models;
 using System.Reactive.Linq;
-using Toggl.Core.Serialization;
-using System.Reflection;
 using System.Linq;
-using Toggl.Shared;
 using Newtonsoft.Json;
-
+using Toggl.Shared;
 
 namespace Toggl.Core.Interactors
 {
@@ -38,9 +34,8 @@ namespace Toggl.Core.Interactors
         {
             string json = Resources.CountriesJson;
 
-            var countries = new Serialization
-                .JsonSerializer()
-                .Deserialize<List<Country>>(json)
+            var countries = JsonConvert
+                .DeserializeObject<List<Country>>(json)
                 .OrderBy(country => country.Name)
                 .ToList<ICountry>();
 

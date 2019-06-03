@@ -1,5 +1,7 @@
 ﻿using System;
 using Toggl.Core.Models.Interfaces;
+using Toggl.Shared;
+using Toggl.Shared.Models;
 using Toggl.Storage;
 
 namespace Toggl.Core.Models
@@ -45,6 +47,14 @@ namespace Toggl.Core.Models
                 At = at;
                 return this;
             }
+        }
+
+        internal static Workspace CreatePlaceholder(long id)
+        {
+            return Builder.Create(id)
+                .SetName(Resources.WorkspacePlaceholder)
+                .SetSyncStatus(SyncStatus.RefetchingNeeded)
+                .Build();
         }
 
         private Workspace(Builder builder)

@@ -104,6 +104,15 @@ namespace Toggl.Core.Sync
             }
         }
 
+        public IObservable<SyncState> PullTimeEntries()
+        {
+            lock (stateLock)
+            {
+                queue.QueuePullTimeEntries();
+                return startSyncIfNeededAndObserve();
+            }
+        }
+
         public IObservable<SyncState> Freeze()
         {
             lock (stateLock)

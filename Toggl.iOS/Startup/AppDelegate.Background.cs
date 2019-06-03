@@ -23,7 +23,7 @@ namespace Toggl.iOS
 
         public override void OnActivated(UIApplication application)
         {
-            observeAndStoreLastUpdateDate();
+            observeAndStoreProperties();
         }
 
         public override void WillEnterForeground(UIApplication application)
@@ -51,7 +51,7 @@ namespace Toggl.iOS
             }
         }
 
-        private void observeAndStoreLastUpdateDate()
+        private void observeAndStoreProperties()
         {
             lastUpdateDateDisposable.Dispose();
             lastUpdateDateDisposable = new CompositeDisposable();
@@ -61,11 +61,8 @@ namespace Toggl.iOS
                 var interactorFactory = IosDependencyContainer.Instance.InteractorFactory;
                 var privateSharedStorage = IosDependencyContainer.Instance.PrivateSharedStorageService;
 
-                interactorFactory.ObserveTimeEntriesChanges().Execute()
-                    .StartWith(Unit.Default)
-                    .SelectMany(interactorFactory.GetAllTimeEntriesVisibleToTheUser().Execute())
-                    .Select(timeEntries => timeEntries.OrderBy(te => te.At).Last().At)
-                    .Subscribe(privateSharedStorage.SaveLastUpdateDate)
+                interactorFactory.ObserveDefaultWorkspaceId().Execute()
+                    .Subscribe(privateSharedStorage.SaveDefaultWorkspaceId)
                     .DisposedBy(lastUpdateDateDisposable);
             }
             catch (Exception)

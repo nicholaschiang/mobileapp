@@ -17,6 +17,10 @@ namespace Toggl.iOS.Presentation
             typeof(ForgotPasswordViewModel),
             typeof(NotificationSettingsViewModel),
             typeof(SettingsViewModel),
+            typeof(SiriShortcutsCustomTimeEntryViewModel),
+            typeof(SiriShortcutsSelectReportPeriodViewModel),
+            typeof(SiriShortcutsViewModel),
+            typeof(SiriWorkflowsViewModel),
             typeof(SyncFailuresViewModel),
         };
 

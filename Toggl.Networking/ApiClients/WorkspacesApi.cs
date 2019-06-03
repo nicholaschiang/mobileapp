@@ -35,7 +35,7 @@ namespace Toggl.Networking.ApiClients
         public IObservable<IWorkspace> Create(IWorkspace workspace)
         {
             var dto = new UserApi.WorkspaceParameters { Name = workspace.Name, InitialPricingPlan = PricingPlans.Free };
-            var json = serializer.Serialize(dto, SerializationReason.Post, features: null);
+            var json = serializer.Serialize(dto, SerializationReason.Post);
 
             return SendRequest<Workspace>(endPoints.Post, AuthHeader, json);
         }

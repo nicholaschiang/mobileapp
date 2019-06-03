@@ -8,7 +8,7 @@
 
 @implementation ContinueTimerIntent
 
-@dynamic workspace;
+
 
 @end
 

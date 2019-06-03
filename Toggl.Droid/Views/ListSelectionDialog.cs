@@ -43,6 +43,14 @@ namespace Toggl.Droid.Views
                 .SetTitle(title)
                 .SetSingleChoiceItems(texts, initialIndex, onItemChosen)
                 .Show();
+
+            dialog.CancelEvent += onCancelled;
+        }
+
+        private void onCancelled(object sender, EventArgs e)
+        {
+            onChosen(default(T));
+            activity = null;
         }
 
         private void onItemChosen(object sender, DialogClickEventArgs args)

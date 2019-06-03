@@ -42,7 +42,6 @@ namespace Toggl.Core.UI.ViewModels
         private readonly IInteractorFactory interactorFactory;
         private readonly IAnalyticsService analyticsService;
         private readonly ISchedulerProvider schedulerProvider;
-        private readonly IIntentDonationService intentDonationService;
         private readonly IStopwatchProvider stopwatchProvider;
 
         private readonly CompositeDisposable disposeBag = new CompositeDisposable();
@@ -94,7 +93,7 @@ namespace Toggl.Core.UI.ViewModels
         public IOnboardingStorage OnboardingStorage { get; }
 
         public OutputAction<bool> Close { get; }
-        public UIAction Done { get; }
+        public OutputAction<IThreadSafeTimeEntry> Done { get; }
         public UIAction DurationTapped { get; }
         public UIAction ToggleBillable { get; }
         public UIAction SetStartDate { get; }
@@ -118,7 +117,6 @@ namespace Toggl.Core.UI.ViewModels
             INavigationService navigationService,
             IAnalyticsService analyticsService,
             ISchedulerProvider schedulerProvider,
-            IIntentDonationService intentDonationService,
             IStopwatchProvider stopwatchProvider,
             IRxActionFactory rxActionFactory)
             : base(navigationService)
@@ -130,7 +128,6 @@ namespace Toggl.Core.UI.ViewModels
             Ensure.Argument.IsNotNull(onboardingStorage, nameof(onboardingStorage));
             Ensure.Argument.IsNotNull(analyticsService, nameof(analyticsService));
             Ensure.Argument.IsNotNull(schedulerProvider, nameof(schedulerProvider));
-            Ensure.Argument.IsNotNull(intentDonationService, nameof(intentDonationService));
             Ensure.Argument.IsNotNull(stopwatchProvider, nameof(stopwatchProvider));
             Ensure.Argument.IsNotNull(rxActionFactory, nameof(rxActionFactory));
 
@@ -139,7 +136,6 @@ namespace Toggl.Core.UI.ViewModels
             this.interactorFactory = interactorFactory;
             this.analyticsService = analyticsService;
             this.schedulerProvider = schedulerProvider;
-            this.intentDonationService = intentDonationService;
             this.stopwatchProvider = stopwatchProvider;
 
             DataSource = dataSource;
@@ -155,7 +151,7 @@ namespace Toggl.Core.UI.ViewModels
                 .AsDriver(schedulerProvider);
 
             Close = rxActionFactory.FromAsync(close);
-            Done = rxActionFactory.FromObservable(done);
+            Done = rxActionFactory.FromObservable<IThreadSafeTimeEntry>(done);
             DurationTapped = rxActionFactory.FromAction(durationTapped);
             ToggleBillable = rxActionFactory.FromAction(toggleBillable);
             SetStartDate = rxActionFactory.FromAsync(setStartDate);
@@ -517,7 +513,7 @@ namespace Toggl.Core.UI.ViewModels
             }
         }
 
-        private IObservable<Unit> done()
+        private IObservable<IThreadSafeTimeEntry> done()
         {
             var timeEntry = textFieldInfo.Value.AsTimeEntryPrototype(startTime, duration, isBillable.Value);
             var origin = duration.HasValue ? TimeEntryStartOrigin.Manual : TimeEntryStartOrigin.Timer;
@@ -525,9 +521,9 @@ namespace Toggl.Core.UI.ViewModels
             {
                 origin = paramOrigin;
             }
+
             return interactorFactory.CreateTimeEntry(timeEntry, origin).Execute()
-                .Do(_ => Finish())
-                .SelectUnit();
+                .Do(_ => Finish());
         }
 
         private void onParsedQuery(QueryInfo parsedQuery)

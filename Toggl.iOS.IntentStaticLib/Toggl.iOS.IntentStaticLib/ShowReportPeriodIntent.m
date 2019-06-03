@@ -8,7 +8,7 @@
 
 @implementation ShowReportPeriodIntent
 
-@dynamic period;
+@dynamic period, workspace;
 
 @end
 

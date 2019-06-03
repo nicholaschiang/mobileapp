@@ -34,5 +34,5 @@ _Note: this might be a problem, because currently the app does not allow editing
 ---
 
 Previous topic: [Pull sync](pull-sync.md)
-Next topic: [State machine](state-machine.md)
+Next topic: [Pull Time Entries sync](pull-time-entries.md)
 Go to the [Index](index.md)

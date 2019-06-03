@@ -275,10 +275,34 @@ namespace Toggl.iOS.ViewControllers
                 .Subscribe(suggestionsView.OnSuggestions)
                 .DisposedBy(DisposeBag);
 
+            // Intent Donation
+            IosDependencyContainer.Instance.IntentDonationService.SetDefaultShortcutSuggestions();
+
+            Observable.Merge(
+                    ViewModel.ContinueTimeEntry.Elements,
+                    ViewModel.SuggestionsViewModel.StartTimeEntry.Elements
+                )
+                .Subscribe(IosDependencyContainer.Instance.IntentDonationService.DonateStartTimeEntry)
+                .DisposedBy(DisposeBag);
+
+            ViewModel.StopTimeEntry.Elements
+                .Subscribe(IosDependencyContainer.Instance.IntentDonationService.DonateStopCurrentTimeEntry)
+                .DisposedBy(DisposeBag);
+
             View.SetNeedsLayout();
             View.LayoutIfNeeded();
 
             NSNotificationCenter.DefaultCenter.AddObserver(UIApplication.DidBecomeActiveNotification, onApplicationDidBecomeActive);
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+
+            if (!TapToEditBubbleView.Hidden)
+            {
+                tapToEditStep.Dismiss();
+            }
         }
 
         private void setupTableViewHeader()
@@ -398,7 +422,7 @@ namespace Toggl.iOS.ViewControllers
                 text: undoText);
 
             snackBar.SnackBottomAnchor = StartTimeEntryButton.TopAnchor;
-            snackBar.Show(superView: View);
+            snackBar.Show(View);
         }
 
         protected override void Dispose(bool disposing)
@@ -408,8 +432,6 @@ namespace Toggl.iOS.ViewControllers
             if (!disposing) return;
 
             spiderBroView.Dispose();
-            //TODO: Reimplement this
-            //ViewModel.NavigationService.AfterNavigate -= onNavigate;
 
             disposeBag?.Dispose();
             disposeBag = null;
@@ -674,9 +696,6 @@ namespace Toggl.iOS.ViewControllers
             tapToEditStep.ManageVisibilityOf(TapToEditBubbleView).DisposedBy(disposeBag);
 
             prepareSwipeGesturesOnboarding(storage, tapToEditStep.ShouldBeVisible);
-
-            //TODO: Reimplement this
-            //ViewModel.NavigationService.AfterNavigate += onNavigate;
         }
 
         private void prepareSwipeGesturesOnboarding(IOnboardingStorage storage, IObservable<bool> tapToEditStepIsVisible)
@@ -719,19 +738,6 @@ namespace Toggl.iOS.ViewControllers
             updateSwipeDismissGestures(nextFirstTimeEntry);
             firstTimeEntryCell = nextFirstTimeEntry;
             updateTooltipPositions();
-        }
-
-        private void onNavigate(object sender, EventArgs e)
-        {
-            bool isHidden = false;
-            InvokeOnMainThread(() => isHidden = TapToEditBubbleView.Hidden);
-
-            if (isHidden == false)
-            {
-                tapToEditStep.Dismiss();
-                //TODO: Reimplement this
-                //ViewModel.NavigationService.AfterNavigate -= onNavigate;
-            }
         }
 
         private void updateTooltipPositions()

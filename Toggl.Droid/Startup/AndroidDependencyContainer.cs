@@ -49,7 +49,6 @@ namespace Toggl.Droid
             var appVersion = Version.Parse(version);
 
             viewPresenter = new CompositePresenter(new ActivityPresenter(), new DialogFragmentPresenter());
-
             settingsStorage = new Lazy<SettingsStorage>(() => new SettingsStorage(appVersion, KeyValueStorage));
         }
 
@@ -67,9 +66,6 @@ namespace Toggl.Droid
 
         protected override ITogglDatabase CreateDatabase()
             => new Database();
-
-        protected override IIntentDonationService CreateIntentDonationService()
-            => new NoopIntentDonationServiceAndroid();
 
         protected override IKeyValueStorage CreateKeyValueStorage()
         {

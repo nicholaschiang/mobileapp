@@ -27,6 +27,6 @@ To continue with syncing, new `StateMachine` and `StateMachineOrchestrator` inst
 
 ---
 
-Previous topic: [Push sync](push-sync.md)
+Previous topic: [Pull Time Entries](pull-time-entries.md)
 Next topic: [State queue](state-queue.md)
 Go to the [Index](index.md)

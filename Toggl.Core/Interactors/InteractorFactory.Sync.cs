@@ -16,5 +16,8 @@ namespace Toggl.Core.Interactors
 
         public IInteractor<IObservable<SyncOutcome>> RunBackgroundSync()
             => new RunBackgroundSyncInteractor(syncManager, analyticsService, stopwatchProvider);
+
+        public IInteractor<IObservable<bool>> ContainsPlaceholders()
+            => new ContainsPlaceholdersInteractor(dataSource);
     }
 }

@@ -33,7 +33,7 @@ namespace Toggl.Networking.ApiClients
                 throw new ArgumentOutOfRangeException(nameof(endDate));
 
             var parameters = new ProjectsSummaryParameters(startDate, endDate);
-            var json = serializer.Serialize(parameters, SerializationReason.Post, null);
+            var json = serializer.Serialize(parameters, SerializationReason.Post);
             return Observable.Create<IProjectsSummary>(async observer =>
             {
                 var projectsSummaries = await SendRequest<ProjectSummary, IProjectSummary>(endPoints.Summary(workspaceId), credentials.Header, json);

@@ -5,6 +5,7 @@ using Foundation;
 using Toggl.iOS.Extensions;
 using Toggl.iOS.Extensions.Reactive;
 using Toggl.Core;
+using Toggl.Core.UI.Extensions;
 using Toggl.Core.UI.Helper;
 using Toggl.Core.UI.ViewModels;
 using Toggl.Shared;
@@ -53,6 +54,10 @@ namespace Toggl.iOS.ViewControllers
 
             SignOutButton.Rx()
                 .BindAction(ViewModel.SignOut)
+                .DisposedBy(DisposeBag);
+
+            ViewModel.SignOut.Elements
+                .Subscribe(IosDependencyContainer.Instance.IntentDonationService.ClearAll)
                 .DisposedBy(DisposeBag);
 
             ShowPasswordButton.Rx().Tap()

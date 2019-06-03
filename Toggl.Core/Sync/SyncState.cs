@@ -5,6 +5,7 @@
         Sleep = 0,
         Pull,
         Push,
-        CleanUp
+        CleanUp,
+        PullTimeEntries
     }
 }

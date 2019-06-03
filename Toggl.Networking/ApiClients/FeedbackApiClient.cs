@@ -36,7 +36,7 @@ namespace Toggl.Networking.ApiClients
                 Data = data?.Select(CommonFunctions.Identity) ?? Enumerable.Empty<KeyValuePair<string, string>>()
             };
 
-            var json = serializer.Serialize(feedback, SerializationReason.Post, null);
+            var json = serializer.Serialize(feedback, SerializationReason.Post);
 
             return SendRequest(endPoints.Post, AuthHeader, json).SelectUnit();
         }

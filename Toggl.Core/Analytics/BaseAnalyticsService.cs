@@ -108,7 +108,16 @@ namespace Toggl.Core.Analytics
         public IAnalyticsEvent<EditViewTapSource> EditViewTapped { get; set; }
 
         [AnalyticsEvent("NumberOfCreatedPlaceholders")]
+        public IAnalyticsEvent<int> WorkspacePlaceholdersCreated { get; protected set; }
+
+        [AnalyticsEvent("NumberOfCreatedPlaceholders")]
         public IAnalyticsEvent<int> ProjectPlaceholdersCreated { get; protected set; }
+
+        [AnalyticsEvent("NumberOfCreatedPlaceholders")]
+        public IAnalyticsEvent<int> TaskPlaceholdersCreated { get; protected set; }
+
+        [AnalyticsEvent("NumberOfCreatedPlaceholders")]
+        public IAnalyticsEvent<int> TagPlaceholdersCreated { get; protected set; }
 
         [AnalyticsEvent("ExceptionType", "ExceptionMessage")]
         public IAnalyticsEvent<string, string> HandledException { get; protected set; }

@@ -38,7 +38,7 @@ namespace Toggl.Networking.ApiClients
                 throw new ArgumentOutOfRangeException(nameof(endDate));
 
             var parameters = new TimeEntriesTotalsParameters(userId, startDate, endDate);
-            var json = serializer.Serialize(parameters, SerializationReason.Post, null);
+            var json = serializer.Serialize(parameters, SerializationReason.Post);
 
             return Observable.Create<ITimeEntriesTotals>(async observer =>
             {

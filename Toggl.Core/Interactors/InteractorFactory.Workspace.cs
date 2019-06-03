@@ -42,5 +42,8 @@ namespace Toggl.Core.Interactors
 
         public IInteractor<IObservable<Unit>> ObserveWorkspacesChanges()
             => new ObserveWorkspacesChangesInteractor(dataSource);
+
+        public IInteractor<IObservable<long>> ObserveDefaultWorkspaceId()
+            => new ObserveDefaultWorkspaceIdInteractor(dataSource);
     }
 }

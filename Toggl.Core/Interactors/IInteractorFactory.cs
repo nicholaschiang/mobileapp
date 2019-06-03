@@ -89,6 +89,8 @@ namespace Toggl.Core.Interactors
 
         IInteractor<IObservable<Unit>> ObserveWorkspacesChanges();
 
+        IInteractor<IObservable<long>> ObserveDefaultWorkspaceId();
+
         #endregion
 
         #region WorkspaceFeatureCollection
@@ -104,6 +106,8 @@ namespace Toggl.Core.Interactors
         IInteractor<IObservable<bool>> HasFinishedSyncBefore();
 
         IInteractor<IObservable<SyncOutcome>> RunBackgroundSync();
+
+        IInteractor<IObservable<bool>> ContainsPlaceholders();
 
         #endregion
 

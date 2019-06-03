@@ -12,6 +12,7 @@ using Toggl.Core.Sync;
 using Toggl.Core.Sync.States;
 using Toggl.Core.Sync.States.CleanUp;
 using Toggl.Core.Sync.States.Pull;
+using Toggl.Core.Sync.States.PullTimeEntries;
 using Toggl.Core.Sync.States.Push;
 using Toggl.Shared.Models;
 using Toggl.Storage;
@@ -39,7 +40,7 @@ namespace Toggl.Core
             var queue = new SyncStateQueue();
             var entryPoints = new StateMachineEntryPoints();
             var transitions = new TransitionHandlerProvider(analyticsService);
-            ConfigureTransitions(transitions, database, api, dataSource, scheduler, timeService, analyticsService, entryPoints, queue);
+            ConfigureTransitions(transitions, database, api, dataSource, scheduler, timeService, analyticsService, lastTimeUsageStorage, entryPoints, queue);
             var stateMachine = new StateMachine(transitions, scheduler);
             var orchestrator = new StateMachineOrchestrator(stateMachine, entryPoints);
 
@@ -54,6 +55,7 @@ namespace Toggl.Core
             IScheduler scheduler,
             ITimeService timeService,
             IAnalyticsService analyticsService,
+            ILastTimeUsageStorage lastTimeUsageStorage,
             StateMachineEntryPoints entryPoints,
             ISyncStateQueue queue)
         {
@@ -64,6 +66,7 @@ namespace Toggl.Core
             configurePullTransitions(transitions, database, api, dataSource, timeService, analyticsService, scheduler, entryPoints.StartPullSync, minutesLeakyBucket, rateLimiter, queue);
             configurePushTransitions(transitions, api, dataSource, analyticsService, minutesLeakyBucket, rateLimiter, scheduler, entryPoints.StartPushSync);
             configureCleanUpTransitions(transitions, timeService, dataSource, analyticsService, entryPoints.StartCleanUp);
+            configurePullTimeEntriesTransitions(transitions, api, dataSource, database, analyticsService, timeService, minutesLeakyBucket, rateLimiter, lastTimeUsageStorage, entryPoints.StartPullTimeEntries);
         }
 
         private static void configurePullTransitions(
@@ -310,6 +313,53 @@ namespace Toggl.Core
             transitions.ConfigureTransition(trackInaccesssibleDataAfterCleanUp.Done, deleteInaccessibleWorkspaces);
             transitions.ConfigureTransition(deleteInaccessibleWorkspaces.Done, trackInaccesssibleWorkspacesAfterCleanUp);
             transitions.ConfigureTransition(trackInaccesssibleWorkspacesAfterCleanUp.Done, new DeadEndState());
+        }
+
+        private static void configurePullTimeEntriesTransitions(
+            ITransitionConfigurator transitions,
+            ITogglApi api,
+            ITogglDataSource dataSource,
+            ITogglDatabase database,
+            IAnalyticsService analyticsService,
+            ITimeService timeService,
+            ILeakyBucket leakyBucket,
+            IRateLimiter rateLimiter,
+            ILastTimeUsageStorage lastTimeUsageStorage,
+            StateResult entryPoint)
+        {
+            var fetchTimeEntries = new FetchJustTimeEntriesSinceState(api, database.SinceParameters, timeService, leakyBucket, rateLimiter);
+            var ensureFetchTimeEntriesSucceeded = new EnsureFetchListSucceededState<ITimeEntry>();
+
+            var placeholderStateFactory = new CreatePlaceholdersStateFactory(dataSource, analyticsService);
+            var createWorkspacePlaceholder = placeholderStateFactory.ForWorkspaces();
+            var createProjectPlaceholder = placeholderStateFactory.ForProjects();
+            var createTaskPlaceholder = placeholderStateFactory.ForTasks();
+            var createTagPlaceholder = placeholderStateFactory.ForTags();
+
+            var persistTimeEntries =
+                new PersistListState<ITimeEntry, IDatabaseTimeEntry, IThreadSafeTimeEntry>(dataSource.TimeEntries, TimeEntry.Clean);
+            var updateTimeEntriesSinceDate = new UpdateSinceDateState<ITimeEntry>(database.SinceParameters);
+
+            var detect = new DetectPlaceholdersWereCreatedState(
+                lastTimeUsageStorage,
+                timeService,
+                () => new ContainsPlaceholdersInteractor(dataSource));
+
+            transitions.ConfigureTransition(entryPoint, fetchTimeEntries);
+            transitions.ConfigureTransition(fetchTimeEntries.PreventOverloadingServer, new DeadEndState());
+            transitions.ConfigureTransition(fetchTimeEntries.Done, ensureFetchTimeEntriesSucceeded);
+            transitions.ConfigureTransition(ensureFetchTimeEntriesSucceeded.ErrorOccured, new FailureState());
+
+            transitions.ConfigureTransition(ensureFetchTimeEntriesSucceeded.Done, createWorkspacePlaceholder);
+            transitions.ConfigureTransition(createWorkspacePlaceholder.Done, createProjectPlaceholder);
+            transitions.ConfigureTransition(createProjectPlaceholder.Done, createTaskPlaceholder);
+            transitions.ConfigureTransition(createTaskPlaceholder.Done, createTagPlaceholder);
+
+            transitions.ConfigureTransition(createTagPlaceholder.Done, persistTimeEntries);
+            transitions.ConfigureTransition(persistTimeEntries.Done, updateTimeEntriesSinceDate);
+            transitions.ConfigureTransition(updateTimeEntriesSinceDate.Done, detect);
+
+            transitions.ConfigureTransition(detect.Done, new DeadEndState());
         }
 
         private static LookForChangeToPushState<TDatabase, TThreadsafe> configurePush<TModel, TDatabase, TThreadsafe>(

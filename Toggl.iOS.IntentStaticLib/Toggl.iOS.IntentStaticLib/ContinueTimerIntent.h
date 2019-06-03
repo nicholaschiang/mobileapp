@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 API_AVAILABLE(ios(12.0), watchos(5.0))
 @interface ContinueTimerIntent : INIntent
 
-@property (readwrite, copy, nullable, nonatomic) INObject *workspace;
+
 
 @end
 

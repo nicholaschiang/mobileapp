@@ -1,4 +1,6 @@
 ﻿using System;
+using Toggl.Shared;
+using Toggl.Shared.Models;
 using Toggl.Storage;
 
 namespace Toggl.Core.Models
@@ -75,6 +77,15 @@ namespace Toggl.Core.Models
                 if (At == null)
                     throw new InvalidOperationException(string.Format(errorMessage, nameof(At)));
             }
+        }
+
+        internal static Tag CreatePlaceholder(long tagId, long workspaceId)
+        {
+            return Builder.Create(tagId)
+                .SetName(Resources.TagPlaceholder)
+                .SetWorkspaceId(workspaceId)
+                .SetSyncStatus(SyncStatus.RefetchingNeeded)
+                .Build();
         }
 
         private Tag(Builder builder)

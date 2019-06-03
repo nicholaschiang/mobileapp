@@ -46,12 +46,15 @@ namespace Toggl.Storage.Settings
         private const string lastSyncAttemptKey = "LastSyncAttempt";
         private const string lastSuccessfulSyncKey = "LastSuccessfulSync";
         private const string lastLoginKey = "LastLogin";
+        private const string lastTimePlaceholdersWereCreated = "LastPullTimeEntries";
 
         private const string enabledCalendarsKey = "EnabledCalendars";
         private const char calendarIdSeparator = ';';
 
         private const string calendarNotificationsEnabledKey = "CalendarNotificationsEnabled";
         private const string timeSpanBeforeCalendarNotificationsKey = "TimeSpanBeforeCalendarNotifications";
+
+        private const string didShowSiriClipboardInstructionKey = "didShowSiriClipboardInstructionKey";
 
         private readonly Version version;
         private readonly IKeyValueStorage keyValueStorage;
@@ -297,6 +300,10 @@ namespace Toggl.Storage.Settings
         public DateTimeOffset? RatingViewOutcomeTime()
             => keyValueStorage.GetDateTimeOffset(ratingViewOutcomeTimeKey);
 
+        public bool DidShowSiriClipboardInstruction() => keyValueStorage.GetBool(didShowSiriClipboardInstructionKey);
+
+        public void SetDidShowSiriClipboardInstruction(bool value) => keyValueStorage.SetBool(didShowSiriClipboardInstructionKey, value);
+
         public bool WasDismissed(IDismissable dismissable) => keyValueStorage.GetBool(onboardingPrefix + dismissable.Key);
 
         public void Dismiss(IDismissable dismissable) => keyValueStorage.SetBool(onboardingPrefix + dismissable.Key, true);
@@ -441,6 +448,7 @@ namespace Toggl.Storage.Settings
 
         public DateTimeOffset? LastLogin => keyValueStorage.GetDateTimeOffset(lastLoginKey);
 
+        public DateTimeOffset? LastTimePlaceholdersWereCreated => keyValueStorage.GetDateTimeOffset(lastTimePlaceholdersWereCreated);
 
         public void SetFullSyncAttempt(DateTimeOffset now)
         {
@@ -455,6 +463,11 @@ namespace Toggl.Storage.Settings
         public void SetLogin(DateTimeOffset now)
         {
             keyValueStorage.SetDateTimeOffset(lastLoginKey, now);
+        }
+
+        public void SetPlaceholdersWereCreated(DateTimeOffset now)
+        {
+            keyValueStorage.SetDateTimeOffset(lastTimePlaceholdersWereCreated, now);
         }
 
         #endregion

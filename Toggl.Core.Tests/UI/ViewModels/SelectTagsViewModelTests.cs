@@ -4,15 +4,14 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using FsCheck;
 using NSubstitute;
 using Toggl.Core.Autocomplete.Suggestions;
 using Toggl.Core.Extensions;
 using Toggl.Core.Models.Interfaces;
-using Toggl.Core.UI.Extensions;
 using Toggl.Core.UI.ViewModels;
 using Toggl.Core.Tests.Generators;
 using Toggl.Core.Tests.TestExtensions;
+using Toggl.Core.UI.Parameters;
 using Toggl.Shared.Extensions;
 using Xunit;
 
@@ -20,9 +19,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
 {
     public sealed class SelectTagsViewModelTests
     {
-        public abstract class SelectTagsViewModelTest : BaseViewModelTests<SelectTagsViewModel, (long[] tagIds, long workspaceId), long[]>
+        public abstract class SelectTagsViewModelTest : BaseViewModelTests<SelectTagsViewModel, SelectTagsParameter, long[]>
         {
-            protected (long[] tagIds, long workspaceId) DefaultParameter { get; } = (new long[0], 1);
+            protected SelectTagsParameter DefaultParameter { get; } = new SelectTagsParameter(new long[0], 1);
 
             protected override SelectTagsViewModel CreateViewModel()
                 => new SelectTagsViewModel(
@@ -110,7 +109,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             public async Task ReturnsTheSameTagsThatWerePassedToTheViewModel()
             {
                 var tagids = new long[] { 1, 4, 29, 2 };
-                await ViewModel.Initialize((tagids, 0));
+                await ViewModel.Initialize( new SelectTagsParameter(tagids, 0));
 
                 ViewModel.Close.Execute();
                 TestScheduler.Start();
@@ -225,7 +224,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 setup(i => irrelevantWorkspaceId);
 
-                await ViewModel.Initialize((new long[] { }, workspaceId));
+                await ViewModel.Initialize(new SelectTagsParameter(new long[] { }, workspaceId));
+
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsEmpty.Subscribe(observer);
 
@@ -239,8 +239,10 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 setup(i => i % 2 == 0 ? irrelevantWorkspaceId : workspaceId);
 
-                await ViewModel.Initialize((new long[] { }, workspaceId));
-                 var observer = TestScheduler.CreateObserver<bool>();
+                await ViewModel.Initialize(new SelectTagsParameter(new long[] { }, workspaceId));
+
+                var observer = TestScheduler.CreateObserver<bool>();
+
                 ViewModel.IsEmpty.Subscribe(observer);
 
                 TestScheduler.Start();
@@ -253,7 +255,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 setup(i => i % 2 == 0 ? irrelevantWorkspaceId : workspaceId);
 
-                await ViewModel.Initialize((new long[] { }, workspaceId));
+                await ViewModel.Initialize(new SelectTagsParameter(new long[] { }, workspaceId));
+
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsEmpty.Subscribe(observer);
                 ViewModel.FilterText.OnNext("Anything");
@@ -275,7 +278,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 newTag.WorkspaceId.Returns(workspaceId);
                 newTag.Name.Returns("new tag");
 
-                await ViewModel.Initialize((new long[] { }, workspaceId));
+                await ViewModel.Initialize(new SelectTagsParameter(new long[] { }, workspaceId));
 
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsEmpty.Subscribe(observer);
@@ -336,7 +339,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Returns(Observable.Return(targetWorkspace));
                 var tagIds = tags.Select(tag => tag.TagId).ToArray();
 
-                await ViewModel.Initialize((tagIds, targetWorkspace.Id));
+                await ViewModel.Initialize(new SelectTagsParameter(tagIds, targetWorkspace.Id));
+
                 var observer = TestScheduler.CreateObserver<IEnumerable<SelectableTagBaseViewModel>>();
                 ViewModel.Tags.Subscribe(observer);
                 TestScheduler.Start();
@@ -358,7 +362,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 InteractorFactory.GetWorkspaceById(workspace.Id).Execute()
                     .Returns(Observable.Return(workspace));
 
-                await ViewModel.Initialize((tagIds, workspace.Id));
+                await ViewModel.Initialize(new SelectTagsParameter(tagIds, workspace.Id));
+
                 var observer = TestScheduler.CreateObserver<IEnumerable<SelectableTagBaseViewModel>>();
                 ViewModel.Tags.Subscribe(observer);
                 TestScheduler.Start();
@@ -380,7 +385,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 InteractorFactory.GetWorkspaceById(workspace.Id).Execute()
                     .Returns(Observable.Return(workspace));
 
-                await ViewModel.Initialize((selectedTagIds, workspace.Id));
+                await ViewModel.Initialize(new SelectTagsParameter(selectedTagIds, workspace.Id));
+
                 var observer = TestScheduler.CreateObserver<IEnumerable<SelectableTagBaseViewModel>>();
                 ViewModel.Tags.Subscribe(observer);
                 TestScheduler.Start();
@@ -414,7 +420,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Returns(Observable.Return(newSuggestions));
                 InteractorFactory.GetWorkspaceById(workspace.Id).Execute()
                     .Returns(Observable.Return(workspace));
-                await ViewModel.Initialize((oldTagIds, workspace.Id));
+
+                await ViewModel.Initialize(new SelectTagsParameter(oldTagIds, workspace.Id));
+
                 var observer = TestScheduler.CreateObserver<IEnumerable<SelectableTagBaseViewModel>>();
                 ViewModel.Tags.Subscribe(observer);
                 ViewModel.FilterText.OnNext(queryText);
@@ -437,8 +445,11 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var tagIds = tagSuggestions.Select(tag => tag.TagId).ToArray();
 
                 var nonExistingTag = "Non existing tag";
-                await ViewModel.Initialize((tagIds, workspace.Id));
-               var observer = TestScheduler.CreateObserver<IEnumerable<SelectableTagBaseViewModel>>();
+
+                await ViewModel.Initialize(new SelectTagsParameter(tagIds, workspace.Id));
+
+                var observer = TestScheduler.CreateObserver<IEnumerable<SelectableTagBaseViewModel>>();
+
                 ViewModel.Tags.Subscribe(observer);
                 ViewModel.FilterText.OnNext(nonExistingTag);
                 TestScheduler.Start();
@@ -469,7 +480,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 var newTag = new SelectableTagCreationViewModel("Some tag", workspaceId);
                 await ViewModel.Initialize(DefaultParameter);
-             
+
                 ViewModel.SelectTag.Execute(newTag);
                 TestScheduler.Start();
 
@@ -496,12 +507,13 @@ namespace Toggl.Core.Tests.UI.ViewModels
             public async Task RemovesTheTagIdFromSelectedTagIdsIfSelectedAlready()
             {
                var selectableTag = new SelectableTagViewModel(tagSuggestion.TagId, tagSuggestion.Name, true, 1);
-               await ViewModel.Initialize((new long[] { selectableTag.Id }, 0));
+
+               await ViewModel.Initialize(new SelectTagsParameter(new long[] { selectableTag.Id }, 0));
 
                ViewModel.SelectTag.Execute(selectableTag);
                ViewModel.Save.Execute();
                TestScheduler.Start();
-                
+
                 var ids = await ViewModel.ReturnedValue();
                 EnsureExpectedTagsAreReturned(ids, new long[0]);
             }
@@ -514,7 +526,8 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 var tagIds = new long[] { 100, 3, 10, 34, 532 };
 
-                await ViewModel.Initialize((tagIds, 0));
+                await ViewModel.Initialize(new SelectTagsParameter(tagIds, 0));
+
                 ViewModel.Save.Execute();
 
                 var ids = await ViewModel.ReturnedValue();

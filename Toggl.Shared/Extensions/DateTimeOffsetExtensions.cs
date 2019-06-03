@@ -6,6 +6,9 @@ namespace Toggl.Shared.Extensions
 {
     public static class DateTimeOffsetExtensions
     {
+        private const int minAllowedYear = 2006;
+        private const int maxAllowedYear = 2030;
+
         public static long ToUnixTimeSeconds(this DateTimeOffset dateTime)
         {
             // constant and implementation taken from .NET reference source:
@@ -74,5 +77,8 @@ namespace Toggl.Shared.Extensions
             int diff = (7 + ((BeginningOfWeek)time.DayOfWeek - beginningOfWeek)) % 7;
             return time.AddDays(-1 * diff).Date;
         }
+
+        public static bool IsWithinTogglLimits(this DateTimeOffset time)
+            => time.Year >= minAllowedYear && time.Year <= maxAllowedYear;
     }
 }

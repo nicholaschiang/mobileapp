@@ -1,5 +1,6 @@
 using System;
 using Toggl.Core.Analytics;
+using Toggl.Core.Models;
 using Toggl.Core.UI.Parameters;
 using Toggl.Core.Services;
 using Toggl.Shared;

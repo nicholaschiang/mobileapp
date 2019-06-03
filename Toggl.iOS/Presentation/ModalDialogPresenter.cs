@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Toggl.Core.UI.Navigation;
 using Toggl.Core.UI.ViewModels;
 using Toggl.Core.UI.ViewModels.Calendar;
+using Toggl.Core.UI.ViewModels.Settings.Siri;
 using Toggl.Core.UI.Views;
 using Toggl.iOS.Presentation.Transition;
 using UIKit;
@@ -17,6 +18,7 @@ namespace Toggl.iOS.Presentation
         {
             typeof(CalendarPermissionDeniedViewModel),
             typeof(NoWorkspaceViewModel),
+            typeof(PasteFromClipboardViewModel),
             typeof(SelectColorViewModel),
             typeof(SelectDateTimeViewModel),
             typeof(SelectDefaultWorkspaceViewModel),
