@@ -18,6 +18,23 @@ namespace Toggl.Shared.Extensions
             var seconds = dateTime.UtcDateTime.Ticks / TimeSpan.TicksPerSecond;
             return seconds - unixEpochSeconds;
         }
+        public static DateTimeOffset RoundDownToLocalDate(this DateTimeOffset time)
+        {
+            var localTime = time.ToOffset(DateTimeOffset.Now.Offset);
+            return new DateTimeOffset(localTime.Date, localTime.Offset);
+        }
+
+        public static DateTimeOffset RoundDownToLocalMonth(this DateTimeOffset time)
+        {
+            var localTime = time.ToOffset(DateTimeOffset.Now.Offset);
+            return new DateTimeOffset(localTime.Year, localTime.Month, 1, 0, 0, 0, localTime.Offset);
+        }
+
+        public static DateTimeOffset RoundDownToLocalYear(this DateTimeOffset time)
+        {
+            var localTime = time.ToOffset(DateTimeOffset.Now.Offset);
+            return new DateTimeOffset(localTime.Year, 1, 1, 0, 0, 0, localTime.Offset);
+        }
 
         public static DateTimeOffset RoundToClosestMinute(this DateTimeOffset time)
             => time.Second >= (SecondsInAMinute / 2)
