@@ -1351,6 +1351,7 @@
     <Compile Include="Presentation\ModalDialogPresenter.cs" />
     <Compile Include="Presentation\ModalCardPresenter.cs" />
     <Compile Include="Presentation\RootPresenter.cs" />
+    <Compile Include="Presentation\Transition\ModalDialogTransition.cs" />
     <Compile Include="Presentation\ViewControllerLocator.cs" />
     <Compile Include="Services\PermissionsCheckerIos.cs" />
     <Compile Include="Models\SiriShortcut.cs" />

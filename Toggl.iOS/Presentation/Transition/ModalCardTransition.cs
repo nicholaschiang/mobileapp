@@ -1,4 +1,5 @@
-﻿using CoreGraphics;
+﻿using System;
+using CoreGraphics;
 using Foundation;
 using Toggl.iOS.Extensions;
 using UIKit;
@@ -28,44 +29,50 @@ namespace Toggl.iOS.Presentation.Transition
             {
                 transitionContext.ContainerView.AddSubview(toController.View);
 
-                var finalFrame = transitionContext.GetFinalFrameForViewController(toController);
+                var toControllerInitialFrame = transitionContext.GetInitialFrameForViewController(fromController);
+                var toControllerFinalFrame = transitionContext.GetFinalFrameForViewController(toController);
 
-                var frame = new CGRect(finalFrame.Location, finalFrame.Size);
-                frame.Offset(0.0f, transitionContext.ContainerView.Frame.Height - 20);
-                toController.View.Frame = frame;
-                toController.View.Alpha = 0.5f;
+                toControllerInitialFrame.Offset(0, toController.View.Frame.Height);
+                toController.View.Frame = toControllerInitialFrame;
 
                 AnimationExtensions.Animate(animationDuration, Curves.CardInCurve, () =>
                 {
-                    toController.View.Frame = finalFrame;
-                    toController.View.Alpha = 1.0f;
+                    applyTransformation(fromController);
+                    toController.View.Frame = toControllerFinalFrame;
                 },
                 () => transitionContext.CompleteTransition(!transitionContext.TransitionWasCancelled));
             }
             else
             {
-                var initialFrame = transitionContext.GetInitialFrameForViewController(fromController);
-                initialFrame.Offset(0.0f, transitionContext.ContainerView.Frame.Height);
-                var finalFrame = initialFrame;
+                var fromControllerInitialFrame = transitionContext.GetInitialFrameForViewController(fromController);
+                var fromControllerFinalFrame = transitionContext.GetFinalFrameForViewController(fromController);
 
-                if (transitionContext.IsInteractive)
+                fromControllerFinalFrame.Offset(0, fromController.View.Frame.Height);
+                fromController.View.Frame = fromControllerInitialFrame;
+
+                AnimationExtensions.Animate(animationDuration, Curves.CardOutCurve, () =>
                 {
-                    UIView.Animate(
-                        animationDuration,
-                        () => fromController.View.Frame = finalFrame,
-                        () => transitionContext.CompleteTransition(!transitionContext.TransitionWasCancelled)
-                    );
-                }
-                else
-                {
-                    AnimationExtensions.Animate(animationDuration, Curves.CardOutCurve, () =>
-                    {
-                        fromController.View.Frame = finalFrame;
-                        fromController.View.Alpha = 0.5f;
-                    },
-                    () => transitionContext.CompleteTransition(!transitionContext.TransitionWasCancelled));
-                }
+                    fromController.View.Frame = fromControllerFinalFrame;
+                    removeTransformation(toController);
+                },
+                () => transitionContext.CompleteTransition(!transitionContext.TransitionWasCancelled));
             }
+        }
+
+        private void applyTransformation(UIViewController viewController)
+        {
+            if (UIDevice.CurrentDevice.UserInterfaceIdiom != UIUserInterfaceIdiom.Phone)
+                return;
+
+            var transformation = CGAffineTransform.MakeIdentity();
+            transformation.Scale((nfloat)0.95, (nfloat)0.95);
+            viewController.View.Transform = transformation;
+        }
+
+        private void removeTransformation(UIViewController viewController)
+        {
+            var transformation = CGAffineTransform.MakeIdentity();
+            viewController.View.Transform = transformation;
         }
     }
 }
