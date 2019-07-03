@@ -11,7 +11,7 @@ using static System.Math;
 
 namespace Toggl.iOS.Presentation.Transition
 {
-    public sealed class ModalPresentationController : UIPresentationController
+    public sealed class ModalCardPresentationController : UIPresentationController
     {
         private readonly UIImpactFeedbackGenerator feedbackGenerator;
 
@@ -64,7 +64,7 @@ namespace Toggl.iOS.Presentation.Transition
         public UIView AdditionalContentView { get; }
             = new UIView();
 
-        public ModalPresentationController(UIViewController presentedViewController, UIViewController presentingViewController)
+        public ModalCardPresentationController(UIViewController presentedViewController, UIViewController presentingViewController)
             : base(presentedViewController, presentingViewController)
         {
             var recognizer = new UITapGestureRecognizer(() => dismiss());

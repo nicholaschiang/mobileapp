@@ -1419,9 +1419,9 @@
       <DependentUpon>StartTimeEntryViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ActivityIndicatorView.cs" />
-    <Compile Include="Presentation\Transition\FromBottomTransition.cs" />
-    <Compile Include="Presentation\Transition\FromBottomTransitionDelegate.cs" />
-    <Compile Include="Presentation\Transition\ModalPresentationController.cs" />
+    <Compile Include="Presentation\Transition\ModalCardTransition.cs" />
+    <Compile Include="Presentation\Transition\ModalCardTransitionDelegate.cs" />
+    <Compile Include="Presentation\Transition\ModalCardPresentationController.cs" />
     <Compile Include="ViewControllers\EditTimeEntryViewController.cs" />
     <Compile Include="ViewControllers\EditTimeEntryViewController.designer.cs">
       <DependentUpon>EditTimeEntryViewController.cs</DependentUpon>

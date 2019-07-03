@@ -6,11 +6,11 @@ using static Toggl.Core.UI.Helper.Animation;
 
 namespace Toggl.iOS.Presentation.Transition
 {
-    public sealed class FromBottomTransition : NSObject, IUIViewControllerAnimatedTransitioning
+    public sealed class ModalCardTransition : NSObject, IUIViewControllerAnimatedTransitioning
     {
         private readonly bool presenting;
 
-        public FromBottomTransition(bool presenting)
+        public ModalCardTransition(bool presenting)
         {
             this.presenting = presenting;
         }

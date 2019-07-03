@@ -10,7 +10,7 @@ namespace Toggl.iOS.Presentation
 {
     public sealed class ModalCardPresenter : IosPresenter
     {
-        private readonly FromBottomTransitionDelegate fromBottomTransitionDelegate = new FromBottomTransitionDelegate();
+        private readonly ModalCardTransitionDelegate modalCardTransitionDelegate = new ModalCardTransitionDelegate();
 
         protected override HashSet<Type> AcceptedViewModels { get; } = new HashSet<Type>
         {
@@ -39,7 +39,7 @@ namespace Toggl.iOS.Presentation
             UIViewController viewController = ViewControllerLocator.GetViewController(viewModel);
 
             viewController.ModalPresentationStyle = UIModalPresentationStyle.Custom;
-            viewController.TransitioningDelegate = fromBottomTransitionDelegate;
+            viewController.TransitioningDelegate = modalCardTransitionDelegate;
 
             UIViewController topmostViewController = FindPresentedViewController();
             topmostViewController.PresentViewController(viewController, true, null);

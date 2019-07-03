@@ -12,10 +12,10 @@ namespace Toggl.iOS.Presentation.Transition
         [Export("animationControllerForPresentedController:presentingController:sourceController:")]
         public IUIViewControllerAnimatedTransitioning GetAnimationControllerForDismissedController(
             UIViewController presented, UIViewController presenting, UIViewController source
-        ) => new FromBottomTransition(true);
+        ) => new ModalCardTransition(true);
 
         [Export("animationControllerForDismissedController:")]
         public IUIViewControllerAnimatedTransitioning GetAnimationControllerForDismissedController(UIViewController dismissed)
-            => new FromBottomTransition(false);
+            => new ModalCardTransition(false);
     }
 }
