@@ -101,7 +101,6 @@ namespace Toggl.Core.UI.Navigation
                     dependencyContainer.NavigationService,
                     dependencyContainer.RemoteConfigService,
                     dependencyContainer.UpdateRemoteConfigCacheService,
-                    dependencyContainer.SuggestionProviderContainer,
                     dependencyContainer.AccessRestrictionStorage,
                     dependencyContainer.StopwatchProvider,
                     dependencyContainer.RxActionFactory,
@@ -124,11 +123,12 @@ namespace Toggl.Core.UI.Navigation
                     dependencyContainer.NavigationService,
                     dependencyContainer.RemoteConfigService,
                     dependencyContainer.UpdateRemoteConfigCacheService,
-                    dependencyContainer.SuggestionProviderContainer,
                     dependencyContainer.AccessRestrictionStorage,
                     dependencyContainer.SchedulerProvider,
                     dependencyContainer.StopwatchProvider,
                     dependencyContainer.RxActionFactory,
+                    dependencyContainer.PermissionsChecker,
+                    dependencyContainer.BackgroundService,
                     dependencyContainer.PlatformInfo);
             }
 
@@ -141,16 +141,6 @@ namespace Toggl.Core.UI.Navigation
                     dependencyContainer.AccessRestrictionStorage,
                     dependencyContainer.SchedulerProvider,
                     dependencyContainer.RxActionFactory);
-            }
-
-            if (viewModelType == typeof(OnboardingViewModel))
-            {
-                return new OnboardingViewModel(
-                    dependencyContainer.NavigationService,
-                    dependencyContainer.OnboardingStorage,
-                    dependencyContainer.AnalyticsService,
-                    dependencyContainer.RxActionFactory,
-                    dependencyContainer.SchedulerProvider);
             }
 
             if (viewModelType == typeof(OutdatedAppViewModel))
@@ -308,10 +298,15 @@ namespace Toggl.Core.UI.Navigation
                 return new SuggestionsViewModel(
                     dependencyContainer.InteractorFactory,
                     dependencyContainer.OnboardingStorage,
-                    dependencyContainer.SuggestionProviderContainer,
                     dependencyContainer.SchedulerProvider,
                     dependencyContainer.RxActionFactory,
-                    dependencyContainer.NavigationService);
+                    dependencyContainer.AnalyticsService,
+                    dependencyContainer.TimeService,
+                    dependencyContainer.PermissionsChecker,
+                    dependencyContainer.NavigationService,
+                    dependencyContainer.BackgroundService,
+                    dependencyContainer.UserPreferences,
+                    dependencyContainer.SyncManager);
             }
 
             if (viewModelType == typeof(SyncFailuresViewModel))

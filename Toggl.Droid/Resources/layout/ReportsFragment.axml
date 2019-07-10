@@ -4,7 +4,6 @@
     xmlns:local="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:animateLayoutChanges="true"
-    android:background="@color/defaultBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <toggl.droid.views.ReportsLinearLayout
@@ -37,11 +36,12 @@
         local:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
         <TextView
             android:id="@+id/ToolbarCurrentDateRangeText"
             tools:text="Last week"
-            android:padding="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:textSize="19sp"
             android:gravity="center"
             android:letterSpacing="-0.01"

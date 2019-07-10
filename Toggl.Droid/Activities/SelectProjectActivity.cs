@@ -20,7 +20,7 @@ namespace Toggl.Droid.Activities
     {
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_BlueStatusBar);
+            SetTheme(Resource.Style.AppTheme_BlueStatusBar_WhiteBackground);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {

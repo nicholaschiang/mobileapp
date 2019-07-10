@@ -18,6 +18,10 @@
         <item name="android:statusBarColor">@color/blueStatusBarBackground</item>
     </style>
 
+    <style name="AppTheme.BlueStatusBar.WhiteBackground">
+      <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.WhiteStatusBar">
     </style>
 

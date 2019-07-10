@@ -14,9 +14,6 @@ using Toggl.Droid.Extensions.Reactive;
 using Toggl.Droid.Helper;
 using Toggl.Droid.ViewHolders;
 using Toggl.Shared.Extensions;
-using Toggl.Storage.Extensions;
-using Toggl.Storage.Onboarding;
-using static Toggl.Droid.ViewHolders.MainLogCellViewHolder;
 
 namespace Toggl.Droid.Fragments
 {
@@ -25,18 +22,6 @@ namespace Toggl.Droid.Fragments
         private PopupWindow playButtonTooltipPopupWindow;
         private PopupWindow stopButtonTooltipPopupWindow;
         private PopupWindow tapToEditPopup;
-        private PopupWindow swipeRightPopup;
-        private PopupWindow swipeLeftPopup;
-
-        private DismissableOnboardingStep swipeRightOnboardingStep;
-        private IDisposable swipeRightOnboardingStepDisposable;
-        private IDisposable swipeRightOnboardingAnimationStepDisposable;
-        private IDisposable swipeToContinueWasUsedDisposable;
-
-        private DismissableOnboardingStep swipeLeftOnboardingStep;
-        private IDisposable swipeLeftOnboardingStepDisposable;
-        private IDisposable swipeLeftOnboardingAnimationStepDisposable;
-        private IDisposable swipeToDeleteWasUsedDisposable;
 
         private readonly BehaviorSubject<int> timeEntriesCountSubject = new BehaviorSubject<int>(0);
         private EditTimeEntryOnboardingStep editTimeEntryOnboardingStep;
@@ -75,8 +60,6 @@ namespace Toggl.Droid.Fragments
             setupStartTimeEntryOnboardingStep();
             setupStopTimeEntryOnboardingStep();
             setupTapToEditOnboardingStep();
-            setupSwipeRightOnboardingStep();
-            setupSwipeLeftOnboardingStep();
         }
 
         private void setupMainLogObservables()
@@ -175,162 +158,6 @@ namespace Toggl.Droid.Fragments
                     (window, view) => PopupOffsets.FromDp(16, -4, Context));
         }
 
-        private void setupSwipeRightOnboardingStep()
-        {
-            var shouldBeVisible = editTimeEntryOnboardingStep
-                .ShouldBeVisible
-                .Select(visible => !visible);
-
-            var showSwipeRightOnboardingStep = Observable.CombineLatest(
-                shouldBeVisible,
-                mainRecyclerViewChangesObservable,
-                ViewModel.SyncProgressState,
-                (shouldShowStep, unit, syncState) => shouldShowStep && syncState == SyncProgress.Synced);
-
-
-            swipeRightPopup = PopupWindowFactory.PopupWindowWithText(
-                Context,
-                Resource.Layout.TooltipWithLeftTopArrow,
-                Resource.Id.TooltipText,
-                Resource.String.OnboardingSwipeRight);
-
-            swipeRightOnboardingStep = new SwipeRightOnboardingStep(shouldBeVisible, timeEntriesCountSubject.AsObservable())
-                .ToDismissable(nameof(SwipeRightOnboardingStep), ViewModel.OnboardingStorage);
-            swipeRightOnboardingStep.DismissByTapping(swipeRightPopup, () =>
-            {
-                if (swipeRightOnboardingAnimationStepDisposable != null)
-                {
-                    swipeRightOnboardingAnimationStepDisposable.Dispose();
-                    swipeRightOnboardingAnimationStepDisposable = null;
-                }
-            });
-
-            swipeToContinueWasUsedDisposable = mainRecyclerAdapter.ContinueTimeEntry
-                .Subscribe(_ =>
-                {
-                    swipeRightOnboardingStep.Dismiss();
-                    swipeToContinueWasUsedDisposable.Dispose();
-                    swipeToContinueWasUsedDisposable = null;
-                });
-
-            showSwipeRightOnboardingStep
-                .Where(shouldShowStep => shouldShowStep)
-                .Select(_ => findEarliestTimeEntryView())
-                .DistinctUntilChanged()
-                .ObserveOn(SynchronizationContext.Current)
-                .Subscribe(updateSwipeRightOnboardingStep)
-                .DisposedBy(DisposeBag);
-        }
-
-        private void updateSwipeRightOnboardingStep(MainLogCellViewHolder lastTimeEntry)
-        {
-            swipeRightPopup?.Dismiss();
-
-            if (lastTimeEntry == null)
-                return;
-
-            if (swipeRightOnboardingStepDisposable != null)
-            {
-                swipeRightOnboardingStepDisposable.Dispose();
-                swipeRightOnboardingStepDisposable = null;
-            }
-
-            swipeRightOnboardingStepDisposable = swipeRightOnboardingStep
-                .ManageVisibilityOf(
-                    visibilityChanged,
-                    swipeRightPopup,
-                    lastTimeEntry.ItemView,
-                    (window, view) => PopupOffsets.FromDp(16, -4, Context));
-
-            if (swipeRightOnboardingAnimationStepDisposable != null)
-            {
-                swipeRightOnboardingAnimationStepDisposable.Dispose();
-                swipeRightOnboardingAnimationStepDisposable = null;
-            }
-
-            swipeRightOnboardingAnimationStepDisposable = swipeRightOnboardingStep
-                .ManageSwipeActionAnimationOf(mainRecyclerView, lastTimeEntry, AnimationSide.Right);
-        }
-
-        private void setupSwipeLeftOnboardingStep()
-        {
-            var shouldBeVisible = Observable.CombineLatest(
-                editTimeEntryOnboardingStep.ShouldBeVisible,
-                swipeRightOnboardingStep.ShouldBeVisible,
-                (editTimeEntryVisible, swipeRightVisible) => !editTimeEntryVisible && !swipeRightVisible
-            );
-
-            var showSwipeLeftOnboardingStep = Observable.CombineLatest(
-                shouldBeVisible,
-                mainRecyclerViewChangesObservable,
-                ViewModel.SyncProgressState,
-                (shouldShowStep, unit, syncState) => shouldShowStep && syncState == SyncProgress.Synced);
-
-            swipeLeftPopup = PopupWindowFactory.PopupWindowWithText(
-                Context,
-                Resource.Layout.TooltipWithRightTopArrow,
-                Resource.Id.TooltipText,
-                Resource.String.OnboardingSwipeLeft);
-
-            swipeLeftOnboardingStep = new SwipeLeftOnboardingStep(shouldBeVisible, timeEntriesCountSubject.AsObservable())
-                .ToDismissable(nameof(SwipeLeftOnboardingStep), ViewModel.OnboardingStorage);
-
-            swipeLeftOnboardingStep.DismissByTapping(swipeLeftPopup, () =>
-            {
-                if (swipeLeftOnboardingAnimationStepDisposable != null)
-                {
-                    swipeLeftOnboardingAnimationStepDisposable.Dispose();
-                    swipeLeftOnboardingAnimationStepDisposable = null;
-                }
-            });
-
-            swipeToDeleteWasUsedDisposable = mainRecyclerAdapter.DeleteTimeEntrySubject
-                .Subscribe(_ =>
-                {
-                    swipeLeftOnboardingStep.Dismiss();
-                    swipeToDeleteWasUsedDisposable.Dispose();
-                    swipeToDeleteWasUsedDisposable = null;
-                });
-
-            showSwipeLeftOnboardingStep
-                .Where(shouldShowStep => shouldShowStep)
-                .Select(_ => findEarliestTimeEntryView())
-                .DistinctUntilChanged()
-                .ObserveOn(SynchronizationContext.Current)
-                .Subscribe(updateSwipeLeftOnboardingStep)
-                .DisposedBy(DisposeBag);
-        }
-
-        private void updateSwipeLeftOnboardingStep(MainLogCellViewHolder lastTimeEntry)
-        {
-            swipeLeftPopup?.Dismiss();
-
-            if (lastTimeEntry == null)
-                return;
-
-            if (swipeLeftOnboardingStepDisposable != null)
-            {
-                swipeLeftOnboardingStepDisposable.Dispose();
-                swipeLeftOnboardingStepDisposable = null;
-            }
-
-            swipeLeftOnboardingStepDisposable = swipeLeftOnboardingStep
-                .ManageVisibilityOf(
-                    visibilityChanged,
-                    swipeLeftPopup,
-                    lastTimeEntry.ItemView,
-                    (window, view) => window.BottomRightOffsetsTo(view, -16, -4));
-
-            if (swipeLeftOnboardingAnimationStepDisposable != null)
-            {
-                swipeLeftOnboardingAnimationStepDisposable.Dispose();
-                swipeLeftOnboardingAnimationStepDisposable = null;
-            }
-
-            swipeLeftOnboardingAnimationStepDisposable = swipeLeftOnboardingStep
-                .ManageSwipeActionAnimationOf(mainRecyclerView, lastTimeEntry, AnimationSide.Left);
-        }
-
         private MainLogCellViewHolder findOldestTimeEntryView()
         {
             if (mainRecyclerAdapter == null)
@@ -356,19 +183,6 @@ namespace Toggl.Droid.Fragments
             }
 
             return null;
-        }
-
-        private MainLogCellViewHolder findEarliestTimeEntryView()
-        {
-            var position = mainRecyclerAdapter.HeaderOffset + 1;
-            var viewHolder = findLogCellViewHolderAtPosition(position);
-
-            if (viewHolder == null)
-            {
-                return null;
-            }
-
-            return isVisible(viewHolder) ? viewHolder : null;
         }
 
         private MainLogCellViewHolder findLogCellViewHolderAtPosition(int position)

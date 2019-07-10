@@ -41,7 +41,7 @@
     <DebugType>
     </DebugType>
     <OutputPath>..\bin</OutputPath>
-    <DefineConstants>USE_APPCENTER</DefineConstants>
+    <DefineConstants>USE_APPCENTER;ADHOC</DefineConstants>
     <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>../giskard.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>{KEYSTORE_PASSWORD}</AndroidSigningStorePass>
@@ -72,6 +72,26 @@
     <EnableLLVM>true</EnableLLVM>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.3.8.0\lib\netstandard2.0\Accord.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.MachineLearning, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.MachineLearning.3.8.0\lib\netstandard2.0\Accord.MachineLearning.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.Math.3.8.0\lib\netstandard2.0\Accord.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math.Core, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.Math.3.8.0\lib\netstandard2.0\Accord.Math.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.Statistics.3.8.0\lib\netstandard2.0\Accord.Statistics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AppCenter.2.1.1\lib\MonoAndroid403\Microsoft.AppCenter.dll</HintPath>
     </Reference>
@@ -358,6 +378,7 @@
     <Compile Include="Adapters\SelectProjectRecyclerAdapter.cs" />
     <Compile Include="DebugHelpers\ErrorTriggeringFragment.cs" />
     <Compile Include="DebugHelpers\ErrorTriggeringFragmentShortcut.cs" />
+    <Compile Include="Presentation\RunningTimeEntrySheetBehavior.cs" />
     <Compile Include="Services\JobServicesConstants.cs" />
     <Compile Include="Services\FetchRemoteConfigServiceAndroid.cs" />
     <Compile Include="Services\SyncJobService.cs" />
@@ -479,7 +500,6 @@
     <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="Activities\StartTimeEntryActivity.cs" />
     <Compile Include="Extensions\VisibilityExtensions.cs" />
-    <Compile Include="Extensions\CircularRevealAnimation.cs" />
     <Compile Include="Activities\EditTimeEntryActivity.cs" />
     <Compile Include="ApplicationShortcutCreator.cs" />
     <Compile Include="Adapters\StartTimeEntryRecyclerAdapter.cs" />
@@ -544,7 +564,6 @@
     </Compile>
     <Compile Include="Adapters\BaseRecyclerAdapter.cs" />
     <Compile Include="ViewHolders\BaseRecyclerViewHolder.cs" />
-    <Compile Include="ViewHolders\WorkspaceSelectionViewHolder.cs" />
     <Compile Include="Adapters\SimpleAdapter.cs" />
     <Compile Include="Activities\AboutActivity.cs" />
     <Compile Include="Services\RatingServiceAndroid.cs" />
@@ -561,7 +580,6 @@
     <Compile Include="Services\NotificationServiceAndroid.cs" />
     <Compile Include="ViewHolders\MainLogSectionViewHolder.cs" />
     <Compile Include="Adapters\ReactiveSectionedRecyclerAdapter.cs" />
-    <Compile Include="Adapters\MainSuggestionsRecyclerAdapter.cs" />
     <Compile Include="Activities\SignUpActivity.ViewBinds.cs">
       <DependentUpon>SignUpActivity.cs</DependentUpon>
     </Compile>
@@ -678,7 +696,6 @@
     <AndroidResource Include="Resources\layout\SelectProjectActivityWorkspaceHeader.axml" />
     <AndroidResource Include="Resources\layout\SelectDateFormatFragment.axml" />
     <AndroidResource Include="Resources\layout\SelectDateFormatFragmentCell.axml" />
-    <AndroidResource Include="Resources\layout\SettingsFragmentWorkspaceCell.axml" />
     <AndroidResource Include="Resources\drawable\TransparentToLightGrayGradient.xml" />
     <GoogleServicesJson Include="google-services.json" />
     <AndroidResource Include="Resources\layout\SelectBeginningOfWeekFragment.axml" />
@@ -1021,7 +1038,6 @@
     <AndroidResource Include="Resources\anim\abc_slide_out_left.xml" />
     <AndroidResource Include="Resources\anim\abc_slide_in_left.xml" />
     <AndroidResource Include="Resources\anim\abc_slide_out_right.xml" />
-    <AndroidResource Include="Resources\layout\MainSuggestionsCardDescriptionOnly.axml" />
     <AndroidResource Include="Resources\drawable\ic_icon_running.xml" />
     <AndroidResource Include="Resources\drawable\ic_icon_notrunning.xml" />
     <AndroidResource Include="Resources\layout\SendFeedbackActivity.axml" />
@@ -1138,6 +1154,18 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_launcher.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\animator\Collapse.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\animator\Expand.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
   <Import Project="..\packages\Xamarin.GooglePlayServices.Basement.60.1142.1\build\MonoAndroid80\Xamarin.GooglePlayServices.Basement.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Basement.60.1142.1\build\MonoAndroid80\Xamarin.GooglePlayServices.Basement.targets')" />
@@ -1195,4 +1223,11 @@
   <Import Project="..\packages\Xamarin.Android.Support.Design.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Design.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Design.28.0.0.1\build\monoandroid90\Xamarin.Android.Support.Design.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.Messaging.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Messaging.targets" Condition="Exists('..\packages\Xamarin.Firebase.Messaging.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Messaging.targets')" />
   <Import Project="..\packages\Xamarin.Android.Arch.Lifecycle.Extensions.1.1.1.1\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Extensions.targets" Condition="Exists('..\packages\Xamarin.Android.Arch.Lifecycle.Extensions.1.1.1.1\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Extensions.targets')" />
+  <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Accord.3.8.0\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.3.8.0\build\Accord.targets'))" />
+  </Target>
 </Project>

@@ -1,8 +1,9 @@
-﻿using Android.Graphics;
+﻿using System;
+using System.Diagnostics;
+using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System;
 using Toggl.Core.Suggestions;
 using Toggl.Droid.Extensions;
 
@@ -10,58 +11,47 @@ namespace Toggl.Droid.ViewHolders
 {
     public sealed class MainLogSuggestionItemViewHolder : BaseRecyclerViewHolder<Suggestion>
     {
-        private readonly int firstItemMargin;
-        private readonly int lastItemMargin;
-        private readonly int defaultCardSize;
+        private TextView descriptionLabel;
+        private TextView projectLabel;
+        private TextView clientLabel;
 
-        public bool IsSingleItem { get; set; }
-        public bool IsFirstItem { get; set; }
-        public bool IsLastItem { get; set; }
-
-        private TextView timeEntriesLogCellDescriptionLabel;
-        private TextView timeEntriesLogCellProjectLabel;
-        private TextView timeEntriesLogCellClientLabel;
-        private ImageView timeEntriesLogCellContinueImage;
-
-        public void RecalculateMargins()
-        {
-            var left = IsFirstItem ? firstItemMargin : 0;
-            var right = IsSingleItem ? firstItemMargin : IsLastItem ? lastItemMargin : 0;
-
-            var marginLayoutParams = ItemView.LayoutParameters as ViewGroup.MarginLayoutParams;
-            var newLayoutParams = marginLayoutParams.WithMargins(left, null, right, null);
-            newLayoutParams.Width = IsSingleItem ? ViewGroup.LayoutParams.MatchParent : defaultCardSize;
-            ItemView.LayoutParameters = newLayoutParams;
-        }
+        public static MainLogSuggestionItemViewHolder Create(View item)
+            => new MainLogSuggestionItemViewHolder(item);
 
         public MainLogSuggestionItemViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
         }
 
-        public MainLogSuggestionItemViewHolder(View itemView, int firstItemMargin, int lastItemMargin, int defaultCardSize) : base(itemView)
+        public MainLogSuggestionItemViewHolder(View itemView) : base(itemView)
         {
-            this.firstItemMargin = firstItemMargin;
-            this.lastItemMargin = lastItemMargin;
-            this.defaultCardSize = defaultCardSize;
         }
 
         protected override void InitializeViews()
         {
-            timeEntriesLogCellDescriptionLabel = ItemView.FindViewById<TextView>(Resource.Id.TimeEntriesLogCellDescriptionLabel);
-            timeEntriesLogCellProjectLabel = ItemView.FindViewById<TextView>(Resource.Id.TimeEntriesLogCellProjectLabel);
-            timeEntriesLogCellClientLabel = ItemView.FindViewById<TextView>(Resource.Id.TimeEntriesLogCellClientLabel);
-            timeEntriesLogCellContinueImage = ItemView.FindViewById<ImageView>(Resource.Id.TimeEntriesLogCellContinueImage);
+            descriptionLabel = ItemView.FindViewById<TextView>(Resource.Id.DescriptionLabel);
+            projectLabel = ItemView.FindViewById<TextView>(Resource.Id.ProjectLabel);
+            clientLabel = ItemView.FindViewById<TextView>(Resource.Id.ClientLabel);
         }
 
         protected override void UpdateView()
         {
-            timeEntriesLogCellDescriptionLabel.Text = Item.Description;
-            timeEntriesLogCellProjectLabel.Text = Item.ProjectName;
-            timeEntriesLogCellProjectLabel.SetTextColor(Color.ParseColor(Item.ProjectColor));
-            timeEntriesLogCellProjectLabel.Visibility = Item.HasProject.ToVisibility();
-            timeEntriesLogCellClientLabel.Text = Item.ClientName;
-            timeEntriesLogCellClientLabel.Visibility = Item.HasProject.ToVisibility();
+            descriptionLabel.Text = Item.Description;
+            prefixWithProviderNameInDebug();
+            descriptionLabel.Visibility = (!string.IsNullOrWhiteSpace(Item.Description)).ToVisibility();
+
+            projectLabel.Text = Item.ProjectName;
+            projectLabel.SetTextColor(Color.ParseColor(Item.ProjectColor));
+            projectLabel.Visibility = Item.HasProject.ToVisibility();
+
+            clientLabel.Text = Item.ClientName;
+            clientLabel.Visibility = Item.HasProject.ToVisibility();
+        }
+
+        [Conditional("DEBUG")]
+        private void prefixWithProviderNameInDebug()
+        {
+            var prefix = Item.ProviderType.ToString().Substring(0, 4);
+            descriptionLabel.Text = $"{prefix} {Item.Description}";
         }
     }
-
 }

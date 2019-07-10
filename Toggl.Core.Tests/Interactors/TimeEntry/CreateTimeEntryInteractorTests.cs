@@ -236,7 +236,7 @@ namespace Toggl.Core.Tests.Interactors
                     Duration = prototype.Duration?.Ticks,
                     Description = prototype.Description,
                     TagIds = prototype.TagIds
-                });
+                }, SuggestionProviderType.MostUsedTimeEntries);
 
                 return InteractorFactory.StartSuggestion(suggestion).Execute();
             }

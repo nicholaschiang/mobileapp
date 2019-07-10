@@ -30,8 +30,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
-    <include
-        layout="@layout/MainRunningTimeEntry" />
+    <android.support.design.circularreveal.CircularRevealFrameLayout
+      android:id="@+id/MainRunningTimeEntrySheet"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:visibility="invisible"    
+      android:clickable="true"
+      android:focusable="true"
+      android:elevation="8dp"
+      android:layout_gravity="bottom|center_horizontal"
+      android:background="@android:color/white"
+      android:foreground="?android:attr/selectableItemBackground"
+      local:layout_behavior="toggl.droid.presentation.RunningTimeEntrySheetBehavior">
+        <include layout="@layout/MainRunningTimeEntry" />
+    </android.support.design.circularreveal.CircularRevealFrameLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/MainPlayButton"
         local:elevation="4dp"
@@ -44,12 +56,11 @@
         android:layout_gravity="bottom|right" />
     <android.support.v7.widget.Toolbar
         android:id="@+id/Toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:background="@color/toolbarBlack"
         local:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
         <ImageView
             android:src="@drawable/logo"
             android:layout_height="24dp"

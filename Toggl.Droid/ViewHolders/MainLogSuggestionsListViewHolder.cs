@@ -1,4 +1,8 @@
-﻿using Android.Runtime;
+﻿using System;
+using System.Collections.Immutable;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -13,6 +17,8 @@ using Toggl.Droid.Extensions;
 using Toggl.Droid.ViewHelpers;
 using Toggl.Shared.Extensions;
 using TogglResources = Toggl.Shared.Resources;
+using Toggl.Droid.Extensions.Reactive;
+using System.Linq;
 
 namespace Toggl.Droid.ViewHolders
 {
@@ -23,7 +29,6 @@ namespace Toggl.Droid.ViewHolders
         private TextView hintTextView;
         private TextView indicatorTextView;
         private RecyclerView suggestionsRecyclerView;
-        private MainSuggestionsRecyclerAdapter mainSuggestionsRecyclerAdapter;
 
         public CompositeDisposable DisposeBag { get; } = new CompositeDisposable();
 
@@ -39,42 +44,23 @@ namespace Toggl.Droid.ViewHolders
             indicatorTextView = ItemView.FindViewById<TextView>(Resource.Id.SuggestionsIndicatorTextView);
             suggestionsRecyclerView = ItemView.FindViewById<RecyclerView>(Resource.Id.SuggestionsRecyclerView);
 
-            suggestionsRecyclerView.SetLayoutManager(new LinearLayoutManager(ItemView.Context, LinearLayoutManager.Horizontal, false));
-            var snapMargin = 16.DpToPixels(ItemView.Context);
-            var snapHelper = new SuggestionsRecyclerViewSnapHelper(snapMargin);
-            snapHelper.AttachToRecyclerView(suggestionsRecyclerView);
+            var adapter = new SimpleAdapter<Suggestion>(Resource.Layout.MainSuggestionsCard, MainLogSuggestionItemViewHolder.Create);
+            suggestionsRecyclerView.SetLayoutManager(new LinearLayoutManager(ItemView.Context));
+            suggestionsRecyclerView.SetAdapter(adapter);
 
-
-            mainSuggestionsRecyclerAdapter = new MainSuggestionsRecyclerAdapter();
-
-            mainSuggestionsRecyclerAdapter.SuggestionTaps
+            adapter.ItemTapObservable
                 .Subscribe(suggestionsViewModel.StartTimeEntry.Inputs)
                 .DisposedBy(DisposeBag);
 
-            suggestionsRecyclerView.SetAdapter(mainSuggestionsRecyclerAdapter);
-
             suggestionsViewModel.Suggestions
-                .Subscribe(onSuggestionsChanged)
+                .Select(Enumerable.ToList)
+                .Subscribe(adapter.Rx().Items())
                 .DisposedBy(DisposeBag);
 
             suggestionsViewModel.IsEmpty
                 .Invert()
                 .Subscribe(updateViewVisibility)
                 .DisposedBy(DisposeBag);
-
-            var suggestionCount = suggestionsViewModel.Suggestions.Select(s => s.Length);
-            var currentIndexAndSuggestionCount =
-                Observable.CombineLatest(snapHelper.CurrentIndexObservable, suggestionCount,
-                    (currIndx, count) => (currIndx, count));
-
-            currentIndexAndSuggestionCount.Do(tuple =>
-            {
-                var currIdx = tuple.Item1;
-                var count = tuple.Item2;
-                onCurrentSuggestionIndexChanged(count, currIdx);
-            })
-            .Subscribe()
-            .DisposedBy(DisposeBag);
         }
 
         private void updateViewVisibility(bool visible)
@@ -101,30 +87,5 @@ namespace Toggl.Droid.ViewHolders
             DisposeBag.Dispose();
         }
 
-        private void onSuggestionsChanged(Suggestion[] suggestions)
-        {
-            mainSuggestionsRecyclerAdapter.UpdateDataset(suggestions.ToImmutableList());
-        }
-
-        private void onCurrentSuggestionIndexChanged(int numberOfSuggestions, int currentIndex)
-        {
-            switch (numberOfSuggestions)
-            {
-                case 0:
-                    return;
-
-                case 1:
-                    hintTextView.Text = TogglResources.WorkingOnThis;
-                    indicatorTextView.Visibility = ViewStates.Gone;
-                    break;
-
-                default:
-                    var indicatorText = $"{currentIndex} {TogglResources.Of.ToUpper()} {numberOfSuggestions}";
-                    hintTextView.Text = TogglResources.WorkingOnThese;
-                    indicatorTextView.Visibility = ViewStates.Visible;
-                    indicatorTextView.Text = indicatorText;
-                    break;
-            }
-        }
     }
 }

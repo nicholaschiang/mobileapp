@@ -1,5 +1,4 @@
 ﻿using Android.Support.V4.Widget;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
@@ -16,7 +15,6 @@ namespace Toggl.Droid.Fragments
         private View is24hoursModeView;
         private View runningTimerNotificationsView;
         private View stoppedTimerNotificationsView;
-        private View avatarContainer;
         private View dateFormatView;
         private View beginningOfWeekView;
         private View durationFormatView;
@@ -24,6 +22,7 @@ namespace Toggl.Droid.Fragments
         private View smartRemindersView;
         private View smartRemindersViewSeparator;
         private View groupTimeEntriesView;
+        private View defaultWorkspaceView;
 
         private TextView nameTextView;
         private TextView emailTextView;
@@ -32,8 +31,7 @@ namespace Toggl.Droid.Fragments
         private TextView beginningOfWeekTextView;
         private TextView durationFormatTextView;
         private TextView smartRemindersTextView;
-
-        private ImageView avatarView;
+        private TextView defaultWorkspaceNameTextView;
 
         private Switch is24hoursModeSwitch;
         private Switch manualModeSwitch;
@@ -43,7 +41,6 @@ namespace Toggl.Droid.Fragments
 
         private Toolbar toolbar;
         private NestedScrollView scrollView;
-        private RecyclerView workspacesRecyclerView;
 
         protected override void InitializeViews(View fragmentView)
         {
@@ -53,7 +50,6 @@ namespace Toggl.Droid.Fragments
             feedbackView = fragmentView.FindViewById(Resource.Id.SettingsSubmitFeedbackButton);
             manualModeView = fragmentView.FindViewById(Resource.Id.SettingsToggleManualModeView);
             is24hoursModeView = fragmentView.FindViewById(Resource.Id.SettingsIs24HourModeView);
-            avatarContainer = fragmentView.FindViewById(Resource.Id.SettingsViewAvatarImageContainer);
             dateFormatView = fragmentView.FindViewById(Resource.Id.SettingsDateFormatView);
             beginningOfWeekView = fragmentView.FindViewById(Resource.Id.SettingsSelectBeginningOfWeekView);
             durationFormatView = fragmentView.FindViewById(Resource.Id.SettingsDurationFormatView);
@@ -63,6 +59,7 @@ namespace Toggl.Droid.Fragments
             runningTimerNotificationsView = fragmentView.FindViewById(Resource.Id.SettingsRunningTimerNotificationsView);
             stoppedTimerNotificationsView = fragmentView.FindViewById(Resource.Id.SettingsStoppedTimerNotificationsView);
             groupTimeEntriesView = fragmentView.FindViewById(Resource.Id.GroupTimeEntriesView);
+            defaultWorkspaceView = fragmentView.FindViewById(Resource.Id.DefaultWorkspaceView);
 
             nameTextView = fragmentView.FindViewById<TextView>(Resource.Id.SettingsNameTextView);
             emailTextView = fragmentView.FindViewById<TextView>(Resource.Id.SettingsEmailTextView);
@@ -71,15 +68,14 @@ namespace Toggl.Droid.Fragments
             beginningOfWeekTextView = fragmentView.FindViewById<TextView>(Resource.Id.SettingsBeginningOfWeekTextView);
             durationFormatTextView = fragmentView.FindViewById<TextView>(Resource.Id.SettingsDurationFormatTextView);
             smartRemindersTextView = fragmentView.FindViewById<TextView>(Resource.Id.SmartRemindersTextView);
+            defaultWorkspaceNameTextView = fragmentView.FindViewById<TextView>(Resource.Id.DefaultWorkspaceName);
 
-            avatarView = fragmentView.FindViewById<ImageView>(Resource.Id.SettingsViewAvatarImage);
             manualModeSwitch = fragmentView.FindViewById<Switch>(Resource.Id.SettingsIsManualModeEnabledSwitch);
             is24hoursModeSwitch = fragmentView.FindViewById<Switch>(Resource.Id.SettingsIs24HourModeSwitch);
             runningTimerNotificationsSwitch = fragmentView.FindViewById<Switch>(Resource.Id.SettingsAreRunningTimerNotificationsEnabledSwitch);
             stoppedTimerNotificationsSwitch = fragmentView.FindViewById<Switch>(Resource.Id.SettingsAreStoppedTimerNotificationsEnabledSwitch);
             groupTimeEntriesSwitch = fragmentView.FindViewById<Switch>(Resource.Id.GroupTimeEntriesSwitch);
 
-            workspacesRecyclerView = fragmentView.FindViewById<RecyclerView>(Resource.Id.SettingsWorkspacesRecyclerView);
             toolbar = fragmentView.FindViewById<Toolbar>(Resource.Id.Toolbar);
 
             scrollView = fragmentView.FindViewById<NestedScrollView>(Resource.Id.ScrollView);

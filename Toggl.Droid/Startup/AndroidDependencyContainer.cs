@@ -106,11 +106,6 @@ namespace Toggl.Droid
         protected override IStopwatchProvider CreateStopwatchProvider()
             => new FirebaseStopwatchProviderAndroid();
 
-        protected override ISuggestionProviderContainer CreateSuggestionProviderContainer()
-            => new SuggestionProviderContainer(
-                new MostUsedTimeEntrySuggestionProvider(Database, TimeService, numberOfSuggestions)
-            );
-
         protected override IPushNotificationsTokenService CreatePushNotificationsTokenService()
             => new PushNotificationsTokenServiceAndroid();
 

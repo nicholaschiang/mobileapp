@@ -40,6 +40,7 @@ namespace Toggl.Droid.ViewHolders
             dayView.RoundLeft = Item.IsStartOfSelectedPeriod(selectedDateRange);
             dayView.RoundRight = Item.IsEndOfSelectedPeriod(selectedDateRange);
             dayView.IsSelected = Item.IsSelected(selectedDateRange);
+            dayView.IsSingleDaySelection = selectedDateRange.StartDate == selectedDateRange.EndDate;
         }
     }
 }

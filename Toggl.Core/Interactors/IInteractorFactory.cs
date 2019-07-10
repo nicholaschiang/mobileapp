@@ -145,8 +145,6 @@ namespace Toggl.Core.Interactors
 
         IInteractor<IObservable<IThreadSafeUser>> GetCurrentUser();
 
-        IInteractor<IObservable<byte[]>> GetUserAvatar(string url);
-
         IInteractor<IObservable<IThreadSafeUser>> UpdateUser(EditUserDTO dto);
 
         IInteractor<IObservable<IThreadSafeUser>> UpdateDefaultWorkspace(long selectedWorkspaceId);
@@ -231,6 +229,12 @@ namespace Toggl.Core.Interactors
         IInteractor<IObservable<ProjectSummaryReport>> GetProjectSummary(
             long workspaceId, DateTimeOffset startDate, DateTimeOffset? endDate);
 
+        #endregion
+
+        #region Suggestions
+
+        IInteractor<IObservable<IEnumerable<Suggestion>>> GetSuggestions(int count);
+        IInteractor<IObservable<IReadOnlyList<ISuggestionProvider>>> GetSuggestionProviders(int count);
         #endregion
 
         #region PushNotifications

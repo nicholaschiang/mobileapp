@@ -9,7 +9,6 @@ using Toggl.Core.Interactors;
 using Toggl.Core.Login;
 using Toggl.Core.Services;
 using Toggl.Core.Shortcuts;
-using Toggl.Core.Suggestions;
 using Toggl.Core.Sync;
 using Toggl.Core.Tests.Generators;
 using Toggl.Core.UI;
@@ -65,7 +64,6 @@ namespace Toggl.Core.Tests.UI
                 MockSchedulerProvider = Substitute.For<ISchedulerProvider>(),
                 MockShortcutCreator = Substitute.For<IApplicationShortcutCreator>(),
                 MockStopwatchProvider = Substitute.For<IStopwatchProvider>(),
-                MockSuggestionProviderContainer = Substitute.For<ISuggestionProviderContainer>(),
                 MockUserPreferences = Substitute.For<IUserPreferences>(),
                 MockInteractorFactory = Substitute.For<IInteractorFactory>(),
                 MockTimeService = Substitute.For<ITimeService>(),

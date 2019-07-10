@@ -1,4 +1,6 @@
-﻿using System.Reactive.Subjects;
+﻿using System.Collections.Immutable;
+using System.Reactive.Subjects;
+using Toggl.Core.UI.Helper;
 using Toggl.Core.Suggestions;
 using Toggl.Core.UI.Helper;
 using Toggl.iOS.Extensions;
@@ -48,7 +50,7 @@ namespace Toggl.iOS.Suggestions
             LayoutIfNeeded();
         }
 
-        public void OnSuggestions(Suggestion[] suggestions)
+        public void OnSuggestions(IImmutableList<Suggestion> suggestions)
         {
             foreach (UIView view in Subviews)
             {
@@ -62,7 +64,8 @@ namespace Toggl.iOS.Suggestions
                                ? suggestionHeightRegular
                                : suggestionHeightCompact;
 
-            for (int i = 0; i < suggestions.Length; i++)
+            var suggestionCount = suggestions.Count;
+            for (int i = 0; i < suggestionCount; i++)
             {
                 var suggestionView = SuggestionView.Create();
                 suggestionView.Suggestion = suggestions[i];
@@ -78,7 +81,7 @@ namespace Toggl.iOS.Suggestions
                     SuggestionTapped.OnNext(suggestionView.Suggestion);
                 }));
             }
-            heightConstraint.Constant = heightForSuggestionCount(suggestions.Length);
+            heightConstraint.Constant = heightForSuggestionCount(suggestionCount);
             heightConstraint.Active = true;
             SetNeedsLayout();
         }

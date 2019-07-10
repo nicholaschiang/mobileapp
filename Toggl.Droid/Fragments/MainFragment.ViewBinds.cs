@@ -13,7 +13,6 @@ namespace Toggl.Droid.Fragments
         private FloatingActionButton playButton;
         private FloatingActionButton stopButton;
         private CoordinatorLayout coordinatorLayout;
-        private View timeEntryCard;
         private TextView timeEntryCardTimerLabel;
         private TextView timeEntryCardDescriptionLabel;
         private TextView timeEntryCardAddDescriptionLabel;
@@ -31,11 +30,10 @@ namespace Toggl.Droid.Fragments
         protected override void InitializeViews(View fragmentView)
         {
             mainRecyclerView = fragmentView.FindViewById<RecyclerView>(Resource.Id.MainRecyclerView);
-            runningEntryCardFrame = fragmentView.FindViewById(Resource.Id.MainRunningTimeEntryFrame);
+            runningEntryCardFrame = fragmentView.FindViewById(Resource.Id.MainRunningTimeEntrySheet);
             playButton = fragmentView.FindViewById<FloatingActionButton>(Resource.Id.MainPlayButton);
             stopButton = fragmentView.FindViewById<FloatingActionButton>(Resource.Id.MainStopButton);
             coordinatorLayout = fragmentView.FindViewById<CoordinatorLayout>(Resource.Id.MainCoordinatorLayout);
-            timeEntryCard = fragmentView.FindViewById(Resource.Id.MainContentArea);
             timeEntryCardTimerLabel = fragmentView.FindViewById<TextView>(Resource.Id.MainRunningTimeEntryTimerLabel);
             timeEntryCardDescriptionLabel = fragmentView.FindViewById<TextView>(Resource.Id.MainRunningTimeEntryDescription);
             timeEntryCardAddDescriptionLabel = fragmentView.FindViewById<TextView>(Resource.Id.MainRunningTimeEntryAddDescriptionLabel);

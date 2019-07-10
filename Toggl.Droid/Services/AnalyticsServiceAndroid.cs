@@ -1,10 +1,12 @@
 ﻿using Android.OS;
+using Android.App;
 using Firebase.Analytics;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using Toggl.Core.Analytics;
+using AppCenterAnalytics = Microsoft.AppCenter.Analytics.Analytics;
 
 namespace Toggl.Droid.Services
 {

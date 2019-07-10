@@ -220,37 +220,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
         }
 
-        public sealed class TheUserAvatarObservable : SettingsViewModelTest
-        {
-            [Fact, LogIfTooSlow]
-            public void EmitsWheneverTheUserImageChanges()
-            {
-                var observer = TestScheduler.CreateObserver<byte[]>();
-                ViewModel.UserAvatar.Subscribe(observer);
-
-                UserSubject.OnNext(new MockUser { ImageUrl = "http://toggl.com/image.jpg" });
-                UserSubject.OnNext(new MockUser { ImageUrl = "http://toggl.com/image.jpg" });
-                UserSubject.OnNext(new MockUser { ImageUrl = "http://toggl.com/image2.jpg" });
-                TestScheduler.Start();
-
-                observer.Messages.Count.Should().Be(2);
-            }
-
-            [Fact, LogIfTooSlow]
-            public void CallsTheImageDownloadInteractor()
-            {
-                var observer = TestScheduler.CreateObserver<byte[]>();
-                ViewModel.UserAvatar.Subscribe(observer);
-
-                UserSubject.OnNext(new MockUser { ImageUrl = "http://toggl.com/image.jpg" });
-                UserSubject.OnNext(new MockUser { ImageUrl = "http://toggl.com/image.jpg" });
-                UserSubject.OnNext(new MockUser { ImageUrl = "http://toggl.com/image2.jpg" });
-                TestScheduler.Start();
-
-                InteractorFactory.Received(2).GetUserAvatar(Arg.Any<string>());
-            }
-        }
-
         public sealed class TheTryLogoutMethod : SettingsViewModelTest
         {
             [Fact, LogIfTooSlow]

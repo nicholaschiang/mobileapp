@@ -3,62 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     app:cardUseCompatPadding="true"
-    android:layout_width="wrap_content"
-    android:layout_height="64dp">
-    <FrameLayout
-        android:layout_height="wrap_content"
+    android:layout_height="64dp"
+    android:layout_width="match_parent"
+    android:foreground="?attr/selectableItemBackground">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ViewLayout"
+        android:layout_height="match_parent"
         android:layout_width="match_parent">
-        <RelativeLayout
-            android:layout_gravity="center_vertical|left"
+        <android.support.constraint.Guideline
+            app:layout_constraintGuide_percent="0.5"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/DescriptionLabel"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            tools:text="Exporting assets to Zeplin and organizing"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ProjectLabel"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/ProjectLabel"
+            tools:text="Design"
+            tools:textColor="#c56bff"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-            <TextView
-                android:id="@+id/TimeEntriesLogCellDescriptionLabel"
-                android:maxLines="1"
-                android:textSize="15sp"
-                android:textColor="@android:color/black"
-                tools:text="Exporting assets to Zeplin and organizing"
-                android:layout_marginLeft="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true" />
-            <TextView
-                android:id="@+id/TimeEntriesLogCellProjectLabel"
-                tools:text="Design"
-                tools:textColor="#c56bff"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginLeft="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/TimeEntriesLogCellDescriptionLabel"
-                android:layout_alignParentLeft="true" />
-            <TextView
-                android:id="@+id/TimeEntriesLogCellClientLabel"
-                tools:text="Toggl"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/clientName"
-                android:layout_marginLeft="4dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/TimeEntriesLogCellDescriptionLabel"
-                android:layout_toRightOf="@id/TimeEntriesLogCellProjectLabel" />
-        </RelativeLayout>
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_below="@+id/DescriptionLabel"
+            app:layout_constraintTop_toBottomOf="@id/DescriptionLabel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <TextView
+            android:id="@+id/ClientLabel"
+            tools:text="Toggl"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/clientName"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DescriptionLabel"
+            app:layout_constraintBaseline_toBaselineOf="@id/ProjectLabel"
+            app:layout_constraintLeft_toRightOf="@id/ProjectLabel"
+            />
         <View
-            android:layout_gravity="fill_vertical|right"
             android:background="@drawable/TransparentToWhiteGradient"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="68dp"
             android:layout_height="match_parent" />
         <ImageView
             android:layout_gravity="center_vertical|right"
-            android:id="@+id/TimeEntriesLogCellContinueImage"
+            android:id="@+id/ContinueButton"
             android:src="@drawable/play"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="12dp"
             android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="12dp" />
-    </FrameLayout>
+            android:layout_height="24dp" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

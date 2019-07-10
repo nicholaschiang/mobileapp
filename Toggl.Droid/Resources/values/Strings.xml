@@ -65,6 +65,8 @@ your app to continue.</string>
     <string name="StartTimeAfterStopTimeWarning">Start time must be before Stop time!</string>
     <string name="StopTimeBeforeStartTimeWarning">Stop time must be after Start time!</string>
     <string name="DurationTooLong">Duration can\'t exceed 999 hours!</string>
+    <string name="Username">Username</string>
+    <string name="YourProfile">Your Profile</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
     <string name="SignUpForFree">Sign up for free</string>

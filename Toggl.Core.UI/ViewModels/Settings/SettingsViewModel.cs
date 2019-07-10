@@ -68,7 +68,6 @@ namespace Toggl.Core.UI.ViewModels
         public IObservable<string> Email { get; }
         public IObservable<bool> IsSynced { get; }
         public IObservable<Unit> LoggingOut { get; }
-        public IObservable<byte[]> UserAvatar { get; }
         public IObservable<string> DateFormat { get; }
         public IObservable<bool> IsRunningSync { get; }
         public IObservable<string> WorkspaceName { get; }
@@ -79,7 +78,6 @@ namespace Toggl.Core.UI.ViewModels
         public IObservable<bool> AreRunningTimerNotificationsEnabled { get; }
         public IObservable<bool> AreStoppedTimerNotificationsEnabled { get; }
         public IObservable<bool> UseTwentyFourHourFormat { get; }
-        public IObservable<IList<SelectableWorkspaceViewModel>> Workspaces { get; }
         public IObservable<bool> IsFeedbackSuccessViewShowing { get; }
         public IObservable<bool> IsCalendarSmartRemindersVisible { get; }
         public IObservable<string> CalendarSmartReminders { get; }
@@ -99,8 +97,6 @@ namespace Toggl.Core.UI.ViewModels
         public UIAction SelectDurationFormat { get; }
         public UIAction ToggleTimeEntriesGrouping { get; }
         public UIAction SelectBeginningOfWeek { get; }
-
-        public InputAction<SelectableWorkspaceViewModel> SelectDefaultWorkspace { get; }
 
         public SettingsViewModel(
             ITogglDataSource dataSource,
@@ -227,24 +223,6 @@ namespace Toggl.Core.UI.ViewModels
                 .Select(s => s.Title())
                 .DistinctUntilChanged();
 
-            UserAvatar =
-                dataSource.User.Current
-                    .Select(user => user.ImageUrl)
-                    .DistinctUntilChanged()
-                    .SelectMany(url => interactorFactory.GetUserAvatar(url).Execute())
-                    .AsDriver(schedulerProvider)
-                    .Where(avatar => avatar != null);
-
-            Workspaces =
-                dataSource.User.Current
-                    .DistinctUntilChanged(user => user.DefaultWorkspaceId)
-                    .SelectMany(user => interactorFactory
-                        .GetAllWorkspaces()
-                        .Execute()
-                        .Select(selectableWorkspacesFromWorkspaces(user))
-                    )
-                    .AsDriver(schedulerProvider);
-
             LoggingOut = loggingOutSubject.AsObservable()
                 .AsDriver(schedulerProvider);
 
@@ -278,7 +256,6 @@ namespace Toggl.Core.UI.ViewModels
             SelectDurationFormat = rxActionFactory.FromAsync(selectDurationFormat);
             SelectBeginningOfWeek = rxActionFactory.FromAsync(selectBeginningOfWeek);
             ToggleTimeEntriesGrouping = rxActionFactory.FromAsync(toggleTimeEntriesGrouping);
-            SelectDefaultWorkspace = rxActionFactory.FromAsync<SelectableWorkspaceViewModel>(selectDefaultWorkspace);
         }
 
         public override async Task Initialize()
@@ -301,9 +278,6 @@ namespace Toggl.Core.UI.ViewModels
         {
             isFeedbackSuccessViewShowing.OnNext(false);
         }
-
-        private Task selectDefaultWorkspace(SelectableWorkspaceViewModel workspace)
-            => changeDefaultWorkspace(workspace.WorkspaceId);
 
         private async Task toggleUseTwentyFourHourClock()
         {
@@ -389,20 +363,6 @@ namespace Toggl.Core.UI.ViewModels
             syncManager.InitiatePushSync();
         }
 
-        private async Task changeDefaultWorkspace(long selectedWorkspaceId)
-        {
-            if (selectedWorkspaceId == currentUser.DefaultWorkspaceId) return;
-
-            await interactorFactory.UpdateDefaultWorkspace(selectedWorkspaceId).Execute();
-            syncManager.InitiatePushSync();
-        }
-
-        private WorkspaceToSelectableWorkspaceLambda selectableWorkspacesFromWorkspaces(IThreadSafeUser user)
-            => workspaces
-                => workspaces
-                    .Select(workspace => new SelectableWorkspaceViewModel(workspace, user.DefaultWorkspaceId == workspace.Id))
-                    .ToList();
-
         private Task openHelpView() =>
             Browser.OpenAsync(platformInfo.HelpUrl, BrowserLaunchMode.SystemPreferred);
 
@@ -459,7 +419,11 @@ namespace Toggl.Core.UI.ViewModels
             var selectedWorkspaceId =
                 await Navigate<SelectWorkspaceViewModel, SelectWorkspaceParameters, long>(new SelectWorkspaceParameters(Resources.SetDefaultWorkspace, defaultWorkspace.Id));
 
-            await changeDefaultWorkspace(selectedWorkspaceId);
+            if (selectedWorkspaceId == currentUser.DefaultWorkspaceId)
+                return;
+
+            await interactorFactory.UpdateDefaultWorkspace(selectedWorkspaceId).Execute();
+            syncManager.InitiatePushSync();
         }
 
         private async Task toggleTimeEntriesGrouping()

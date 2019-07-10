@@ -26,12 +26,6 @@
                 <outlet property="StartTimerBubbleLabel" destination="LCs-H0-PO4" id="bdv-dz-y3n"/>
                 <outlet property="StopTimeEntryButton" destination="Ddo-IW-xE3" id="name-outlet-Ddo-IW-xE3"/>
                 <outlet property="StopTimeEntryOnboardingBubbleView" destination="0wI-i0-MgR" id="7ci-ti-Pzx"/>
-                <outlet property="SwipeLeftBubbleLabel" destination="ew1-f0-nHV" id="OeD-uU-CFT"/>
-                <outlet property="SwipeLeftBubbleView" destination="w5c-30-czh" id="oMl-ro-PFr"/>
-                <outlet property="SwipeLeftTopConstraint" destination="1QN-yf-d6n" id="8xq-DF-a2A"/>
-                <outlet property="SwipeRightBubbleLabel" destination="vpg-kC-wnj" id="MZX-xP-069"/>
-                <outlet property="SwipeRightBubbleView" destination="VHN-jJ-Qpp" id="oeb-7j-iBq"/>
-                <outlet property="SwipeRightTopConstraint" destination="yZb-Q0-xGk" id="DPN-b2-dd6"/>
                 <outlet property="TapToEditBubbleView" destination="r2K-j0-0fe" id="5NI-TL-kin"/>
                 <outlet property="TapToEditBubbleViewTopConstraint" destination="ont-yx-MAU" id="QCK-PQ-IXf"/>
                 <outlet property="TapToEditItLabel" destination="UiD-si-fSa" id="hAZ-EM-lj9"/>
@@ -96,84 +90,6 @@ time entries will appear here.</string>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="9i2-Mn-2T6"/>
                             </constraints>
-                        </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHN-jJ-Qpp" userLabel="Swipe right bubble">
-                            <rect key="frame" x="8" y="307" width="214" height="45"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe right to continue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpg-kC-wnj">
-                                    <rect key="frame" x="32" y="14" width="150" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UaO-Mi-RWJ">
-                                    <rect key="frame" x="27" y="39" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="10" id="W5G-H0-Y3E"/>
-                                        <constraint firstAttribute="width" constant="10" id="mNd-P6-sGG"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.transform.rotation.z">
-                                            <real key="value" value="0.78500000000000003"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstItem="vpg-kC-wnj" firstAttribute="top" secondItem="VHN-jJ-Qpp" secondAttribute="top" constant="14" id="22n-ev-X6h"/>
-                                <constraint firstItem="vpg-kC-wnj" firstAttribute="leading" secondItem="VHN-jJ-Qpp" secondAttribute="leading" constant="32" id="32F-gG-hj5"/>
-                                <constraint firstAttribute="trailing" secondItem="vpg-kC-wnj" secondAttribute="trailing" constant="32" id="DQi-6Y-zAu"/>
-                                <constraint firstAttribute="bottom" secondItem="UaO-Mi-RWJ" secondAttribute="top" constant="6" id="J2i-FL-Zgp"/>
-                                <constraint firstAttribute="bottom" secondItem="vpg-kC-wnj" secondAttribute="bottom" constant="14" id="Jj9-0t-G3M"/>
-                                <constraint firstItem="UaO-Mi-RWJ" firstAttribute="leading" secondItem="VHN-jJ-Qpp" secondAttribute="leading" constant="27" id="RPQ-gz-Hr9"/>
-                                <constraint firstItem="vpg-kC-wnj" firstAttribute="centerY" secondItem="VHN-jJ-Qpp" secondAttribute="centerY" id="koT-S9-BeL"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w5c-30-czh" userLabel="Swipe left bubble">
-                            <rect key="frame" x="178" y="400" width="189" height="45"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left to delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ew1-f0-nHV">
-                                    <rect key="frame" x="32" y="14" width="125" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="206-Bq-Xvx">
-                                    <rect key="frame" x="152" y="39" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="10" id="Jcj-c4-scr"/>
-                                        <constraint firstAttribute="width" constant="10" id="MO9-wN-6bh"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.transform.rotation.z">
-                                            <real key="value" value="0.78500000000000003"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="bottom" secondItem="ew1-f0-nHV" secondAttribute="bottom" constant="14" id="242-KC-rih"/>
-                                <constraint firstAttribute="trailing" secondItem="206-Bq-Xvx" secondAttribute="trailing" constant="27" id="AV0-by-iuM"/>
-                                <constraint firstItem="ew1-f0-nHV" firstAttribute="top" secondItem="w5c-30-czh" secondAttribute="top" constant="14" id="FtO-jx-Bku"/>
-                                <constraint firstAttribute="trailing" secondItem="ew1-f0-nHV" secondAttribute="trailing" constant="32" id="IFa-Ya-FJi"/>
-                                <constraint firstItem="ew1-f0-nHV" firstAttribute="leading" secondItem="w5c-30-czh" secondAttribute="leading" constant="32" id="LDr-uO-pfR"/>
-                                <constraint firstAttribute="bottom" secondItem="206-Bq-Xvx" secondAttribute="top" constant="6" id="p95-dy-aT4"/>
-                                <constraint firstItem="ew1-f0-nHV" firstAttribute="centerY" secondItem="w5c-30-czh" secondAttribute="centerY" id="rGd-na-MV2"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r2K-j0-0fe">
                             <rect key="frame" x="16" y="200" width="343" height="68"/>
@@ -253,23 +169,19 @@ time entries will appear here.</string>
                     <accessibility key="accessibilityConfiguration" label="TimeEntriesCollection"/>
                     <constraints>
                         <constraint firstItem="Xqe-XF-nVb" firstAttribute="centerX" secondItem="Jhd-oR-xIN" secondAttribute="centerX" placeholder="YES" id="00e-VD-Qmg"/>
-                        <constraint firstItem="w5c-30-czh" firstAttribute="top" secondItem="Jhd-oR-xIN" secondAttribute="top" constant="400" id="1QN-yf-d6n"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hoP-Tg-vBM" secondAttribute="trailing" id="1QU-tG-qGu"/>
                         <constraint firstItem="niU-tX-YTJ" firstAttribute="top" secondItem="Jhd-oR-xIN" secondAttribute="top" id="4NL-xh-dB2"/>
                         <constraint firstItem="Xqe-XF-nVb" firstAttribute="top" secondItem="Jhd-oR-xIN" secondAttribute="top" constant="239" placeholder="YES" id="62i-O9-M2r"/>
                         <constraint firstAttribute="bottom" secondItem="hoP-Tg-vBM" secondAttribute="bottom" id="E1H-dm-543"/>
                         <constraint firstItem="niU-tX-YTJ" firstAttribute="leading" secondItem="Jhd-oR-xIN" secondAttribute="leading" id="PBF-qP-0Bd"/>
                         <constraint firstItem="hoP-Tg-vBM" firstAttribute="leading" secondItem="Jhd-oR-xIN" secondAttribute="leading" priority="750" id="b5K-aJ-504"/>
-                        <constraint firstItem="VHN-jJ-Qpp" firstAttribute="leading" secondItem="hoP-Tg-vBM" secondAttribute="leading" constant="8" id="gWs-jm-NJ6"/>
                         <constraint firstItem="hoP-Tg-vBM" firstAttribute="top" secondItem="Jhd-oR-xIN" secondAttribute="top" id="kGY-lz-B5m"/>
                         <constraint firstAttribute="trailing" secondItem="hoP-Tg-vBM" secondAttribute="trailing" priority="750" id="l5Y-zT-bpE"/>
                         <constraint firstAttribute="trailing" secondItem="niU-tX-YTJ" secondAttribute="trailing" id="nAW-O6-gVs"/>
                         <constraint firstAttribute="trailing" secondItem="r2K-j0-0fe" secondAttribute="trailing" priority="750" constant="16" id="oPZ-Aa-oZE"/>
                         <constraint firstItem="r2K-j0-0fe" firstAttribute="leading" secondItem="Jhd-oR-xIN" secondAttribute="leading" priority="750" constant="16" id="ob8-RK-VrH"/>
                         <constraint firstItem="r2K-j0-0fe" firstAttribute="top" secondItem="Jhd-oR-xIN" secondAttribute="top" constant="200" id="ont-yx-MAU"/>
-                        <constraint firstItem="hoP-Tg-vBM" firstAttribute="trailing" secondItem="w5c-30-czh" secondAttribute="trailing" constant="8" id="uiW-XF-Y2B"/>
                         <constraint firstItem="hoP-Tg-vBM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Jhd-oR-xIN" secondAttribute="leading" id="wvc-Uc-0p0"/>
-                        <constraint firstItem="VHN-jJ-Qpp" firstAttribute="top" secondItem="Jhd-oR-xIN" secondAttribute="top" constant="307" id="yZb-Q0-xGk"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Kk-Hz-RBS">

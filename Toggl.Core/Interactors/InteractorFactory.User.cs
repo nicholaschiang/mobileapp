@@ -6,9 +6,6 @@ namespace Toggl.Core.Interactors
 {
     public sealed partial class InteractorFactory : IInteractorFactory
     {
-        public IInteractor<IObservable<byte[]>> GetUserAvatar(string url)
-            => new GetUserAvatarInteractor(url);
-
         public IInteractor<IObservable<IThreadSafeUser>> GetCurrentUser()
            => new GetCurrentUserInteractor(dataSource.User);
 

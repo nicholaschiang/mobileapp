@@ -62,24 +62,6 @@ namespace Toggl.iOS.ViewControllers
 		UIKit.UIView StopTimeEntryOnboardingBubbleView { get; set; }
 
 		[Outlet]
-		UIKit.UILabel SwipeLeftBubbleLabel { get; set; }
-
-		[Outlet]
-		UIKit.UIView SwipeLeftBubbleView { get; set; }
-
-		[Outlet]
-		UIKit.NSLayoutConstraint SwipeLeftTopConstraint { get; set; }
-
-		[Outlet]
-		UIKit.UILabel SwipeRightBubbleLabel { get; set; }
-
-		[Outlet]
-		UIKit.UIView SwipeRightBubbleView { get; set; }
-
-		[Outlet]
-		UIKit.NSLayoutConstraint SwipeRightTopConstraint { get; set; }
-
-		[Outlet]
 		UIKit.UIView TapToEditBubbleView { get; set; }
 
 		[Outlet]
@@ -134,27 +116,7 @@ namespace Toggl.iOS.ViewControllers
 				StopTimeEntryOnboardingBubbleView = null;
 			}
 
-			if (SwipeLeftBubbleView != null) {
-				SwipeLeftBubbleView.Dispose ();
-				SwipeLeftBubbleView = null;
-			}
-
-			if (SwipeLeftTopConstraint != null) {
-				SwipeLeftTopConstraint.Dispose ();
-				SwipeLeftTopConstraint = null;
-			}
-
-			if (SwipeRightBubbleView != null) {
-				SwipeRightBubbleView.Dispose ();
-				SwipeRightBubbleView = null;
-			}
-
-			if (SwipeRightTopConstraint != null) {
-				SwipeRightTopConstraint.Dispose ();
-				SwipeRightTopConstraint = null;
-			}
-
-			if (TapToEditBubbleView != null) {
+            if (TapToEditBubbleView != null) {
 				TapToEditBubbleView.Dispose ();
 				TapToEditBubbleView = null;
 			}
@@ -219,11 +181,6 @@ namespace Toggl.iOS.ViewControllers
 				StopTimeEntryButton = null;
 			}
 
-			if (SwipeRightBubbleLabel != null) {
-				SwipeRightBubbleLabel.Dispose ();
-				SwipeRightBubbleLabel = null;
-			}
-
 			if (WelcomeBackLabel != null) {
 				WelcomeBackLabel.Dispose ();
 				WelcomeBackLabel = null;
@@ -234,12 +191,7 @@ namespace Toggl.iOS.ViewControllers
 				WelcomeBackDescriptionLabel = null;
 			}
 
-			if (SwipeLeftBubbleLabel != null) {
-				SwipeLeftBubbleLabel.Dispose ();
-				SwipeLeftBubbleLabel = null;
-			}
-
-			if (CreatedFirstTimeEntryLabel != null) {
+            if (CreatedFirstTimeEntryLabel != null) {
 				CreatedFirstTimeEntryLabel.Dispose ();
 				CreatedFirstTimeEntryLabel = null;
 			}

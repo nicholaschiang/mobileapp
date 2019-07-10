@@ -66,6 +66,18 @@ namespace Toggl.Droid.Views
             }
         }
 
+        private bool isSingleDaySelection;
+
+        public bool IsSingleDaySelection
+        {
+            get => isSingleDaySelection;
+            set
+            {
+                isSingleDaySelection = value;
+                PostInvalidate();
+            }
+        }
+
         public ReportsCalendarDayView(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         {
@@ -111,24 +123,36 @@ namespace Toggl.Droid.Views
 
             if (IsSelected)
             {
-                var roundRect = new RectF(0, verticalPadding, width, height + verticalPadding);
-                canvas.DrawRoundRect(roundRect, cornerRadius, cornerRadius, selectedPaint);
+                if (IsSingleDaySelection)
+                {
+                    drawCircle(canvas, width, height, selectedPaint);
+                }
+                else
+                {
+                    var roundRect = new RectF(0, verticalPadding, width, height + verticalPadding);
+                    canvas.DrawRoundRect(roundRect, cornerRadius, cornerRadius, selectedPaint);
 
-                var squareRectLeft = RoundLeft ? cornerRadius : 0;
-                var squareRectRight = width - (RoundRight ? cornerRadius : 0);
-                var squareRect = new RectF(squareRectLeft, verticalPadding, squareRectRight, height + verticalPadding);
-                canvas.DrawRect(squareRect, selectedPaint);
+                    var squareRectLeft = RoundLeft ? cornerRadius : 0;
+                    var squareRectRight = width - (RoundRight ? cornerRadius : 0);
+                    var squareRect = new RectF(squareRectLeft, verticalPadding, squareRectRight, height + verticalPadding);
+                    canvas.DrawRect(squareRect, selectedPaint);
+                }
             }
             else if (IsToday)
             {
-                var centerX = width / 2;
-                var centerY = height / 2 + verticalPadding;
-                var radius = Math.Min(width, height) / 2;
-
-                canvas.DrawCircle(centerX, centerY, radius, circlePaint);
+                drawCircle(canvas, width, height, circlePaint);
             }
 
             base.Draw(canvas);
+        }
+
+        private void drawCircle(Canvas canvas, float width, float height, Paint paint)
+        {
+            var centerX = width / 2;
+            var centerY = height / 2 + verticalPadding;
+            var radius = Math.Min(width, height) / 2;
+
+            canvas.DrawCircle(centerX, centerY, radius, paint);
         }
     }
 }

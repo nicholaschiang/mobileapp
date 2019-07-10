@@ -2,6 +2,7 @@ using Foundation;
 using Toggl.Core;
 using Toggl.Core.UI;
 using Toggl.Core.UI.Navigation;
+using Toggl.Core.UI.Parameters;
 using Toggl.Core.UI.ViewModels;
 using Toggl.iOS.Presentation;
 using UIKit;
@@ -101,7 +102,7 @@ namespace Toggl.iOS
                     navigationService.Navigate<OutdatedAppViewModel>(null);
                     return;
                 case AccessLevel.NotLoggedIn:
-                    navigationService.Navigate<OnboardingViewModel>(null);
+                    navigationService.Navigate<LoginViewModel, CredentialsParameter>(CredentialsParameter.Empty, null);
                     return;
                 case AccessLevel.TokenRevoked:
                     navigationService.Navigate<TokenResetViewModel>(null);

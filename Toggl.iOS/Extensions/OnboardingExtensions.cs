@@ -1,16 +1,12 @@
 ﻿using CoreFoundation;
 using CoreGraphics;
 using System;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading;
 using Toggl.Core.UI.Helper;
-using Toggl.iOS.Views;
 using Toggl.Storage.Extensions;
 using Toggl.Storage.Onboarding;
 using Toggl.Storage.Settings;
 using UIKit;
-using static System.Math;
 
 namespace Toggl.iOS.Extensions
 {
@@ -108,71 +104,6 @@ namespace Toggl.iOS.Extensions
             var dismissableStep = step.ToDismissable(step.GetType().FullName, storage);
             dismissableStep.DismissByTapping(tooltip);
             return dismissableStep.ManageVisibilityOf(tooltip);
-        }
-
-        public static UIPanGestureRecognizer DismissBySwiping(this DismissableOnboardingStep step, TimeEntriesLogViewCell cell, Direction direction)
-        {
-            async void onGesture(UIPanGestureRecognizer recognizer)
-            {
-                var isOneTouch = recognizer.NumberOfTouches == 1;
-                var isVisible = await step.ShouldBeVisible.FirstAsync();
-                var isInDesiredDirection = Sign(recognizer.VelocityInView(cell).X) == Sign((int)direction);
-                if (isOneTouch && isVisible && isInDesiredDirection)
-                    step.Dismiss();
-            }
-
-            var panGestureRecognizer = new UIPanGestureRecognizer(onGesture)
-            {
-                ShouldRecognizeSimultaneously = (a, b) => true
-            };
-
-            IDisposable visibilityDisposable = null;
-            visibilityDisposable = step.ShouldBeVisible
-                .Where(visible => visible == false)
-                .ObserveOn(SynchronizationContext.Current)
-                .Subscribe(_ =>
-                {
-                    cell.RemoveGestureRecognizer(panGestureRecognizer);
-                    visibilityDisposable?.Dispose();
-                });
-
-            cell.AddGestureRecognizer(panGestureRecognizer);
-
-            return panGestureRecognizer;
-        }
-
-        public static IDisposable ManageSwipeActionAnimationOf(this IOnboardingStep step, TimeEntriesLogViewCell cell, Direction direction)
-        {
-            IDisposable animation = null;
-            void toggleVisibility(bool shouldBeVisible)
-            {
-                var isVisible = animation != null;
-                if (isVisible == shouldBeVisible) return;
-
-                if (shouldBeVisible)
-                {
-                    animation = cell.RevealSwipeActionAnimation(direction);
-                }
-                else
-                {
-                    cell.Layer.RemoveAnimation(direction.ToString());
-                    animation?.Dispose();
-                    animation = null;
-                }
-            }
-
-            var subscriptionDisposable = step.ShouldBeVisible.Subscribe(toggleVisibility);
-
-            return Disposable.Create(() =>
-            {
-                cell?.Layer.RemoveAllAnimations();
-
-                animation?.Dispose();
-                animation = null;
-
-                subscriptionDisposable?.Dispose();
-                subscriptionDisposable = null;
-            });
         }
 
         private static void addTooltipCloseIcon(this UIView tooltip)

@@ -4,6 +4,7 @@
     android:id="@+id/SelectProjectProjectCell"
     android:elevation="1dp"
     android:background="@android:color/white"
+    android:foreground="?android:attr/selectableItemBackground"               
     android:layout_height="48dp"
     android:layout_width="match_parent">
     <View

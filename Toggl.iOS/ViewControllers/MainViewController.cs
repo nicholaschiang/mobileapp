@@ -61,15 +61,8 @@ namespace Toggl.iOS.ViewControllers
         private CancellationTokenSource cardAnimationCancellation;
 
         private DismissableOnboardingStep tapToEditStep;
-        private DismissableOnboardingStep swipeLeftStep;
-        private DismissableOnboardingStep swipeRightStep;
-
-        private UIGestureRecognizer swipeLeftGestureRecognizer;
 
         private CompositeDisposable disposeBag = new CompositeDisposable();
-
-        private IDisposable swipeLeftAnimationDisposable;
-        private IDisposable swipeRightAnimationDisposable;
 
         private Subject<Unit> traitCollectionSubject = new Subject<Unit>();
 
@@ -92,8 +85,6 @@ namespace Toggl.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
-            SwipeRightBubbleLabel.Text = Resources.SwipeRightToContinue;
-            SwipeLeftBubbleLabel.Text = Resources.SwipeLeftToDelete;
             WelcomeBackLabel.Text = Resources.LogEmptyStateTitle;
             WelcomeBackDescriptionLabel.Text = Resources.LogEmptyStateText;
             CreatedFirstTimeEntryLabel.Text = Resources.YouHaveCreatedYourFirstTimeEntry;
@@ -159,14 +150,6 @@ namespace Toggl.iOS.ViewControllers
             ViewModel.TimeEntriesViewModel.TimeEntriesPendingDeletion
                 .Subscribe(toggleUndoDeletion)
                 .DisposedBy(DisposeBag);
-
-            tableViewSource.SwipeToContinue
-                .Subscribe(_ => swipeRightStep.Dismiss())
-                .DisposedBy(disposeBag);
-
-            tableViewSource.SwipeToDelete
-                .Subscribe(_ => swipeLeftStep.Dismiss())
-                .DisposedBy(disposeBag);
 
             // Refresh Control
             var refreshControl = new RefreshControl(
@@ -704,38 +687,6 @@ namespace Toggl.iOS.ViewControllers
 
             tapToEditStep.DismissByTapping(TapToEditBubbleView);
             tapToEditStep.ManageVisibilityOf(TapToEditBubbleView).DisposedBy(disposeBag);
-
-            prepareSwipeGesturesOnboarding(storage, tapToEditStep.ShouldBeVisible);
-        }
-
-        private void prepareSwipeGesturesOnboarding(IOnboardingStorage storage, IObservable<bool> tapToEditStepIsVisible)
-        {
-            var timeEntriesCount = ViewModel.TimeEntriesCount;
-
-            var swipeRightCanBeShown =
-                UIDevice.CurrentDevice.CheckSystemVersion(11, 0)
-                    ? tapToEditStepIsVisible.Select(isVisible => !isVisible)
-                    : Observable.Return(false);
-
-            swipeRightStep = new SwipeRightOnboardingStep(swipeRightCanBeShown, timeEntriesCount)
-                .ToDismissable(nameof(SwipeRightOnboardingStep), storage);
-
-            var swipeLeftCanBeShown = Observable.CombineLatest(
-                tapToEditStepIsVisible,
-                swipeRightStep.ShouldBeVisible,
-                (tapToEditIsVisible, swipeRightIsVisble) => !tapToEditIsVisible && !swipeRightIsVisble);
-            swipeLeftStep = new SwipeLeftOnboardingStep(swipeLeftCanBeShown, timeEntriesCount)
-                .ToDismissable(nameof(SwipeLeftOnboardingStep), storage);
-
-            swipeLeftStep.DismissByTapping(SwipeLeftBubbleView);
-            swipeLeftStep.ManageVisibilityOf(SwipeLeftBubbleView).DisposedBy(disposeBag);
-            swipeLeftAnimationDisposable = swipeLeftStep.ManageSwipeActionAnimationOf(firstTimeEntryCell, Direction.Left);
-
-            swipeRightStep.DismissByTapping(SwipeRightBubbleView);
-            swipeRightStep.ManageVisibilityOf(SwipeRightBubbleView).DisposedBy(disposeBag);
-            swipeRightAnimationDisposable = swipeRightStep.ManageSwipeActionAnimationOf(firstTimeEntryCell, Direction.Right);
-
-            updateSwipeDismissGestures(firstTimeEntryCell);
         }
 
         private void onTableScroll(CGPoint offset)
@@ -745,40 +696,19 @@ namespace Toggl.iOS.ViewControllers
 
         private void onFirstTimeEntryChanged(TimeEntriesLogViewCell nextFirstTimeEntry)
         {
-            updateSwipeDismissGestures(nextFirstTimeEntry);
             firstTimeEntryCell = nextFirstTimeEntry;
             updateTooltipPositions();
         }
 
         private void updateTooltipPositions()
         {
-            if (TapToEditBubbleView.Hidden && SwipeLeftBubbleView.Hidden && SwipeRightBubbleView.Hidden) return;
+            if (TapToEditBubbleView.Hidden) return;
             if (firstTimeEntryCell == null) return;
 
             var position = TimeEntriesLogTableView.ConvertRectToView(
                 firstTimeEntryCell.Frame, TimeEntriesLogTableView.Superview);
 
             TapToEditBubbleViewTopConstraint.Constant = position.Bottom + tooltipOffset;
-            SwipeLeftTopConstraint.Constant = position.Y - SwipeLeftBubbleView.Frame.Height - tooltipOffset;
-            SwipeRightTopConstraint.Constant = position.Y - SwipeRightBubbleView.Frame.Height - tooltipOffset;
-        }
-
-        private void updateSwipeDismissGestures(TimeEntriesLogViewCell nextFirstTimeEntry)
-        {
-            if (swipeLeftGestureRecognizer != null)
-            {
-                firstTimeEntryCell?.RemoveGestureRecognizer(swipeLeftGestureRecognizer);
-            }
-
-            swipeLeftAnimationDisposable?.Dispose();
-            swipeRightAnimationDisposable?.Dispose();
-
-            if (nextFirstTimeEntry == null) return;
-
-            swipeLeftAnimationDisposable = swipeLeftStep.ManageSwipeActionAnimationOf(nextFirstTimeEntry, Direction.Left);
-            swipeRightAnimationDisposable = swipeRightStep.ManageSwipeActionAnimationOf(nextFirstTimeEntry, Direction.Right);
-
-            swipeLeftGestureRecognizer = swipeLeftStep.DismissBySwiping(nextFirstTimeEntry, Direction.Left);
         }
     }
 }

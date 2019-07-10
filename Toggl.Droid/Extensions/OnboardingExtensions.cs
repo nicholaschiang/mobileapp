@@ -67,31 +67,6 @@ namespace Toggl.Droid.Extensions
                 .Subscribe(toggleVisibilityOnMainThread);
         }
 
-        public static IDisposable ManageSwipeActionAnimationOf(this IOnboardingStep step, RecyclerView recyclerView, MainLogCellViewHolder viewHolder, AnimationSide side)
-        {
-            Ensure.Argument.IsNotNull(viewHolder, nameof(viewHolder));
-
-            void toggleVisibilityOnMainThread(bool shouldBeVisible)
-            {
-                if (shouldBeVisible && !viewHolder.IsAnimating)
-                {
-                    viewHolder.StartAnimating(side);
-                    recyclerView.ScrollBy(0, 1);
-                }
-            }
-
-            var subscriptionDisposable = step.ShouldBeVisible
-                .ObserveOn(SynchronizationContext.Current)
-                .Subscribe(toggleVisibilityOnMainThread);
-
-            return Disposable.Create(() =>
-            {
-                viewHolder.StopAnimating();
-                subscriptionDisposable?.Dispose();
-                subscriptionDisposable = null;
-            });
-        }
-
         public static void DismissByTapping(this IDismissable step, PopupWindow popupWindow, Action cleanup = null)
         {
             Ensure.Argument.IsNotNull(popupWindow, nameof(popupWindow));

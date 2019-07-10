@@ -9,7 +9,6 @@ using Toggl.Core.Interactors;
 using Toggl.Core.Login;
 using Toggl.Core.Services;
 using Toggl.Core.Shortcuts;
-using Toggl.Core.Suggestions;
 using Toggl.Core.Sync;
 using Toggl.Networking;
 using Toggl.Networking.Network;
@@ -59,7 +58,6 @@ namespace Toggl.Core
         private readonly Lazy<IFetchRemoteConfigService> fetchRemoteConfigService;
         private readonly Lazy<IUpdateRemoteConfigCacheService> remoteConfigUpdateService;
         private readonly Lazy<IPrivateSharedStorageService> privateSharedStorageService;
-        private readonly Lazy<ISuggestionProviderContainer> suggestionProviderContainer;
         private readonly Lazy<IPushNotificationsTokenService> pushNotificationsTokenService;
         private readonly Lazy<IPushNotificationsTokenStorage> pushNotificationsTokenStorage;
 
@@ -95,7 +93,6 @@ namespace Toggl.Core
         public IFetchRemoteConfigService FetchRemoteConfigService => fetchRemoteConfigService.Value;
         public IUpdateRemoteConfigCacheService UpdateRemoteConfigCacheService => remoteConfigUpdateService.Value;
         public IPrivateSharedStorageService PrivateSharedStorageService => privateSharedStorageService.Value;
-        public ISuggestionProviderContainer SuggestionProviderContainer => suggestionProviderContainer.Value;
         public IPushNotificationsTokenService PushNotificationsTokenService => pushNotificationsTokenService.Value;
         public IPushNotificationsTokenStorage PushNotificationsTokenStorage => pushNotificationsTokenStorage.Value;
 
@@ -135,10 +132,8 @@ namespace Toggl.Core
             fetchRemoteConfigService = new Lazy<IFetchRemoteConfigService>(CreateFetchRemoteConfigService);
             remoteConfigUpdateService = new Lazy<IUpdateRemoteConfigCacheService>(CreateUpdateRemoteConfigCacheService);
             privateSharedStorageService = new Lazy<IPrivateSharedStorageService>(CreatePrivateSharedStorageService);
-            suggestionProviderContainer = new Lazy<ISuggestionProviderContainer>(CreateSuggestionProviderContainer);
             pushNotificationsTokenService = new Lazy<IPushNotificationsTokenService>(CreatePushNotificationsTokenService);
-            pushNotificationsTokenStorage =
-                new Lazy<IPushNotificationsTokenStorage>(CreatePushNotificationsTokenStorage);
+            pushNotificationsTokenStorage = new Lazy<IPushNotificationsTokenStorage>(CreatePushNotificationsTokenStorage);
 
             api = apiFactory.Select(factory => factory.CreateApiWith(Credentials.None));
             UserAccessManager = new UserAccessManager(
@@ -177,7 +172,6 @@ namespace Toggl.Core
         protected abstract IFetchRemoteConfigService CreateFetchRemoteConfigService();
         protected abstract IAccessRestrictionStorage CreateAccessRestrictionStorage();
         protected abstract IPrivateSharedStorageService CreatePrivateSharedStorageService();
-        protected abstract ISuggestionProviderContainer CreateSuggestionProviderContainer();
         protected abstract IPushNotificationsTokenService CreatePushNotificationsTokenService();
 
         protected virtual ITimeService CreateTimeService()

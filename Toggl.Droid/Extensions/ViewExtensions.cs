@@ -39,23 +39,5 @@ namespace Toggl.Droid.Extensions
                 service.HideSoftInputFromWindow(view.WindowToken, 0);
             });
         }
-
-        public static void RunWhenAttachedToWindow(this View view, Action action)
-        {
-            if (view.IsAttachedToWindow)
-            {
-                action();
-            }
-            else
-            {
-                view.ViewAttachedToWindow += onViewAttachedToWindow;
-            }
-
-            void onViewAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs args)
-            {
-                view.ViewAttachedToWindow -= onViewAttachedToWindow;
-                view.Post(action);
-            }
-        }
     }
 }

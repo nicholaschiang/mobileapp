@@ -74,7 +74,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release.AdHoc|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release.AdHoc</OutputPath>
-    <DefineConstants>USE_APPCENTER</DefineConstants>
+    <DefineConstants>USE_APPCENTER;ADHOC</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CodesignProvision>Daneel AdHoc</CodesignProvision>
     <CodesignKey>iPhone Distribution: Toggl OU (B227VTMZ94)</CodesignKey>
@@ -102,6 +102,26 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.3.8.0\lib\netstandard2.0\Accord.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.MachineLearning, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.MachineLearning.3.8.0\lib\netstandard2.0\Accord.MachineLearning.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.Math.3.8.0\lib\netstandard2.0\Accord.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math.Core, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.Math.3.8.0\lib\netstandard2.0\Accord.Math.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=3.8.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Accord.Statistics.3.8.0\lib\netstandard2.0\Accord.Statistics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AppCenter.2.1.1\lib\Xamarin.iOS10\Microsoft.AppCenter.dll</HintPath>
     </Reference>
@@ -1107,33 +1127,87 @@
     <ImageAsset Include="Resources\Images.xcassets\stripes.imageset\stripes%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboard.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboard.imageset\pasteFromClipboard.pdf" />
-    <ImageAsset Include="Resources\Images.xcassets\clipboardInstruction.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\clipboardInstruction.imageset\clipboardInstruction.pdf" />
-    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboardEnabled.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboardEnabled.imageset\pasteFromClipboardEnabled.pdf" />
-    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-40x40.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-76x76.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-152x152.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-167x167.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer%403x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone%403x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search%403x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboard.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboard.imageset\pasteFromClipboard.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\clipboardInstruction.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\clipboardInstruction.imageset\clipboardInstruction.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboardEnabled.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\pasteFromClipboardEnabled.imageset\pasteFromClipboardEnabled.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-20x20.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-40x40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-76x76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-152x152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-App-167x167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icTimer.imageset\timer%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMic.imageset\microphone%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icMagnifier.imageset\search%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop%402x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Images.xcassets\icStop.imageset\circled_stop%403x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon-debug.appiconset\icon_20pt%402x.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -1227,7 +1301,6 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\OnboardingViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\MainViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\EditTimeEntryViewController.xib" />
     <InterfaceDefinition Include="ViewControllers\Settings\Siri\SiriShortcutsSelectReportPeriodViewController.xib" />
@@ -1376,10 +1449,6 @@
     <Compile Include="Startup\IOSSchedulerProvider.cs" />
     <Compile Include="Extensions\AnimationExtensions.cs" />
     <Compile Include="Transformations\ProjectTaskClientToAttributedString.cs" />
-    <Compile Include="ViewControllers\OnboardingViewController.cs" />
-    <Compile Include="ViewControllers\OnboardingViewController.designer.cs">
-      <DependentUpon>OnboardingViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewControllers\Navigation\OnboardingFlowNavigationController.cs" />
     <Compile Include="ViewControllers\Reactive\ReactiveTableViewController.cs" />
     <Compile Include="ViewControllers\Reactive\ReactiveTableViewController.DialogProvider.cs">
@@ -1675,7 +1744,6 @@
     <Compile Include="ViewControllers\Settings\AboutViewController.designer.cs">
       <DependentUpon>AboutViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\TimeEntriesLogViewCellExtensions.cs" />
     <Compile Include="ViewControllers\SelectCountryViewController.cs" />
     <Compile Include="ViewControllers\SelectCountryViewController.designer.cs">
       <DependentUpon>SelectCountryViewController.cs</DependentUpon>
@@ -1979,6 +2047,7 @@
     <Folder Include="Resources\Images.xcassets\icIllustrationTagsSmall.imageset\" />
     <Folder Include="Resources\Images.xcassets\icLoader.imageset\" />
     <Folder Include="Resources\Images.xcassets\icProjectDot.imageset\" />
+    <Folder Include="Resources\Images.xcassets\icRoundStop.imageset\" />
     <Folder Include="Resources\Images.xcassets\icSearch.imageset\" />
     <Folder Include="Resources\Images.xcassets\icTime.imageset\" />
     <Folder Include="Resources\Images.xcassets\icWarning.imageset\" />
@@ -1989,11 +2058,6 @@
     <Folder Include="Resources\Images.xcassets\thumbsdown.imageset\" />
     <Folder Include="Resources\Images.xcassets\thumbsup.imageset\" />
     <Folder Include="Resources\Images.xcassets\togglLogoBig.imageset\" />
-    <Folder Include="Resources\Images.xcassets\icStop.imageset\" />
-    <Folder Include="Resources\Images.xcassets\icTimer.imageset\" />
-    <Folder Include="Resources\Images.xcassets\icMic.imageset\" />
-    <Folder Include="Resources\Images.xcassets\icMagnifier.imageset\" />
-    <Folder Include="Resources\Images.xcassets\icRoundStop.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />
@@ -2004,10 +2068,19 @@
   <Import Project="..\packages\Realm.3.0.0\build\Realm.targets" Condition="Exists('..\packages\Realm.3.0.0\build\Realm.targets')" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\Xamarin.Google.iOS.Core.3.1.0.1\build\Xamarin.Google.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.Core.3.1.0.1\build\Xamarin.Google.iOS.Core.targets')" />
+  <Import Project="..\packages\Xamarin.Google.iOS.SignIn.4.1.1.1\build\Xamarin.Google.iOS.SignIn.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.SignIn.4.1.1.1\build\Xamarin.Google.iOS.SignIn.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.PerformanceMonitoring.1.1.0.1\build\Xamarin.Firebase.iOS.PerformanceMonitoring.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.PerformanceMonitoring.1.1.0.1\build\Xamarin.Firebase.iOS.PerformanceMonitoring.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.RemoteConfig.3.0.1\build\Xamarin.Firebase.iOS.RemoteConfig.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.RemoteConfig.3.0.1\build\Xamarin.Firebase.iOS.RemoteConfig.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.PerformanceMonitoring.2.1.2\build\Xamarin.Firebase.iOS.PerformanceMonitoring.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.PerformanceMonitoring.2.1.2\build\Xamarin.Firebase.iOS.PerformanceMonitoring.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.InstanceID.3.4.0\build\Xamarin.Firebase.iOS.InstanceID.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.InstanceID.3.4.0\build\Xamarin.Firebase.iOS.InstanceID.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.Analytics.5.5.0\build\Xamarin.Firebase.iOS.Analytics.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Analytics.5.5.0\build\Xamarin.Firebase.iOS.Analytics.targets')" />
   <Import Project="..\packages\Xamarin.Google.iOS.SignIn.4.4.0\build\Xamarin.Google.iOS.SignIn.targets" Condition="Exists('..\packages\Xamarin.Google.iOS.SignIn.4.4.0\build\Xamarin.Google.iOS.SignIn.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.iOS.ABTesting.2.0.0.2\build\Xamarin.Firebase.iOS.ABTesting.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.ABTesting.2.0.0.2\build\Xamarin.Firebase.iOS.ABTesting.targets')" />
+  <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Accord.3.8.0\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.3.8.0\build\Accord.targets'))" />
+  </Target>
 </Project>

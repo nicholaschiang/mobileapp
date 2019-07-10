@@ -1,4 +1,5 @@
 ﻿using Com.Google.Firebase.Perf.Metrics;
+using Com.Google.Firebase.Perf;
 using Toggl.Core.Diagnostics;
 
 namespace Toggl.Droid.Services

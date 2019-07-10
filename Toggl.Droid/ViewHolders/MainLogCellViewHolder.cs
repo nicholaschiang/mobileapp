@@ -1,4 +1,3 @@
-using Android.Animation;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Support.Constraints;
@@ -6,14 +5,11 @@ using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
 using System;
-using System.Linq;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Toggl.Core.Analytics;
 using Toggl.Core.UI.ViewModels.TimeEntriesLog;
 using Toggl.Droid.Extensions;
 using Toggl.Droid.ViewHelpers;
-using Toggl.Shared.Extensions;
 using static Toggl.Droid.Resource.Id;
 using GroupingColor = Toggl.Core.UI.Helper.Colors.TimeEntriesLog.Grouping;
 
@@ -27,15 +23,15 @@ namespace Toggl.Droid.ViewHolders
             Right
         }
 
-        public MainLogCellViewHolder(View itemView) : base(itemView)
+        public MainLogCellViewHolder(View itemView)
+            : base(itemView)
         {
         }
 
-        public MainLogCellViewHolder(IntPtr handle, JniHandleOwnership ownership) : base(handle, ownership)
+        public MainLogCellViewHolder(IntPtr handle, JniHandleOwnership ownership)
+            : base(handle, ownership)
         {
         }
-
-        private static readonly int animationDuration = 1000;
 
         private TextView timeEntriesLogCellDescription;
         private TextView addDescriptionLabel;
@@ -54,10 +50,6 @@ namespace Toggl.Droid.ViewHolders
         private View durationFadeGradient;
         private TextView groupCountTextView;
         private View groupExpansionButton;
-
-        private ObjectAnimator animator;
-
-        public bool IsAnimating => animator?.IsRunning ?? false;
 
         public bool CanSync => Item.ViewModel.CanContinue;
 
@@ -106,21 +98,18 @@ namespace Toggl.Droid.ViewHolders
 
         public void ShowSwipeToContinueBackground()
         {
-            StopAnimating();
             mainLogBackgroundContinue.Visibility = ViewStates.Visible;
             mainLogBackgroundDelete.Visibility = ViewStates.Invisible;
         }
 
         public void ShowSwipeToDeleteBackground()
         {
-            StopAnimating();
             mainLogBackgroundContinue.Visibility = ViewStates.Invisible;
             mainLogBackgroundDelete.Visibility = ViewStates.Visible;
         }
 
         public void HideSwipeBackgrounds()
         {
-            StopAnimating();
             mainLogBackgroundContinue.Visibility = ViewStates.Invisible;
             mainLogBackgroundDelete.Visibility = ViewStates.Invisible;
         }
@@ -131,7 +120,7 @@ namespace Toggl.Droid.ViewHolders
                 ? ContinueTimeEntryMode.TimeEntriesGroupContinueButton
                 : ContinueTimeEntryMode.SingleTimeEntryContinueButton;
 
-            ContinueButtonTappedSubject?.OnNext((Item.ViewModel, ContinueTimeEntryMode.SingleTimeEntryContinueButton));
+            ContinueButtonTappedSubject?.OnNext((Item.ViewModel, continueMode));
         }
 
         private ConstraintLayout.LayoutParams getDurationPaddingWidthDependentOnIcons()
@@ -148,8 +137,6 @@ namespace Toggl.Droid.ViewHolders
 
         protected override void UpdateView()
         {
-            StopAnimating();
-
             groupId = Item.ViewModel.GroupId;
 
             timeEntriesLogCellDescription.Text = Item.ViewModel.Description;
@@ -190,50 +177,6 @@ namespace Toggl.Droid.ViewHolders
 
                 default:
                     throw new ArgumentOutOfRangeException($"Cannot visualize {Item.ViewModel.VisualizationIntent} in the time entries log table.");
-            }
-        }
-
-        public void StartAnimating(AnimationSide side)
-        {
-            if (animator != null && animator.IsRunning)
-                return;
-
-            mainLogBackgroundContinue.Visibility = side == AnimationSide.Right ? ViewStates.Visible : ViewStates.Invisible;
-            mainLogBackgroundDelete.Visibility = side == AnimationSide.Left ? ViewStates.Visible : ViewStates.Invisible;
-
-            var offsetsInDp = getAnimationOffsetsForSide(side);
-            var offsetsInPx = offsetsInDp.Select(offset => (float)offset.DpToPixels(ItemView.Context)).ToArray();
-
-            animator = ObjectAnimator.OfFloat(MainLogContentView, "translationX", offsetsInPx);
-            animator.SetDuration(animationDuration);
-            animator.RepeatMode = ValueAnimatorRepeatMode.Reverse;
-            animator.RepeatCount = ValueAnimator.Infinite;
-            animator.Start();
-        }
-
-        public void StopAnimating()
-        {
-            if (animator != null)
-            {
-                animator.Cancel();
-                animator = null;
-            }
-
-            MainLogContentView.TranslationX = 0;
-            mainLogBackgroundContinue.Visibility = ViewStates.Invisible;
-            mainLogBackgroundDelete.Visibility = ViewStates.Invisible;
-        }
-
-        private float[] getAnimationOffsetsForSide(AnimationSide side)
-        {
-            switch (side)
-            {
-                case AnimationSide.Right:
-                    return new[] { 50, 0, 3.5f, 0 };
-                case AnimationSide.Left:
-                    return new[] { -50, 0, -3.5f, 0 };
-                default:
-                    throw new ArgumentException("Unexpected side");
             }
         }
 

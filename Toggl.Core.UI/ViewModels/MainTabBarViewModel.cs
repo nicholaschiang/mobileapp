@@ -51,7 +51,6 @@ namespace Toggl.Core.UI.ViewModels
             INavigationService navigationService,
             IRemoteConfigService remoteConfigService,
             IUpdateRemoteConfigCacheService updateRemoteConfigCacheService,
-            ISuggestionProviderContainer suggestionProviders,
             IAccessRestrictionStorage accessRestrictionStorage,
             IStopwatchProvider stopwatchProvider,
             IRxActionFactory rxActionFactory,
@@ -73,7 +72,6 @@ namespace Toggl.Core.UI.ViewModels
             Ensure.Argument.IsNotNull(permissionsChecker, nameof(permissionsChecker));
             Ensure.Argument.IsNotNull(remoteConfigService, nameof(remoteConfigService));
             Ensure.Argument.IsNotNull(updateRemoteConfigCacheService, nameof(updateRemoteConfigCacheService));
-            Ensure.Argument.IsNotNull(suggestionProviders, nameof(suggestionProviders));
             Ensure.Argument.IsNotNull(accessRestrictionStorage, nameof(accessRestrictionStorage));
             Ensure.Argument.IsNotNull(schedulerProvider, nameof(schedulerProvider));
             Ensure.Argument.IsNotNull(stopwatchProvider, nameof(stopwatchProvider));
@@ -98,11 +96,12 @@ namespace Toggl.Core.UI.ViewModels
                 navigationService,
                 remoteConfigService,
                 updateRemoteConfigCacheService,
-                suggestionProviders,
                 accessRestrictionStorage,
                 schedulerProvider,
                 stopwatchProvider,
                 rxActionFactory,
+                permissionsChecker,
+                backgroundService,
                 platformInfo);
 
             reportsViewModel = new ReportsViewModel(
