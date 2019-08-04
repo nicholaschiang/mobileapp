@@ -1,6 +1,7 @@
 using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using Toggl.Core.Analytics;
 using Toggl.Core.Exceptions;
@@ -39,7 +40,8 @@ namespace Toggl.Core.UI.ViewModels
         private readonly IRxActionFactory rxActionFactory;
         private readonly IInteractorFactory interactorFactory;
 
-        private IDisposable loginDisposable;
+        private CancellationTokenSource loginCancellationTokenSource;
+        private CancellationToken loginCancellationToken;
 
         private readonly Subject<ShakeTargets> shakeSubject = new Subject<ShakeTargets>();
         private readonly Subject<bool> isShowPasswordButtonVisibleSubject = new Subject<bool>();
@@ -172,16 +174,17 @@ namespace Toggl.Core.UI.ViewModels
                 return;
             }
 
-            if (isLoadingSubject.Value) return;
+            if (IsLoginInProgress()) return;
 
             isLoadingSubject.OnNext(true);
             errorMessageSubject.OnNext("");
 
-            loginDisposable =
-                userAccessManager
-                    .Login(emailSubject.Value, passwordSubject.Value)
-                    .Track(analyticsService.Login, AuthenticationMethod.EmailAndPassword)
-                    .Subscribe(_ => onAuthenticated(), onError, onCompleted);
+            setupLoginCancellationTokenSource();
+
+            userAccessManager
+                .Login(emailSubject.Value, passwordSubject.Value)
+                .Track(analyticsService.Login, AuthenticationMethod.EmailAndPassword)
+                .Subscribe(_ => onAuthenticated(), onError, onCompleted, loginCancellationToken);
         }
 
         public void TogglePasswordVisibility()
@@ -189,20 +192,42 @@ namespace Toggl.Core.UI.ViewModels
 
         public void GoogleLogin()
         {
-            if (isLoadingSubject.Value) return;
+            if (IsLoginInProgress()) return;
 
             isLoadingSubject.OnNext(true);
 
-            loginDisposable = View
-                .GetGoogleToken()
+            setupLoginCancellationTokenSource();
+
+            View.GetGoogleToken()
                 .SelectMany(userAccessManager.LoginWithGoogle)
                 .Track(analyticsService.Login, AuthenticationMethod.Google)
-                .Subscribe(_ => onAuthenticated(), onError, onCompleted);
+                .Subscribe(_ => onAuthenticated(), onError, onCompleted, loginCancellationToken);
+        }
+
+        public bool IsLoginInProgress()
+        {
+            return isLoadingSubject.Value;
+        }
+
+        public async void CancelLogin()
+        {
+            if (!IsLoginInProgress() || loginCancellationTokenSource == null) return;
+
+            if (loginCancellationToken.CanBeCanceled)
+            {
+                loginCancellationTokenSource.Cancel();
+
+                await interactorFactory.Logout(LogoutSource.BackButtonOnLoginScreen)
+                  .Execute();
+
+                isLoadingSubject.OnNext(false);
+                onCompleted();
+            }
         }
 
         private Task signup()
         {
-            if (isLoadingSubject.Value)
+            if (IsLoginInProgress())
                 return Task.CompletedTask;
 
             var parameter = CredentialsParameter.With(emailSubject.Value, passwordSubject.Value);
@@ -211,12 +236,18 @@ namespace Toggl.Core.UI.ViewModels
 
         private async Task forgotPassword()
         {
-            if (isLoadingSubject.Value) return;
+            if (IsLoginInProgress()) return;
 
             var emailParameter = EmailParameter.With(emailSubject.Value);
             emailParameter = await Navigate<ForgotPasswordViewModel, EmailParameter, EmailParameter>(emailParameter);
             if (emailParameter != null)
                 emailSubject.OnNext(emailParameter.Email);
+        }
+
+        private void setupLoginCancellationTokenSource()
+        {
+            loginCancellationTokenSource = new CancellationTokenSource();
+            loginCancellationToken = loginCancellationTokenSource.Token;
         }
 
         private async void onAuthenticated()
@@ -260,8 +291,8 @@ namespace Toggl.Core.UI.ViewModels
 
         private void onCompleted()
         {
-            loginDisposable?.Dispose();
-            loginDisposable = null;
+            loginCancellationTokenSource?.Dispose();
+            loginCancellationTokenSource = null;
         }
     }
 }

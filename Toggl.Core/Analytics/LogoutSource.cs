@@ -3,6 +3,7 @@
     public enum LogoutSource
     {
         Settings,
-        TokenReset
+        TokenReset,
+        BackButtonOnLoginScreen,
     }
 }

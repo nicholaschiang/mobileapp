@@ -2,6 +2,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using Android.Util;
 using System;
 using System.Reactive.Linq;
 using Toggl.Core.UI.Extensions;
@@ -101,6 +102,18 @@ namespace Toggl.Droid.Activities
                 => isLoading ? "" : Resources.GetString(Resource.String.Login);
 
             this.CancelAllNotifications();
+        }
+
+        public override void OnBackPressed()
+        {
+            if (ViewModel.IsLoginInProgress())
+            {
+                ViewModel.CancelLogin();
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
         }
     }
 }
