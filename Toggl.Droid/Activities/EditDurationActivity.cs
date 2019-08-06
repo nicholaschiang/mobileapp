@@ -208,6 +208,12 @@ namespace Toggl.Droid.Activities
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.GenericSaveMenu, menu);
+            var item = menu.FindItem(Resource.Id.SaveMenuItem);
+            item.ActionView.Click += (sender, e) =>
+            {
+                wheelNumericInput.ApplyDurationIfBeingEdited();
+                ViewModel.Save.Execute();
+            };
             return true;
         }
 
@@ -215,10 +221,6 @@ namespace Toggl.Droid.Activities
         {
             switch (item.ItemId)
             {
-                case Resource.Id.SaveMenuItem:
-                    wheelNumericInput.ApplyDurationIfBeingEdited();
-                    ViewModel.Save.Execute();
-                    return true;
 
                 case Android.Resource.Id.Home:
                     ViewModel.CloseWithDefaultResult();

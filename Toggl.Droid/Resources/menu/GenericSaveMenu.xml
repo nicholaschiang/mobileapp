@@ -4,5 +4,5 @@
     <item
         android:id="@+id/SaveMenuItem"
         local:showAsAction="always"
-        android:title="@string/Save" />
+        local:actionLayout="@layout/CustomMenuItem" />
 </menu>
