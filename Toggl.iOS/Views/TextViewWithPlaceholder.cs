@@ -14,60 +14,36 @@ namespace Toggl.iOS.Views
     [Register(nameof(TextViewWithPlaceholder))]
     public class TextViewWithPlaceholder : UITextView, IUITextViewDelegate
     {
-        private readonly int defaultPlaceholderSize = 14;
+        private readonly int defaultFontSize = 15;
         private readonly UIColor defaultPlaceholderColor = Colors.Common.PlaceholderText.ToNativeColor();
+        private readonly UIColor defaultTextColor = Colors.Common.TextColor.ToNativeColor();
         private readonly ISubject<String> textSubject = new Subject<string>();
         private readonly BehaviorSubject<CGSize> sizeSubject = new BehaviorSubject<CGSize>(CGSize.Empty);
 
-        private bool isFocused;
-        private UIStringAttributes placeholderAttributes;
-        protected UIStringAttributes DefaultTextAttributes { get; private set; }
+        private UILabel placeholderLabel = new UILabel();
 
         public IObservable<string> TextObservable { get; }
         public IObservable<Unit> SizeChangedObservable { get; }
 
-        public event EventHandler TextChanged;
-        public event EventHandler DidBecomeFirstResponder;
-
-        private UIColor placeholderColor;
-        public UIColor PlaceholderColor
+        public string PlaceholderText
         {
-            get => placeholderColor;
+            get => placeholderLabel.Text;
             set
             {
-                placeholderColor = value;
-                updatePlaceholderStyle();
+                placeholderLabel.Text = value;
+                updatePlaceholderVisibility();
             }
         }
 
-        private nfloat placeholderSize;
-        public nfloat PlaceholderSize
-        {
-            get => placeholderSize;
-            set
-            {
-                placeholderSize = value;
-                updatePlaceholderStyle();
-            }
-        }
-
-        private string text;
         public override string Text
         {
-            get => text;
+            get => base.Text;
             set
             {
-                if (text == value)
-                    return;
-
-                text = value;
-                updateAttributedText(value);
-                textSubject.OnNext(value);
-                TextChanged?.Invoke(this, new EventArgs());
+                base.Text = value;
+                updatePlaceholderVisibility();
             }
         }
-
-        public string PlaceholderText { get; set; }
 
         public override void AwakeFromNib()
         {
@@ -75,28 +51,14 @@ namespace Toggl.iOS.Views
 
             Delegate = this;
 
-            PlaceholderSize = defaultPlaceholderSize;
-            PlaceholderColor = defaultPlaceholderColor;
+            Font = Font.WithSize(defaultFontSize);
+            TextColor = defaultTextColor;
 
-            DefaultTextAttributes = new UIStringAttributes
-            {
-                ParagraphStyle = new NSMutableParagraphStyle { Alignment = TextAlignment },
-                Font = UIFont.SystemFontOfSize(Font.PointSize)
-            };
+            placeholderLabel.Font = Font.WithSize(defaultFontSize);
+            placeholderLabel.TextColor = defaultPlaceholderColor;
+            AddSubview(placeholderLabel);
 
-            updateAttributedText(Text);
-        }
-
-        private void updatePlaceholderStyle()
-        {
-            placeholderAttributes = new UIStringAttributes
-            {
-                ParagraphStyle = new NSMutableParagraphStyle { Alignment = TextAlignment },
-                ForegroundColor = PlaceholderColor,
-                Font = UIFont.SystemFontOfSize(PlaceholderSize)
-            };
-
-            updateAttributedText(Text);
+            updatePlaceholderVisibility();
         }
 
         public TextViewWithPlaceholder(IntPtr handle) : base(handle)
@@ -105,22 +67,27 @@ namespace Toggl.iOS.Views
             SizeChangedObservable = sizeSubject.SelectUnit().AsObservable();
         }
 
-        private void updateAttributedText(string text)
+        public override void LayoutSubviews()
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                AttributedText = isFocused
-                    ? new NSAttributedString("")
-                    : new NSAttributedString(PlaceholderText ?? "", placeholderAttributes);
+            base.LayoutSubviews();
 
+            placeholderLabel.Frame = Bounds;
+            if (sizeSubject.Value != Frame.Size)
+            {
+                sizeSubject.OnNext(Frame.Size);
+            }
+        }
+
+        private void updatePlaceholderVisibility()
+        {
+            if (string.IsNullOrEmpty(Text))
+            {
+                placeholderLabel.Hidden = IsFirstResponder;
                 return;
             }
 
-            SetText(text);
+            placeholderLabel.Hidden = true;
         }
-
-        protected virtual void SetText(string text)
-            => AttributedText = new NSAttributedString(text, DefaultTextAttributes);
 
         [Export("textView:shouldChangeTextInRange:replacementText:")]
         public virtual new bool ShouldChangeText(UITextView textView, NSRange range, string text)
@@ -143,50 +110,29 @@ namespace Toggl.iOS.Views
             // Source: https://stackoverflow.com/questions/31430308/uitextview-attributedtext-with-japanese-keyboard-repeats-input
             if (textView.MarkedTextRange != null) return;
 
-            Text = base.Text.Replace(Environment.NewLine, " ");
+            Text = Text.Replace(Environment.NewLine, " ");
+            textSubject.OnNext(Text);
         }
 
         [Export("textViewDidBeginEditing:")]
         public void EditingStarted(UITextView textView)
         {
-            isFocused = true;
             if (string.IsNullOrEmpty(Text))
             {
                 // this will force the text view to change the color of the text
                 // so if the person starts typing a multistage character, the color
                 // of the text won't be the color of the placeholder anymore
-                updateAttributedText(" ");
+                updatePlaceholderVisibility();
             }
-            updateAttributedText(Text);
+            updatePlaceholderVisibility();
+            textSubject.OnNext(Text);
         }
 
         [Export("textViewDidEndEditing:")]
         public void EditingEnded(UITextView view)
         {
-            isFocused = false;
-            updateAttributedText(Text);
-        }
-
-        public override bool BecomeFirstResponder()
-        {
-            var becomeFirstResponder = base.BecomeFirstResponder();
-
-            if (becomeFirstResponder)
-            {
-                DidBecomeFirstResponder?.Invoke(this, new EventArgs());
-            }
-
-            return becomeFirstResponder;
-        }
-
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
-
-            if (sizeSubject.Value != Frame.Size)
-            {
-                sizeSubject.OnNext(Frame.Size);
-            }
+            updatePlaceholderVisibility();
+            textSubject.OnNext(Text);
         }
     }
 }

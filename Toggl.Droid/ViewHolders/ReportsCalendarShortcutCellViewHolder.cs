@@ -38,7 +38,7 @@ namespace Toggl.Droid.ViewHolders
 
         public void UpdateSelectionState(ReportsDateRangeParameter currentDateRange)
         {
-            backgroundDrawable.SetColor(Item.IsSelected(currentDateRange) ? Color.ParseColor("#328fff") : Color.ParseColor("#3e3e3e"));
+            backgroundDrawable.SetColor(Item.IsSelected(currentDateRange) ? Color.ParseColor("#328fff") : Color.ParseColor("#5E5B5B"));
             backgroundDrawable.InvalidateSelf();
         }
     }

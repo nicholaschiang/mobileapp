@@ -71,7 +71,7 @@ namespace Toggl.Droid.Fragments
 
             ViewModel.ElapsedTime
                 .Subscribe(timeEntryCardTimerLabel.Rx().TextObserver())
-                .DisposedBy(DisposeBag);    
+                .DisposedBy(DisposeBag);
 
             ViewModel.CurrentRunningTimeEntry
                 .Select(te => te?.Description ?? "")
@@ -359,6 +359,7 @@ namespace Toggl.Droid.Fragments
         {
             var activity = Activity as AppCompatActivity;
             toolbar.Title = "";
+            mainRecyclerView.AttachMaterialScrollBehaviour(appBarLayout);
             activity.SetSupportActionBar(toolbar);
         }
     }

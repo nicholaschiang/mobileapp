@@ -4,7 +4,6 @@
     <color name="errorText">#E20505</color>
     <color name="grey">#9F9F9F</color>
     <color name="lightToolbarBackground">#FFFFFF</color>
-    <color name="darkToolbarBackground">#323232</color>
     <color name="placeholderText">#CECECE</color>
     <color name="defaultText">#959595</color>
     <color name="defaultIcon">#959595</color>
@@ -28,9 +27,6 @@
     <color name="launcherBackgroundColor">#FFE01B22</color>
     <color name="checkboxTint">#328FFF</color>
     <color name="reportsLabelColor">#757575</color>
-    <color name="blueToolbarBackground">#2196f3</color>
-    <color name="blueStatusBarBackground">#559fec</color>
-    <color name="blueBackgroundTextHintColor">#b9d9f7</color>
     <color name="onboardingStatusBarColor">#53a0fd</color>
     <color name="halfTransparentWhite">#B3FFFFFF</color>
     <color name="popupBlueBackground">#328FFF</color>

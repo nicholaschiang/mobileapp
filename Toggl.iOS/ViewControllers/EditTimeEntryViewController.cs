@@ -47,8 +47,7 @@ namespace Toggl.iOS.ViewControllers
 
             projectTaskClientToAttributedString = new ProjectTaskClientToAttributedString(
                 ProjectTaskClientLabel.Font.CapHeight,
-                Colors.EditTimeEntry.ClientText.ToNativeColor(),
-                false);
+                Colors.EditTimeEntry.ClientText.ToNativeColor());
 
             tagsListToAttributedString = new TagsListToAttributedString(TagsTextView);
 

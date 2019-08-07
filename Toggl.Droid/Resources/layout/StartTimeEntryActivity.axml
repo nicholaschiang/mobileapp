@@ -77,8 +77,8 @@
             android:layout_toRightOf="@+id/ToolbarTagButton" />
     </RelativeLayout>
     <RelativeLayout
-        android:elevation="2dp"
-        android:background="@color/blueToolbarBackground"
+        android:id="@+id/Toolbar"
+        android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/expandedToolbarHeight">
         <ImageView
@@ -86,7 +86,7 @@
             android:padding="16dp"
             android:clickable="true"
             android:src="@drawable/close"
-            android:tint="@android:color/white"
+            android:tint="@android:color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize" />
@@ -99,10 +99,10 @@
             android:letterSpacing="-0.01"
             android:lineSpacingExtra="5sp"
             android:scrollHorizontally="true"
-            android:textColor="@android:color/white"
-            android:background="@color/blueToolbarBackground"
+            android:textColor="@android:color/black"
+            android:background="@null"
             android:textCursorDrawable="@drawable/EditTextWhiteCursor"
-            android:textColorHint="@color/blueBackgroundTextHintColor"
+            android:textColorHint="@color/placeholderText"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
@@ -114,7 +114,7 @@
             android:paddingLeft="16dp"
             android:text="@string/Save"
             android:paddingRight="16dp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_height="46dp"
             android:layout_width="wrap_content"

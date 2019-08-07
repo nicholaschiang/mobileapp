@@ -1,3 +1,4 @@
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using Toggl.Droid.Views;
@@ -15,6 +16,7 @@ namespace Toggl.Droid.Fragments
         private Button headerLinkCalendarsButton;
         private CalendarRecyclerView calendarRecyclerView;
         private ViewStub onboardingViewStub;
+        private AppBarLayout appBarLayout;
         private View onboardingView;
         private Button getStartedButton;
         private TextView skipButton;
@@ -30,6 +32,7 @@ namespace Toggl.Droid.Fragments
             headerLinkCalendarsButton = view.FindViewById<Button>(Resource.Id.HeaderLinkCalendarsButton);
             calendarRecyclerView = view.FindViewById<CalendarRecyclerView>(Resource.Id.calendarRecyclerView);
             onboardingViewStub = view.FindViewById<ViewStub>(Resource.Id.OnboardingViewStub);
+            appBarLayout = view.FindViewById<AppBarLayout>(Resource.Id.HeaderView);
         }
     }
 }

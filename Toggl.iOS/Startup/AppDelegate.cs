@@ -25,6 +25,7 @@ namespace Toggl.iOS
 
             initializeAnalytics();
 
+
             Window = new UIWindow(UIScreen.MainScreen.Bounds);
             Window.MakeKeyAndVisible();
 
@@ -41,10 +42,11 @@ namespace Toggl.iOS
             loginWithCredentialsIfNecessary(accessLevel);
             navigateAccordingToAccessLevel(accessLevel, app);
 
+
             var accessibilityEnabled = UIAccessibility.IsVoiceOverRunning;
             IosDependencyContainer.Instance.AnalyticsService.AccessibilityEnabled.Track(accessibilityEnabled);
 
-                UNUserNotificationCenter.Current.Delegate = this;
+            UNUserNotificationCenter.Current.Delegate = this;
 
             var watchservice = new WatchService();
             watchservice.TryLogWatchConnectivity();

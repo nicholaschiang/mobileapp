@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Math;
 
 namespace Toggl.Shared
 {
@@ -83,5 +84,56 @@ namespace Toggl.Shared
     {
         public static string ToHexString(this Color color)
             => $"#{color.Red:X2}{color.Green:X2}{color.Blue:X2}";
+
+        public static Color Darken(this Color color)
+            => color.ChangeColorBrightness(-0.2f);
+
+        public static Color Lighten(this Color color)
+            => color.ChangeColorBrightness(0.2f);
+
+        public static Color ChangeColorBrightness(this Color color, float correctionFactor)
+        {
+            float red = (float)color.Red;
+            float green = (float)color.Green;
+            float blue = (float)color.Blue;
+
+            if (correctionFactor < 0)
+            {
+                correctionFactor = 1 + correctionFactor;
+                red *= correctionFactor;
+                green *= correctionFactor;
+                blue *= correctionFactor;
+            }
+            else
+            {
+                red = (255 - red) * correctionFactor + red;
+                green = (255 - green) * correctionFactor + green;
+                blue = (255 - blue) * correctionFactor + blue;
+            }
+
+            return new Color((byte)red, (byte)green, (byte)blue, color.Alpha);
+        }
+
+        public static double CalculateLuminance(this Color color)
+        {
+            // Adjusted relative luminance
+            // math based on https://www.w3.org/WAI/GL/wiki/Relative_luminance
+
+            var rsrgb = color.Red / 255.0;
+            var gsrgb = color.Green / 255.0;
+            var bsrgb = color.Blue / 255.0;
+
+            var lowGammaCoeficient = 1 / 12.92;
+
+            var r = rsrgb <= 0.03928 ? rsrgb * lowGammaCoeficient : adjustGamma(rsrgb);
+            var g = gsrgb <= 0.03928 ? gsrgb * lowGammaCoeficient : adjustGamma(gsrgb);
+            var b = bsrgb <= 0.03928 ? bsrgb * lowGammaCoeficient : adjustGamma(bsrgb);
+
+            var luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
+            return luma;
+
+            double adjustGamma(double channel)
+                => Pow((channel + 0.055) / 1.055, 2.4);
+        }
     }
 }

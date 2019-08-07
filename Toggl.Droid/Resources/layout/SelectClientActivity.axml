@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:elevation="2dp"
+        android:elevation="4dp"
+        android:paddingRight="16dp"
         android:orientation="horizontal"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/blueToolbarBackground"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -18,21 +18,22 @@
             android:padding="16dp"
             android:clickable="true"
             android:src="@drawable/arrow_back"
-            android:tint="@android:color/white"
+            android:tint="@android:color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_width="56dp"
             android:layout_height="56dp" />
         <EditText
             android:id="@+id/FilterEditText"
-            android:textSize="19sp"
+            android:lines="1"
             android:gravity="left"
+            android:textSize="19sp"
+            android:singleLine="true"
             android:letterSpacing="-0.01"
             android:lineSpacingExtra="5sp"
             android:textCursorDrawable="@null"
             android:hint="@string/AddClientHint"
-            android:textColor="@android:color/white"
-            android:background="@color/blueToolbarBackground"
-            android:textColorHint="@color/blueBackgroundTextHintColor"
+            android:textColor="@color/defaultEditText"
+            android:textColorHint="@color/placeholderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />

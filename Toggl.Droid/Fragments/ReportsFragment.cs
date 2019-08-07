@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using Toggl.Core.UI.Extensions;
 using Toggl.Core.UI.ViewModels.Reports;
 using Toggl.Droid.Adapters;
+using Toggl.Droid.Extensions;
 using Toggl.Droid.Extensions.Reactive;
 using Toggl.Droid.Presentation;
 using Toggl.Droid.ViewHelpers;
@@ -130,6 +131,7 @@ namespace Toggl.Droid.Fragments
         {
             var activity = Activity as AppCompatActivity;
             toolbar.Title = "";
+            reportsRecyclerView.AttachMaterialScrollBehaviour(appBarLayout);
             activity.SetSupportActionBar(toolbar);
         }
 

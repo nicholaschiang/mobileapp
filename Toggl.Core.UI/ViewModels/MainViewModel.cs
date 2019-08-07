@@ -382,7 +382,7 @@ namespace Toggl.Core.UI.ViewModels
 
         private Task openSettings()
             => navigate<SettingsViewModel>();
-        
+
         private Task openReports()
             => navigate<ReportsViewModel>();
 
@@ -394,7 +394,7 @@ namespace Toggl.Core.UI.ViewModels
             var initializeInManualMode = useDefaultMode == userPreferences.IsManualModeEnabled;
 
             OnboardingStorage.StartButtonWasTapped();
-         
+
             if (hasStopButtonEverBeenUsed)
                 OnboardingStorage.SetNavigatedAwayFromMainViewAfterStopButton();
 

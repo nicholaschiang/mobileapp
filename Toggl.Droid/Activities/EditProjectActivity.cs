@@ -1,9 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.Graphics;
-using Android.Support.V7.Widget;
 using Android.Views;
 using System;
 using System.Linq;
@@ -12,6 +10,7 @@ using Toggl.Core.UI.ViewModels;
 using Toggl.Droid.Extensions;
 using Toggl.Droid.Extensions.Reactive;
 using Toggl.Shared.Extensions;
+using AndroidColor = Android.Graphics.Color;
 using FoundationResources = Toggl.Shared.Resources;
 
 namespace Toggl.Droid.Activities
@@ -24,7 +23,7 @@ namespace Toggl.Droid.Activities
     {
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_BlueStatusBar_WhiteBackground);
+            SetTheme(Resource.Style.AppTheme_Light_WhiteBackground);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {
@@ -60,7 +59,7 @@ namespace Toggl.Droid.Activities
                 .Select(color => color.ToNativeColor())
                 .Subscribe(colorCircle.SetCircleColor)
                 .DisposedBy(DisposeBag);
-
+                
             // Error
             ViewModel.Error
                 .Subscribe(errorText.Rx().TextObserver())
@@ -97,7 +96,7 @@ namespace Toggl.Droid.Activities
                 .Subscribe(clientNameTextView.Rx().TextObserver())
                 .DisposedBy(DisposeBag);
 
-            var noClientColor = Color.ParseColor("#CECECE");
+            var noClientColor = AndroidColor.ParseColor("#CECECE");
             ViewModel.ClientName
                 .Select(clientTextColor)
                 .Subscribe(clientNameTextView.SetTextColor)
@@ -118,8 +117,8 @@ namespace Toggl.Droid.Activities
                 .BindAction(ViewModel.Save)
                 .DisposedBy(DisposeBag);
 
-            var enabledColor = Color.White;
-            var disabledColor = new Color(ColorUtils.SetAlphaComponent(Color.White, 127));
+            var enabledColor = AndroidColor.White;
+            var disabledColor = new AndroidColor(ColorUtils.SetAlphaComponent(AndroidColor.White, 127));
             ViewModel.Save.Enabled
                 .Select(createProjectTextColor)
                 .Subscribe(createProjectButton.SetTextColor)
@@ -128,10 +127,10 @@ namespace Toggl.Droid.Activities
             string clientNameWithEmptyText(string clientName)
                 => string.IsNullOrEmpty(clientName) ? FoundationResources.AddClient : clientName;
 
-            Color clientTextColor(string clientName)
-                => string.IsNullOrEmpty(clientName) ? noClientColor : Color.Black;
+            AndroidColor clientTextColor(string clientName)
+                => string.IsNullOrEmpty(clientName) ? noClientColor : AndroidColor.Black;
 
-            Color createProjectTextColor(bool enabled)
+            AndroidColor createProjectTextColor(bool enabled)
                 => enabled ? enabledColor : disabledColor;
         }
 
@@ -155,7 +154,6 @@ namespace Toggl.Droid.Activities
 
         private void setupToolbar()
         {
-            var toolbar = FindViewById<Toolbar>(Resource.Id.Toolbar);
             toolbar.Title = ViewModel.Title;
 
             SetSupportActionBar(toolbar);

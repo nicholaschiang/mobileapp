@@ -9,6 +9,7 @@ using System.Reactive.Linq;
 using Toggl.Core.Calendar;
 using Toggl.Core.UI.ViewModels.Calendar;
 using Toggl.Droid.Adapters.Calendar;
+using Toggl.Droid.Extensions;
 using Toggl.Droid.Extensions.Reactive;
 using Toggl.Droid.Presentation;
 using Toggl.Droid.Views.Calendar;
@@ -107,23 +108,28 @@ namespace Toggl.Droid.Fragments
         {
             if (visible)
             {
-                if (onboardingView == null)
-                {
-                    initializeOnboardingView();
-                }
+                initializeOnboardingViewIfNeeded();
 
-                calendarRecyclerView.Visibility = ViewStates.Gone;
+                appBarLayout.Visibility = ViewStates.Gone;
                 onboardingView.Visibility = ViewStates.Visible;
+                calendarRecyclerView.Visibility = ViewStates.Gone;
+                return;
             }
-            else if (onboardingView != null)
-            {
-                onboardingView.Visibility = ViewStates.Gone;
-                calendarRecyclerView.Visibility = ViewStates.Visible;
-            }
+
+            appBarLayout.Visibility = ViewStates.Visible;
+            calendarRecyclerView.Visibility = ViewStates.Visible;
+
+            if (onboardingView == null)
+                return;
+
+            onboardingView.Visibility = ViewStates.Gone;
         }
 
-        private void initializeOnboardingView()
+        private void initializeOnboardingViewIfNeeded()
         {
+            if (onboardingView != null)
+                return;
+
             onboardingView = onboardingViewStub.Inflate();
             getStartedButton = onboardingView.FindViewById<Button>(Resource.Id.CalendarOnboardingGetStartedButton);
             skipButton = onboardingView.FindViewById<TextView>(Resource.Id.CalendarOnboardingSkipButton);

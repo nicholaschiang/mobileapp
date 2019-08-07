@@ -6,17 +6,26 @@ using Toggl.Core.Analytics;
 
 namespace Toggl.Droid
 {
+    /// <summary>
+    /// Custom handler scheduler
+    /// </summary>
+    /// <remarks>
+    /// Roughly based on reactiveui/ReactiveUI HandlerScheduler class
+    /// See https://github.com/reactiveui/ReactiveUI/blob/master/src/ReactiveUI/Platforms/android/HandlerScheduler.cs
+    /// </remarks>
     public sealed class HandlerScheduler : IScheduler
     {
-        private readonly long looperId;
         private readonly Handler handler;
+        private readonly IAnalyticsService analyticsService;
+        private readonly string analyticsEventName;
 
         public DateTimeOffset Now => DateTimeOffset.Now;
 
-        public HandlerScheduler(Handler handler, long? threadIdAssociatedWithHandler)
+        public HandlerScheduler(Handler handler, IAnalyticsService analyticsService)
         {
             this.handler = handler;
-            looperId = threadIdAssociatedWithHandler ?? -1;
+            this.analyticsService = analyticsService;
+            this.analyticsEventName = GetType().Name;
         }
 
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
@@ -24,15 +33,20 @@ namespace Toggl.Droid
             bool isCancelled = false;
             var innerDisp = new SerialDisposable { Disposable = Disposable.Empty };
 
-            if (looperId > 0 && looperId == Java.Lang.Thread.CurrentThread().Id)
-                return action(this, state);
-
-            handler.Post(() => 
+            handler.Post(() =>
             {
-                if (isCancelled)
-                    return;
+                try
+                {
+                    if (isCancelled)
+                        return;
 
-                innerDisp.Disposable = action(this, state);
+                    innerDisp.Disposable = action(this, state);
+                }
+                catch (Exception exception)
+                {
+                    performAnalytics("Schedule:Post:1", exception);
+                    throw;
+                }
             });
 
             return new CompositeDisposable(
@@ -46,13 +60,20 @@ namespace Toggl.Droid
             var isCancelled = false;
             var innerDisp = new SerialDisposable { Disposable = Disposable.Empty };
 
-                handler.PostDelayed(() => 
+            handler.PostDelayed(() =>
+            {
+                try
                 {
                     if (isCancelled)
                         return;
 
                     innerDisp.Disposable = action(this, state);
-                }, dueTime.Ticks / TimeSpan.TicksPerMillisecond);
+                }
+                catch (Exception exception)
+                {
+                    performAnalytics("Schedule:Post:2", exception);
+                }
+            }, dueTime.Ticks / TimeSpan.TicksPerMillisecond);
 
             return new CompositeDisposable(
                 Disposable.Create(() => isCancelled = true),
@@ -66,6 +87,17 @@ namespace Toggl.Droid
                 return Schedule(state, action);
 
             return Schedule(state, dueTime - Now, action);
+        }
+
+        private void performAnalytics(string cause, Exception exception)
+        {
+            analyticsService.DebugSchedulerError.Track(
+                analyticsEventName,
+                cause,
+                exception.GetType().Name,
+                exception.StackTrace);
+
+            analyticsService.Track(exception, exception.Message);
         }
     }
 }

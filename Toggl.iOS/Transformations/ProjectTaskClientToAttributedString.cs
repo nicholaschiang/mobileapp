@@ -11,15 +11,13 @@ namespace Toggl.iOS.Transformations
     {
         private const string projectDotImageResource = "icProjectDot";
         private readonly UIColor clientColor;
-        private readonly bool shouldColorProject;
         private readonly nfloat fontHeight;
 
-        public ProjectTaskClientToAttributedString(nfloat fontHeight, UIColor clientColor, bool shouldColorProject)
+        public ProjectTaskClientToAttributedString(nfloat fontHeight, UIColor clientColor)
         {
             Ensure.Argument.IsNotNull(clientColor, nameof(clientColor));
 
             this.clientColor = clientColor;
-            this.shouldColorProject = shouldColorProject;
             this.fontHeight = fontHeight;
         }
 
@@ -63,12 +61,10 @@ namespace Toggl.iOS.Transformations
 
             var result = new NSMutableAttributedString(text);
             var clientIndex = text.Length - (client?.Length ?? 0);
-            if (shouldColorProject)
-            {
-                var projectNameRange = new NSRange(0, clientIndex);
-                var projectNameAttributes = new UIStringAttributes { ForegroundColor = color };
-                result.AddAttributes(projectNameAttributes, projectNameRange);
-            }
+
+            var projectNameRange = new NSRange(0, clientIndex);
+            var projectNameAttributes = new UIStringAttributes { ForegroundColor = color };
+            result.AddAttributes(projectNameAttributes, projectNameRange);
 
             if (!hasClient) return result;
 

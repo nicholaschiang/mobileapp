@@ -9,7 +9,7 @@
         android:id="@+id/ScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        local:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
             android:orientation="vertical"
             android:animateLayoutChanges="true"
@@ -315,52 +315,50 @@
                 android:layout_height="0.5dp"
                 android:layout_marginTop="24dp"
                 android:layout_width="match_parent" />
-            <FrameLayout
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/SettingsToggleManualModeView"
-                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:layout_height="72dp"
-                android:layout_width="match_parent">
+                android:clickable="true"
+                android:focusable="true">
                 <TextView
-                    android:textSize="15sp"
-                    android:textAllCaps="false"
-                    android:lineSpacingExtra="5sp"
-                    android:gravity="center_vertical"
+                    android:id="@+id/SettingsToggleManualModeLabel"
                     android:text="@string/ManualMode"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="8dp"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="5sp"
+                    android:lines="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:textSize="12sp"
-                    android:textColor="@color/defaultText"
-                    android:text="@string/ManualModeExplanationPartOne"
                     android:layout_marginTop="8dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="22dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:textSize="12sp"
-                    android:textColor="@color/defaultText"
-                    android:text="@string/ManualModeExplanationPartTwo"
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    local:layout_constraintEnd_toStartOf="@+id/SettingsIsManualModeEnabledSwitch"
+                    local:layout_constraintStart_toStartOf="parent"
+                    local:layout_constraintTop_toTopOf="parent" />
                 <Switch
                     android:id="@+id/SettingsIsManualModeEnabledSwitch"
-                    android:clickable="false"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="18dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:paddingRight="18dp"
+                    android:clickable="false"
+                    local:layout_constraintBottom_toBottomOf="@+id/SettingsToggleManualModeLabel"
+                    local:layout_constraintEnd_toEndOf="parent"
+                    local:layout_constraintTop_toTopOf="@+id/SettingsToggleManualModeLabel" />
+                <TextView
+                    android:id="@+id/SettingsToggleManualModeExplanation"
+                    android:text="@string/ManualModeExplanation"
+                    android:textColor="@color/defaultText"
+                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    local:layout_constraintBottom_toBottomOf="parent"
+                    local:layout_constraintEnd_toEndOf="parent"
+                    local:layout_constraintStart_toStartOf="@+id/SettingsToggleManualModeLabel"
+                    local:layout_constraintTop_toBottomOf="@+id/SettingsIsManualModeEnabledSwitch" />
+            </android.support.constraint.ConstraintLayout>
             <View
                 android:background="@color/separator"
                 android:layout_height="0.5dp"
@@ -591,12 +589,20 @@
                 android:layout_width="match_parent" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/Toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/toolbarBlack"
-        local:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+  <android.support.design.widget.AppBarLayout
+      android:id="@+id/AppBarLayout"
+      android:elevation="0dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/Toolbar"
+          android:minHeight="?attr/actionBarSize"
+          android:background="@color/defaultBackground"
+          local:titleTextColor="@android:color/black"
+          local:layout_scrollFlags="scroll|enterAlways"
+          local:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+          android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+  </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

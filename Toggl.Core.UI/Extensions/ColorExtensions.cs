@@ -65,27 +65,9 @@ namespace Toggl.Core.UI.Extensions
 
         public static Color ForegroundColor(this CalendarItem calendarItem)
         {
-            // Adjusted relative luminance
-            // math based on https://www.w3.org/WAI/GL/wiki/Relative_luminance
-
             var color = new Color(calendarItem.Color);
-
-            var rsrgb = color.Red / 255.0;
-            var gsrgb = color.Green / 255.0;
-            var bsrgb = color.Blue / 255.0;
-
-            var lowGammaCoeficient = 1 / 12.92;
-
-            var r = rsrgb <= 0.03928 ? rsrgb * lowGammaCoeficient : adjustGamma(rsrgb);
-            var g = gsrgb <= 0.03928 ? gsrgb * lowGammaCoeficient : adjustGamma(gsrgb);
-            var b = bsrgb <= 0.03928 ? bsrgb * lowGammaCoeficient : adjustGamma(bsrgb);
-
-            var luma = r * 0.2126 + g * 0.7152 + b * 0.0722;
-
+            var luma = color.CalculateLuminance();
             return luma < 0.5 ? Colors.White : Colors.Black;
-
-            double adjustGamma(double channel)
-                => Pow((channel + 0.055) / 1.055, 2.4);
         }
     }
 }

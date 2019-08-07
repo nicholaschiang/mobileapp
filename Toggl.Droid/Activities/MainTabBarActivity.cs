@@ -39,7 +39,7 @@ namespace Toggl.Droid.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            SetTheme(Resource.Style.AppTheme);
+            SetTheme(Resource.Style.AppTheme_Light);
             base.OnCreate(savedInstanceState);
             if (ViewModelWasNotCached())
             {

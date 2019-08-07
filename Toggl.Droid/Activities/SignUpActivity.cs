@@ -20,8 +20,7 @@ namespace Toggl.Droid.Activities
     {
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_WhiteStatusBar);
-            this.ChangeStatusBarColor(Android.Graphics.Color.White, true);
+            SetTheme(Resource.Style.AppTheme_Light);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {
@@ -33,8 +32,15 @@ namespace Toggl.Droid.Activities
 
             InitializeViews();
 
-            emailEditText.Text = ViewModel.Email.FirstAsync().GetAwaiter().GetResult();
-            passwordEditText.Text = ViewModel.Password.FirstAsync().GetAwaiter().GetResult();
+            ViewModel.Email.FirstAsync()
+                .SubscribeOn(AndroidDependencyContainer.Instance.SchedulerProvider.MainScheduler)
+                .Subscribe(emailEditText.Rx().TextObserver())
+                .DisposedBy(DisposeBag);
+
+            ViewModel.Password.FirstAsync()
+                .SubscribeOn(AndroidDependencyContainer.Instance.SchedulerProvider.MainScheduler)
+                .Subscribe(passwordEditText.Rx().TextObserver())
+                .DisposedBy(DisposeBag);
 
             //Text
             ViewModel.ErrorMessage

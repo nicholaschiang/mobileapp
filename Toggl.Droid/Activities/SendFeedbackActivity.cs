@@ -24,7 +24,7 @@ namespace Toggl.Droid.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme);
+            SetTheme(Resource.Style.AppTheme_Light);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {
@@ -32,7 +32,7 @@ namespace Toggl.Droid.Activities
                 return;
             }
             SetContentView(Resource.Layout.SendFeedbackActivity);
-            OverridePendingTransition(Resource.Animation.abc_slide_in_bottom, Resource.Animation.abc_fade_out);
+            OverridePendingTransition(Resource.Animation.abc_slide_in_right, Resource.Animation.abc_fade_out);
 
             InitializeViews();
             SetSupportActionBar(toolbar);
@@ -106,6 +106,12 @@ namespace Toggl.Droid.Activities
                 default:
                     return base.OnOptionsItemSelected(item);
             }
+        }
+
+        public override void Finish()
+        {
+            base.Finish();
+            OverridePendingTransition(Resource.Animation.abc_fade_in, Resource.Animation.abc_slide_out_right);
         }
 
         private void onSendEnabled(bool enabled)

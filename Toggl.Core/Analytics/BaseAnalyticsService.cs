@@ -267,6 +267,12 @@ namespace Toggl.Core.Analytics
         [AnalyticsEvent("Location")]
         public IAnalyticsEvent<ApplicationInstallLocation> ApplicationInstallLocation { get; protected set; }
 
+        [AnalyticsEvent("Type", "Source", "ExceptionType", "StackTrace")]
+        public IAnalyticsEvent<string, string, string, string> DebugSchedulerError { get; protected set; }
+
+        [AnalyticsEvent("Action", "Type")]
+        public IAnalyticsEvent<string, string> DebugNavigationError { get; protected set; }
+
         [AnalyticsEvent("Enabled")]
         public IAnalyticsEvent<bool> AccessibilityEnabled { get; protected set; }
 

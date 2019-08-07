@@ -83,7 +83,7 @@ namespace Toggl.iOS.ViewSources
 
             collection
                 .CollectionChange
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(IosDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .Subscribe(_ => onCollectionChanges())
                 .DisposedBy(disposeBag);
 
@@ -95,7 +95,7 @@ namespace Toggl.iOS.ViewSources
             timeService
                 .CurrentDateTimeObservable
                 .DistinctUntilChanged(offset => offset.Minute)
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(IosDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .Subscribe(_ => updateLayoutAttributesIfNeeded())
                 .DisposedBy(disposeBag);
 

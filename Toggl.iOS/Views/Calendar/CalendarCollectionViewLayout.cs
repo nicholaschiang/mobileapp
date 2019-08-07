@@ -89,7 +89,7 @@ namespace Toggl.iOS.Views.Calendar
             timeService
                 .CurrentDateTimeObservable
                 .DistinctUntilChanged(offset => offset.Minute)
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(IosDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .Subscribe(_ => InvalidateCurrentTimeLayout())
                 .DisposedBy(disposeBag);
 

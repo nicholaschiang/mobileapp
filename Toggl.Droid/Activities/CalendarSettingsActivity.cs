@@ -23,7 +23,7 @@ namespace Toggl.Droid.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            SetTheme(Resource.Style.AppTheme);
+            SetTheme(Resource.Style.AppTheme_Light);
             base.OnCreate(savedInstanceState);
             if (ViewModelWasNotCached())
             {
@@ -31,6 +31,7 @@ namespace Toggl.Droid.Activities
                 return;
             }
             SetContentView(Resource.Layout.CalendarSettingsActivity);
+            OverridePendingTransition(Resource.Animation.abc_slide_in_right, Resource.Animation.abc_fade_out);
 
             InitializeViews();
             setupToolbar();
@@ -80,6 +81,12 @@ namespace Toggl.Droid.Activities
             }
 
             return base.OnOptionsItemSelected(item);
+        }
+
+        public override void Finish()
+        {
+            base.Finish();
+            OverridePendingTransition(Resource.Animation.abc_fade_in, Resource.Animation.abc_slide_out_right);
         }
 
         private void setupToolbar()

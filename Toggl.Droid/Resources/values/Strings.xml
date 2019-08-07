@@ -39,8 +39,7 @@
     <string name="DefaultWorkspace">Default Workspace</string>
     <string name="Total">Total</string>
     <string name="ManualMode">Manual Mode</string>
-    <string name="ManualModeExplanationPartOne">You can add your data manually, instead of</string>
-	<string name="ManualModeExplanationPartTwo">tracking in real time.</string>
+    <string name="ManualModeExplanation">This option sets the default behavior for the start button. Regardless of the current option, long pressing the button will always activate the alternative mode.</string>
     <string name="TryLoggingInInstead"><u>Try logging in instead.</u></string>
     <string name="ForgotPassword">Forgot your password? <b>Get help logging in</b></string>
     <string name="Duration">Duration</string>

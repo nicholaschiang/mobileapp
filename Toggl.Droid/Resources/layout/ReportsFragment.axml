@@ -6,37 +6,42 @@
     android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <toggl.droid.views.ReportsLinearLayout
-        android:id="@+id/ReportsFragmentMainContainer"
-        tools:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
+  <toggl.droid.views.ReportsLinearLayout
+      android:id="@+id/ReportsFragmentMainContainer"
+      tools:visibility="gone"
+      android:clickable="true"
+      android:focusable="true"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="?attr/actionBarSize">
+    <toggl.droid.views.ReportsCalendarView
+        android:id="@+id/ReportsFragmentCalendarView"
         android:orientation="vertical"
+        android:layout_marginTop="-500dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
-        <toggl.droid.views.ReportsCalendarView
-            android:id="@+id/ReportsFragmentCalendarView"
-            android:orientation="vertical"
-            android:layout_marginTop="-500dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ReportsFragmentRecyclerView"
-            android:scrollbars="none"
-            android:paddingBottom="64dp"
-            android:clipToPadding="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </toggl.droid.views.ReportsLinearLayout>
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/Toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/toolbarBlack"
-        local:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ReportsFragmentRecyclerView"
+        android:scrollbars="none"
+        android:paddingBottom="64dp"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="match_parent" />
+  </toggl.droid.views.ReportsLinearLayout>
+  <android.support.design.widget.AppBarLayout
+      android:id="@+id/AppBarLayout"
+      android:elevation="0dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/Toolbar"
+          android:minHeight="?attr/actionBarSize"
+          android:background="@color/defaultBackground"
+          local:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+          android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize">
         <TextView
             android:id="@+id/ToolbarCurrentDateRangeText"
             tools:text="Last week"
@@ -46,19 +51,20 @@
             android:gravity="center"
             android:letterSpacing="-0.01"
             android:lineSpacingExtra="5sp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical" />
-    </android.support.v7.widget.Toolbar>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/SelectWorkspaceFAB"
-        local:elevation="4dp"
-        android:src="@drawable/workspace_white"
-        local:backgroundTint="@color/playButtonGreen"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_gravity="bottom|right" />
+      </android.support.v7.widget.Toolbar>
+  </android.support.design.widget.AppBarLayout>
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/SelectWorkspaceFAB"
+      local:elevation="4dp"
+      android:src="@drawable/workspace_white"
+      local:backgroundTint="@color/playButtonGreen"
+      android:layout_width="56dp"
+      android:layout_height="56dp"
+      android:layout_marginRight="16dp"
+      android:layout_marginBottom="16dp"
+      android:layout_gravity="bottom|right" />
 </android.support.design.widget.CoordinatorLayout>

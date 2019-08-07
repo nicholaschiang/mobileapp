@@ -33,8 +33,7 @@ namespace Toggl.iOS.Views.Settings
 
             projectTaskClientToAttributedString = new ProjectTaskClientToAttributedString(
                 DetailsLabel.Font.CapHeight,
-                Colors.TimeEntriesLog.ClientColor.ToNativeColor(),
-                true
+                Colors.TimeEntriesLog.ClientColor.ToNativeColor()
             );
         }
 

@@ -5,6 +5,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using System;
+using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Toggl.Core.Autocomplete;
@@ -32,7 +33,7 @@ namespace Toggl.Droid.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_BlueStatusBar);
+            SetTheme(Resource.Style.AppTheme_Light);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {

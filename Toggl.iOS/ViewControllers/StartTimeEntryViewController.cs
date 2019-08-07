@@ -197,7 +197,7 @@ namespace Toggl.iOS.ViewControllers
                 .SubscribeOn(ThreadPoolScheduler.Instance)
                 .Do(updatePlaceholder)
                 .Select(text => text.AsSpans((int)DescriptionTextView.SelectedRange.Location))
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(IosDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .Subscribe(ViewModel.SetTextSpans.Inputs)
                 .DisposedBy(DisposeBag);
         }

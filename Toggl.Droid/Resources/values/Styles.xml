@@ -11,33 +11,18 @@
         <item name="android:statusBarColor">#2C2C2C</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowBackground">@color/lightGray</item>
     </style>
 
-    <style name="AppTheme.BlueStatusBar">
-        <item name="android:statusBarColor">@color/blueStatusBarBackground</item>
+    <style name="AppTheme.Light">
+      <item name="android:windowBackground">@color/lightGray</item>
     </style>
 
-    <style name="AppTheme.BlueStatusBar.WhiteBackground">
+    <style name="AppTheme.Light.WhiteBackground">
       <item name="android:windowBackground">@android:color/white</item>
+      <item name="colorControlActivated">@color/defaultEditText</item>
     </style>
 
-    <style name="AppTheme.WhiteStatusBar">
-    </style>
-
-    <style name="AppTheme.WhiteStatusBarLightIcons">
-        <item name="android:statusBarColor">@android:color/white</item>
-    </style>
-
-    <style name="AppTheme.LighGrayStatusBar">
-        <item name="android:statusBarColor">@color/lightGray</item>
-    </style>
-    
-    <style name="AppTheme.OnboardingStatusBarColor">
-        <item name="android:statusBarColor">@color/onboardingStatusBarColor</item>
-    </style>
-
-    <style name="AppTheme.OutdatedAppStatusBarColor">
+    <style name="AppTheme.Light.OutdatedAppStatusBarColor">
         <item name="android:statusBarColor">#BDBDBD</item>
     </style>
     

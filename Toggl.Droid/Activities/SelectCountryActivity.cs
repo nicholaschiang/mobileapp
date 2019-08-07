@@ -26,7 +26,7 @@ namespace Toggl.Droid.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_WhiteStatusBarLightIcons);
+            SetTheme(Resource.Style.AppTheme_Light);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {

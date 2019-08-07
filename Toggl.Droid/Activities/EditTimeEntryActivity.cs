@@ -1,10 +1,12 @@
 using Android.App;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Text;
 using System;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using Toggl.Core.Analytics;
 using Toggl.Core.Extensions;
@@ -14,6 +16,7 @@ using Toggl.Core.UI.ViewModels;
 using Toggl.Droid.Extensions;
 using Toggl.Droid.Extensions.Reactive;
 using Toggl.Droid.ViewHolders;
+using Toggl.Shared;
 using Toggl.Shared.Extensions;
 using static Toggl.Droid.Resource.String;
 using TagsAdapter = Toggl.Droid.Adapters.SimpleAdapter<string>;
@@ -31,7 +34,7 @@ namespace Toggl.Droid.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_BlueStatusBar);
+            SetTheme(Resource.Style.AppTheme_Light_WhiteBackground);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {
@@ -103,6 +106,8 @@ namespace Toggl.Droid.Activities
             deleteLabel.Text = ViewModel.IsEditingGroup
                 ? string.Format(TextResources.DeleteNTimeEntries, ViewModel.GroupCount)
                 : TextResources.DeleteThisEntry;
+
+            scrollView.AttachMaterialScrollBehaviour(appBarLayout);
         }
 
         private void setupBindings()

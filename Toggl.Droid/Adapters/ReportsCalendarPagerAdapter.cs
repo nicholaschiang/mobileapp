@@ -83,7 +83,7 @@ namespace Toggl.Droid.Adapters
                 .DisposedBy(disposeBag);
 
             selectionChanges
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(AndroidDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .Subscribe(adapter.UpdateDateRangeParameter)
                 .DisposedBy(disposeBag);
         }

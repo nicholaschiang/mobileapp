@@ -62,7 +62,7 @@ namespace Toggl.Droid.Extensions
 
             return step.ShouldBeVisible
                 .CombineLatest(componentIsVisible, CommonFunctions.And)
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(AndroidDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .combineWithWindowTokenAvailabilityFrom(anchor)
                 .Subscribe(toggleVisibilityOnMainThread);
         }

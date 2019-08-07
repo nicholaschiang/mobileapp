@@ -16,6 +16,7 @@ namespace Toggl.Droid.Fragments
         private ReportsLinearLayout reportsMainContainer;
         private ReportsCalendarView calendarView;
         private Toolbar toolbar;
+        private AppBarLayout appBarLayout;
 
         protected override void InitializeViews(View fragmentView)
         {
@@ -27,6 +28,7 @@ namespace Toggl.Droid.Fragments
             calendarView = fragmentView.FindViewById<ReportsCalendarView>(Resource.Id.ReportsFragmentCalendarView);
             reportsMainContainer.CalendarContainer = calendarView;
             toolbar = fragmentView.FindViewById<Toolbar>(Resource.Id.Toolbar);
+            appBarLayout = fragmentView.FindViewById<AppBarLayout>(Resource.Id.AppBarLayout);
         }
     }
 }

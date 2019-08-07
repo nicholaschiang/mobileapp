@@ -34,9 +34,6 @@ namespace Toggl.Core.Tests.Sync.Helpers
 
         public IAutomaticSyncingService AutomaticSyncingService { get; } = Substitute.For<IAutomaticSyncingService>();
 
-        public IRemoteConfigService RemoteConfigService { get; } =
-            Substitute.For<IRemoteConfigService>();
-
         public AppServices(ITogglApi api, ITogglDatabase database)
         {
             Scheduler = System.Reactive.Concurrency.Scheduler.Default;

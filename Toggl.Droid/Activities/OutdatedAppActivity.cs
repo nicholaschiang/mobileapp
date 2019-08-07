@@ -14,7 +14,7 @@ namespace Toggl.Droid.Activities
     {
         protected override void OnCreate(Bundle bundle)
         {
-            SetTheme(Resource.Style.AppTheme_OutdatedAppStatusBarColor);
+            SetTheme(Resource.Style.AppTheme_Light_OutdatedAppStatusBarColor);
             base.OnCreate(bundle);
             if (ViewModelWasNotCached())
             {

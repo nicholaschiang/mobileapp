@@ -202,7 +202,7 @@ namespace Toggl.Droid.Views
                 canvas.DrawLine(middleLineX, 0f, middleLineX, Height, linesPaint);
             }
 
-            for (var hour = 0; hour < timeLinesYs.Length; hour++)
+            for (var hour = 1; hour < timeLinesYs.Length; hour++)
             {
                 canvas.DrawLine(timeSliceStartX, timeLinesYs[hour] - offset, Width, timeLinesYs[hour] - offset, linesPaint);
                 canvas.DrawText(hours[hour], hoursX, hoursYs[hour] - offset, hoursLabelPaint);

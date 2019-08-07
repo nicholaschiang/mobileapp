@@ -1,4 +1,5 @@
-﻿using Android.Support.V4.Widget;
+﻿using Android.Support.Design.Widget;
+using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
@@ -40,6 +41,7 @@ namespace Toggl.Droid.Fragments
         private Switch groupTimeEntriesSwitch;
 
         private Toolbar toolbar;
+        private AppBarLayout appBarLayout;
         private NestedScrollView scrollView;
 
         protected override void InitializeViews(View fragmentView)
@@ -77,6 +79,7 @@ namespace Toggl.Droid.Fragments
             groupTimeEntriesSwitch = fragmentView.FindViewById<Switch>(Resource.Id.GroupTimeEntriesSwitch);
 
             toolbar = fragmentView.FindViewById<Toolbar>(Resource.Id.Toolbar);
+            appBarLayout = fragmentView.FindViewById<AppBarLayout>(Resource.Id.AppBarLayout);
 
             scrollView = fragmentView.FindViewById<NestedScrollView>(Resource.Id.ScrollView);
         }

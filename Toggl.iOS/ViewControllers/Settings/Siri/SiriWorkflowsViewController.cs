@@ -63,7 +63,7 @@ namespace Toggl.iOS.ViewControllers.Settings.Siri
 
             downloadJson()
                 .Select(JsonConvert.DeserializeObject<List<SiriWorkflow>>)
-                .ObserveOn(SynchronizationContext.Current)
+                .ObserveOn(IosDependencyContainer.Instance.SchedulerProvider.MainScheduler)
                 .Subscribe(TableView.Rx().ReloadItems(source))
                 .DisposedBy(DisposeBag);
 
