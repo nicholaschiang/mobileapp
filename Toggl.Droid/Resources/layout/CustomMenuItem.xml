@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:text="@string/Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center_vertical"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:clickable="false"/>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp"
+    android:text="@string/Save"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:fontFamily="sans-serif-medium"
+    android:gravity="center_vertical"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    android:textAllCaps="true"
+    android:textColor="@android:color/black"
+    android:textSize="14sp"
+    android:clickable="false">
+</TextView>

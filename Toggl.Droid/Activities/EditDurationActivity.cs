@@ -209,11 +209,13 @@ namespace Toggl.Droid.Activities
         {
             MenuInflater.Inflate(Resource.Menu.GenericSaveMenu, menu);
             var item = menu.FindItem(Resource.Id.SaveMenuItem);
-            item.ActionView.Click += (sender, e) =>
-            {
-                wheelNumericInput.ApplyDurationIfBeingEdited();
-                ViewModel.Save.Execute();
-            };
+            item.ActionView.Rx().Tap()
+                .Subscribe(_ =>
+                {
+                    wheelNumericInput.ApplyDurationIfBeingEdited();
+                    ViewModel.Save.Execute();
+                })
+                .DisposedBy(DisposeBag);
             return true;
         }
 
