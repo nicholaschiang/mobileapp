@@ -108,7 +108,7 @@ namespace Toggl.Droid.Activities
         {
             if (ViewModel.IsLoginInProgress())
             {
-                ViewModel.CancelLogin();
+                ViewModel.TryToCancelLogin();
             }
             else
             {

@@ -42,6 +42,7 @@ namespace Toggl.Core.UI.ViewModels
 
         private CancellationTokenSource loginCancellationTokenSource;
         private CancellationToken loginCancellationToken;
+        private bool shouldCancelAfterSync = false;
 
         private readonly Subject<ShakeTargets> shakeSubject = new Subject<ShakeTargets>();
         private readonly Subject<bool> isShowPasswordButtonVisibleSubject = new Subject<bool>();
@@ -179,6 +180,7 @@ namespace Toggl.Core.UI.ViewModels
             isLoadingSubject.OnNext(true);
             errorMessageSubject.OnNext("");
 
+            shouldCancelAfterSync = false;
             setupLoginCancellationTokenSource();
 
             userAccessManager
@@ -196,6 +198,7 @@ namespace Toggl.Core.UI.ViewModels
 
             isLoadingSubject.OnNext(true);
 
+            shouldCancelAfterSync = false;
             setupLoginCancellationTokenSource();
 
             View.GetGoogleToken()
@@ -209,20 +212,28 @@ namespace Toggl.Core.UI.ViewModels
             return isLoadingSubject.Value;
         }
 
-        public async void CancelLogin()
+        public void TryToCancelLogin()
         {
-            if (!IsLoginInProgress() || loginCancellationTokenSource == null) return;
-
-            if (loginCancellationToken.CanBeCanceled)
+            if (IsLoginInProgress())
             {
-                loginCancellationTokenSource.Cancel();
-
-                await interactorFactory.Logout(LogoutSource.BackButtonOnLoginScreen)
-                  .Execute();
-
-                isLoadingSubject.OnNext(false);
-                onCompleted();
+                shouldCancelAfterSync = true;
             }
+
+            if (loginCancellationTokenSource == null || !loginCancellationToken.CanBeCanceled)
+            {
+                return;
+            }
+
+            loginCancellationTokenSource.Cancel();
+            cancelLoginViaLogout();
+        }
+
+        private async void cancelLoginViaLogout()
+        {
+            await interactorFactory.Logout(LogoutSource.BackButtonOnLoginScreen)
+                .Execute()
+                .Do(_ => isLoadingSubject.OnNext(false))
+                .Do(onCompleted);
         }
 
         private Task signup()
@@ -261,6 +272,12 @@ namespace Toggl.Core.UI.ViewModels
                 .Subscribe(analyticsService.SetAppCenterUserId);
 
             await UIDependencyContainer.Instance.SyncManager.ForceFullSync();
+
+            if (shouldCancelAfterSync)
+            {
+                cancelLoginViaLogout();
+                return;
+            }
 
             await Navigate<MainTabBarViewModel>();
         }
