@@ -137,7 +137,7 @@ namespace Toggl.Droid.Activities
                 .ViewModelCache
                 .Clear<TViewModel>();
 
-            Finish();
+            SupportFinishAfterTransition();
         }
 
         protected override void Dispose(bool disposing)

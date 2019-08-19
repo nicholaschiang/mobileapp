@@ -4,10 +4,10 @@ using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Content;
-using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
 using Android.Text;
+using Android.Util;
 using Android.Views;
 using System;
 using System.Reactive.Linq;
@@ -29,6 +29,7 @@ using Toggl.Shared.Extensions;
 using static Android.Content.Context;
 using static Toggl.Core.Sync.SyncProgress;
 using FoundationResources = Toggl.Shared.Resources;
+using JavaString = Java.Lang.String;
 
 namespace Toggl.Droid.Fragments
 {
@@ -67,6 +68,11 @@ namespace Toggl.Droid.Fragments
             runningEntryCardFrame.Rx().Tap()
                 .WithLatestFrom(ViewModel.CurrentRunningTimeEntry,
                     (_, te) => (new[] { te.Id }, EditTimeEntryOrigin.RunningTimeEntryCard))
+                .Do(_ =>
+                {
+                    DescriptionTransitionView = timeEntryCardDescriptionLabel;
+                    ProjectTransitionView = timeEntryCardProjectClientTaskLabel;
+                })
                 .Subscribe(ViewModel.SelectTimeEntry.Inputs)
                 .DisposedBy(DisposeBag);
 
@@ -138,6 +144,14 @@ namespace Toggl.Droid.Fragments
             mainRecyclerAdapter.SetupRatingViewVisibility(shouldShowRatingViewOnResume);
 
             setupRecycler();
+
+            mainRecyclerAdapter.TappedViewHolder
+                .Subscribe(tappedHolder =>
+                {
+                    ProjectTransitionView = tappedHolder.ProjectNameView;
+                    DescriptionTransitionView = tappedHolder.CurrentDescriptionView;
+                })
+                .DisposedBy(DisposeBag);
 
             mainRecyclerAdapter.ToggleGroupExpansion
                 .Subscribe(ViewModel.TimeEntriesViewModel.ToggleGroupExpansion.Inputs)
@@ -354,6 +368,33 @@ namespace Toggl.Droid.Fragments
             {
                 welcomeBackView.Visibility = ViewStates.Gone;
             }
+        }
+    }
+
+    public partial class MainFragment : ISharedTransitionPairProvider
+    {
+        private static readonly JavaString projectTransitionTag = new JavaString("TimeEntryProjectName");
+        private static readonly JavaString descriptionTransitionTag = new JavaString("TimeEntryDescription");
+
+        public View ProjectTransitionView { get; set; }
+
+        public View DescriptionTransitionView { get; set; }
+
+        Activity ISharedTransitionPairProvider.Activity => Activity;
+
+        public Pair[] GetAnimationsPairsFor(Type viewModelType)
+        {
+            if (viewModelType != typeof(EditTimeEntryViewModel))
+                return null;
+
+            if (DescriptionTransitionView == null)
+                return null;
+
+            return new[]
+            {
+                Pair.Create(ProjectTransitionView, projectTransitionTag),
+                Pair.Create(DescriptionTransitionView, descriptionTransitionTag)
+            };
         }
     }
 }

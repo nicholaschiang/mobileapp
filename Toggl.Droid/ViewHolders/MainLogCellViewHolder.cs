@@ -23,6 +23,13 @@ namespace Toggl.Droid.ViewHolders
             Right
         }
 
+        public TextView CurrentDescriptionView
+            => Item.DescriptionVisibility != ViewStates.Visible
+            ? addDescriptionLabel
+            : timeEntriesLogCellDescription;
+
+        public TextView ProjectNameView => timeEntriesLogCellProjectLabel;
+
         public MainLogCellViewHolder(View itemView)
             : base(itemView)
         {
@@ -57,6 +64,7 @@ namespace Toggl.Droid.ViewHolders
         public View MainLogContentView { get; private set; }
         public Subject<(LogItemViewModel, ContinueTimeEntryMode)> ContinueButtonTappedSubject { get; set; }
         public Subject<GroupId> ToggleGroupExpansionSubject { get; set; }
+        public Subject<MainLogCellViewHolder> TappedViewHolder { get; set; }
 
         private GroupId groupId;
 
@@ -183,6 +191,13 @@ namespace Toggl.Droid.ViewHolders
                 default:
                     throw new ArgumentOutOfRangeException($"Cannot visualize {Item.ViewModel.VisualizationIntent} in the time entries log table.");
             }
+        }
+
+        protected override void OnItemViewClick(object sender, EventArgs args)
+        {
+            TappedViewHolder?.OnNext(this);
+
+            base.OnItemViewClick(sender, args);
         }
 
         private void presentAsCollapsedGroupHeader(int timeEntriesCount)

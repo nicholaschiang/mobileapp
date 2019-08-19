@@ -368,6 +368,7 @@
     <Compile Include="DebugHelpers\ErrorTriggeringFragment.cs" />
     <Compile Include="DebugHelpers\ErrorTriggeringFragmentShortcut.cs" />
     <Compile Include="Presentation\ActivityTransitions.cs" />
+    <Compile Include="Presentation\ISharedTransitionPairProvider.cs" />
     <Compile Include="Presentation\RunningTimeEntrySheetBehavior.cs" />
     <Compile Include="Extensions\PermissionRequesterComponentExtensions.cs" />
     <Compile Include="Helper\IPermissionRequesterComponent.cs" />

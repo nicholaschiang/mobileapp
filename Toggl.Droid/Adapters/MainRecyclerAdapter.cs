@@ -21,8 +21,6 @@ namespace Toggl.Droid.Adapters
         public const int SuggestionViewType = 2;
         public const int UserFeedbackViewType = 3;
 
-        private readonly ITimeService timeService;
-
         private bool isRatingViewVisible = false;
 
         public IObservable<GroupId> ToggleGroupExpansion
@@ -37,17 +35,20 @@ namespace Toggl.Droid.Adapters
         public IObservable<LogItemViewModel> DeleteTimeEntrySubject
             => deleteTimeEntrySubject.AsObservable();
 
+        public IObservable<MainLogCellViewHolder> TappedViewHolder
+            => tappedViewHolder.AsObservable();
+
         public SuggestionsViewModel SuggestionsViewModel { get; set; }
         public RatingViewModel RatingViewModel { get; set; }
 
         private readonly Subject<GroupId> toggleGroupExpansionSubject = new Subject<GroupId>();
         private readonly Subject<TimeEntryViewData> timeEntryTappedSubject = new Subject<TimeEntryViewData>();
         private readonly Subject<(LogItemViewModel, ContinueTimeEntryMode)> continueTimeEntrySubject = new Subject<(LogItemViewModel, ContinueTimeEntryMode)>();
+        private readonly Subject<MainLogCellViewHolder> tappedViewHolder = new Subject<MainLogCellViewHolder>();
         private readonly Subject<LogItemViewModel> deleteTimeEntrySubject = new Subject<LogItemViewModel>();
 
         public MainRecyclerAdapter(ITimeService timeService)
         {
-            this.timeService = timeService;
         }
 
         public void ContinueTimeEntryBySwiping(int position)
@@ -125,7 +126,8 @@ namespace Toggl.Droid.Adapters
             {
                 TappedSubject = timeEntryTappedSubject,
                 ContinueButtonTappedSubject = continueTimeEntrySubject,
-                ToggleGroupExpansionSubject = toggleGroupExpansionSubject
+                ToggleGroupExpansionSubject = toggleGroupExpansionSubject,
+                TappedViewHolder = tappedViewHolder
             };
 
             return mainLogCellViewHolder;

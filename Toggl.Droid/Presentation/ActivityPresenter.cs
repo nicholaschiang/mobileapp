@@ -1,5 +1,6 @@
 using Android.App;
 using Android.Content;
+using Android.OS;
 using System;
 using System.Collections.Generic;
 using Toggl.Core.UI.ViewModels;
@@ -72,12 +73,31 @@ namespace Toggl.Droid.Presentation
                 AndroidDependencyContainer.Instance.ViewModelCache.ClearAll();
             }
 
+            var context = getContextFromView(sourceView);
+            var bundle = getTransitionBundle(sourceView, viewModelType);
+
             AndroidDependencyContainer
                 .Instance
                 .ViewModelCache
                 .Cache(viewModel);
 
-            getContextFromView(sourceView).StartActivity(intent);
+            context.StartActivity(intent, bundle);
+        }
+
+        private Bundle getTransitionBundle(IView view, Type viewModelType)
+        {
+            if (view is ISharedTransitionPairProvider pairProvider)
+            {
+                var pairs = pairProvider.GetAnimationsPairsFor(viewModelType);
+                if (pairs != null)
+                {
+                    return ActivityOptions
+                        .MakeSceneTransitionAnimation(pairProvider.Activity, pairs)
+                        .ToBundle();
+                }
+            }
+
+            return Bundle.Empty;
         }
 
         private Context getContextFromView(IView view)
