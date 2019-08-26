@@ -7,7 +7,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>10.3</string>
+	<string>11.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -88,7 +88,7 @@
 	<string>en</string>
 	<key>CFBundleLocalizations</key>
 	<array>
-	     <string>en</string>
+		<string>en</string>
 	</array>
 </dict>
 </plist>

@@ -269,8 +269,7 @@ namespace Toggl.iOS.ViewControllers
             centerTextVertically(TagsTextView);
             TagsTextView.TextContainer.LineFragmentPadding = 0;
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0)
-                && UIDevice.CurrentDevice.UserInterfaceIdiom != UIUserInterfaceIdiom.Pad)
+            if (UIDevice.CurrentDevice.UserInterfaceIdiom != UIUserInterfaceIdiom.Pad)
             {
                 var bottomSafeAreaInset = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
                 if (bottomSafeAreaInset >= ButtonsContainerBottomConstraint.Constant)
@@ -360,10 +359,7 @@ namespace Toggl.iOS.ViewControllers
             if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone)
             {
                 height = nonScrollableContentHeight + ScrollViewContent.Bounds.Height;
-                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
-                {
-                    height += UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
-                }
+                height += UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom;
 
                 if (keyboardHeight > 0)
                 {
@@ -378,9 +374,8 @@ namespace Toggl.iOS.ViewControllers
 
                     coveredByKeyboard = keyboardHeight - minimumVisibleContentHeight;
 
-                    var safeAreaOffset = UIDevice.CurrentDevice.CheckSystemVersion(11, 0)
-                        ? Math.Max(UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, UIApplication.SharedApplication.StatusBarFrame.Height)
-                        : 0;
+                    var safeAreaOffset = Math.Max(UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top,
+                        UIApplication.SharedApplication.StatusBarFrame.Height);
                     var distanceFromTop = Math.Max(safeAreaOffset, View.Frame.Y - coveredByKeyboard);
 
                     height = UIScreen.MainScreen.Bounds.Height - distanceFromTop;

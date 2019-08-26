@@ -47,10 +47,7 @@ namespace Toggl.iOS.Presentation.Transition
             get
             {
                 var distanceFromTop = UIApplication.SharedApplication.StatusBarFrame.Height;
-                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
-                {
-                    distanceFromTop += UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
-                }
+                distanceFromTop += UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
                 return UIScreen.MainScreen.Bounds.Height - distanceFromTop;
             }
         }
