@@ -204,7 +204,8 @@ namespace Toggl.iOS.Views
             var actionName = Item.VisualizationIntent == LogItemVisualizationIntent.CollapsedGroupHeader
                 ? Resources.ExpandTimeEntryGroup
                 : Resources.CollapseTimeEntryGroup;
-            var action = new UIAccessibilityCustomAction(actionName, (x) =>
+
+            var action = new UIAccessibilityCustomAction(actionName, probe: (x) =>
             {
                 accessibilityToggleGroupSubject.OnNext(Unit.Default);
                 return true;

@@ -58,13 +58,13 @@ namespace Toggl.Core.UI.ViewModels.Calendar
 
         public IObservable<string> CurrentDate { get; }
 
-        public UIAction GetStarted { get; }
+        public ViewAction GetStarted { get; }
 
-        public UIAction SkipOnboarding { get; }
+        public ViewAction SkipOnboarding { get; }
 
-        public UIAction LinkCalendars { get; }
+        public ViewAction LinkCalendars { get; }
 
-        public UIAction SelectCalendars { get; }
+        public ViewAction SelectCalendars { get; }
 
         public InputAction<CalendarItem> OnItemTapped { get; }
 

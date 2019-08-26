@@ -35,7 +35,7 @@ namespace Toggl.Core.UI.ViewModels
         public IObservable<float> Saturation { get; }
         public IObservable<float> Value { get; }
 
-        public UIAction Save { get; }
+        public ViewAction Save { get; }
         public InputAction<float> SetHue { get; }
         public InputAction<float> SetSaturation { get; }
         public InputAction<float> SetValue { get; }
@@ -123,7 +123,7 @@ namespace Toggl.Core.UI.ViewModels
 
         private IImmutableList<SelectableColorViewModel> updateSelectableColors(IEnumerable<Color> availableColors, Color selectedColor)
             => availableColors.Select(color => new SelectableColorViewModel(color, color == selectedColor)).ToImmutableList();
-        
+
         private void save()
         {
             Close(selectedColor.Value);

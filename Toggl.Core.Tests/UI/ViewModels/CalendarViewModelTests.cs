@@ -121,7 +121,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var schedulerProvider = useSchedulerProvider ? SchedulerProvider : null;
                 var navigationService = useNavigationService ? NavigationService : null;
                 var permissionsService = usePermissionsChecker ? PermissionsChecker : null;
-                 var rxActionFactory = useRxActionFactory ? RxActionFactory : null;
+                var rxActionFactory = useRxActionFactory ? RxActionFactory : null;
 
                 Action tryingToConstructWithEmptyParameters =
                     () => new CalendarViewModel(
@@ -368,7 +368,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
         public abstract class LinkCalendarsTest : CalendarViewModelTest
         {
-            protected abstract UIAction Action { get; }
+            protected abstract ViewAction Action { get; }
 
             [Fact, LogIfTooSlow]
             public async Task RequestsCalendarPermission()
@@ -482,7 +482,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
         public sealed class TheLinkCalendarsAction : LinkCalendarsTest
         {
-            protected override UIAction Action => ViewModel.LinkCalendars;
+            protected override ViewAction Action => ViewModel.LinkCalendars;
         }
 
         public sealed class TheHasCalendarsLinkedObservable : CalendarViewModelTest
@@ -600,7 +600,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
         public sealed class TheGetStartedAction : LinkCalendarsTest
         {
-            protected override UIAction Action => ViewModel.GetStarted;
+            protected override ViewAction Action => ViewModel.GetStarted;
 
             [Fact, LogIfTooSlow]
             public async Task SetsCalendarOnboardingAsCompletedIfUserGrantsAccess()

@@ -42,7 +42,7 @@ namespace Toggl.Core.UI.ViewModels
         public IObservable<Color> Color { get; }
         public IObservable<string> ClientName { get; }
         public IObservable<string> WorkspaceName { get; }
-        public UIAction Save { get; }
+        public ViewAction Save { get; }
         public OutputAction<Color> PickColor { get; }
         public OutputAction<IThreadSafeClient> PickClient { get; }
         public OutputAction<IThreadSafeWorkspace> PickWorkspace { get; }
