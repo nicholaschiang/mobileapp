@@ -254,6 +254,14 @@
     <ImageAsset Include="Resources\Colors.xcassets\Text2.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Text3.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Text4.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo-1.png" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\togglLogoDark.png" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\togglLogoDark%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\togglLogoDark%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -500,18 +508,6 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Resources\Images.xcassets\icPassword.imageset\icPassword%403x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo%402x.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo%403x.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Resources\Images.xcassets\line.imageset\Contents.json">
@@ -2121,6 +2117,8 @@
     <Folder Include="Resources\Colors.xcassets\Text2.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Text3.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Text4.colorset\" />
+    <Folder Include="Resources\Images.xcassets\togglLogo.imageset\" />
+    <Folder Include="Resources\Images.xcassets\togglLogoDark.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

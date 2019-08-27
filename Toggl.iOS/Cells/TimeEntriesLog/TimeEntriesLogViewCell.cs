@@ -59,7 +59,7 @@ namespace Toggl.iOS.Views
 
             projectTaskClientToAttributedString = new ProjectTaskClientToAttributedString(
                 ProjectTaskClientLabel.Font.CapHeight,
-                ColorAssets.FadedText
+                ColorAssets.Text3
             );
 
             GroupSizeBackground.Layer.CornerRadius = 14;
@@ -90,7 +90,7 @@ namespace Toggl.iOS.Views
             // Colors
             DescriptionLabel.TextColor = Item.HasDescription
                 ? ColorAssets.Text
-                : ColorAssets.PlaceholderText;
+                : ColorAssets.Text4;
 
             // Visibility
             ProjectTaskClientFadeView.Hidden = !Item.HasProject;
@@ -140,7 +140,7 @@ namespace Toggl.iOS.Views
             GroupSizeBackground.Layer.BorderWidth = 1;
             GroupSizeBackground.Layer.BorderColor = ColorAssets.Separator.CGColor;
             GroupSizeBackground.BackgroundColor = ColorAssets.MainBackground;
-            GroupSizeLabel.TextColor = ColorAssets.Timeline.CollapsedGroup;
+            GroupSizeLabel.TextColor = ColorAssets.Text2;
             BackgroundColor = ColorAssets.MainBackground;
 
         }

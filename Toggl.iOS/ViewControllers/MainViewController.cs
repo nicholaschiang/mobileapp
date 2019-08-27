@@ -52,11 +52,7 @@ namespace Toggl.iOS.ViewControllers
         private readonly SpiderOnARopeView spiderBroView = new SpiderOnARopeView();
         private readonly UIButton settingsButton = new UIButton(new CGRect(0, 0, 40, 50));
         private readonly UIButton syncFailuresButton = new UIButton(new CGRect(0, 0, 30, 40));
-        private readonly UIImageView titleImage = new UIImageView(UIImage.FromBundle("togglLogo"))
-        {
-            AccessibilityLabel = Resources.AppTitle,
-            AccessibilityTraits = UIAccessibilityTrait.Header
-        };
+
         private readonly TimeEntriesEmptyLogView emptyStateView = TimeEntriesEmptyLogView.Create();
 
         private TimeEntriesLogViewCell firstTimeEntryCell;
@@ -392,7 +388,7 @@ namespace Toggl.iOS.ViewControllers
         {
             base.ViewWillAppear(animated);
 
-            NavigationItem.TitleView = titleImage;
+            NavigationItem.TitleView = createTitleImage();
             NavigationItem.RightBarButtonItems = new[]
             {
                 new UIBarButtonItem(settingsButton)
@@ -414,6 +410,27 @@ namespace Toggl.iOS.ViewControllers
             base.TraitCollectionDidChange(previousTraitCollection);
             traitCollectionSubject.OnNext(Unit.Default);
             TimeEntriesLogTableView.ReloadData();
+            NavigationItem.TitleView = createTitleImage();
+        }
+
+        private UIImageView createTitleImage()
+        {
+            return new UIImageView(loadLogo())
+            {
+                AccessibilityLabel = Resources.AppTitle,
+                AccessibilityTraits = UIAccessibilityTrait.Header
+            };
+        }
+
+        private UIImage loadLogo()
+        {
+            // We have to do all this shenanigans because images asset catalogs dark/light modes don't work on Xamarin
+            if (UITraitCollection.CurrentTraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Dark)
+            {
+                return UIImage.FromBundle("togglLogoDark");
+            }
+
+            return UIImage.FromBundle("togglLogo");
         }
 
         private void trackSiriEvents()
@@ -569,8 +586,10 @@ namespace Toggl.iOS.ViewControllers
             StartTimeEntryButton.Transform = CGAffineTransform.MakeScale(0.01f, 0.01f);
 
             //Prepare Navigation bar images
-            settingsButton.SetImage(UIImage.FromBundle("icSettings"), UIControlState.Normal);
-            syncFailuresButton.SetImage(UIImage.FromBundle("icWarning"), UIControlState.Normal);
+            settingsButton.SetImage(UIImage.FromBundle("icSettings").ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
+            settingsButton.TintColor = ColorAssets.Text2;
+            syncFailuresButton.SetImage(UIImage.FromBundle("icWarning").ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
+            syncFailuresButton.TintColor = ColorAssets.Text2;
 
             RunningEntryDescriptionFadeView.FadeLeft = true;
             RunningEntryDescriptionFadeView.FadeRight = true;
