@@ -4,7 +4,6 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using Toggl.iOS.Extensions;
 using Toggl.iOS.Extensions.Reactive;
-using Toggl.Core.UI.Helper;
 using Toggl.Core.UI.ViewModels.TimeEntriesLog;
 using Toggl.iOS.Cells;
 using Toggl.iOS.Transformations;
@@ -60,8 +59,16 @@ namespace Toggl.iOS.Views
 
             projectTaskClientToAttributedString = new ProjectTaskClientToAttributedString(
                 ProjectTaskClientLabel.Font.CapHeight,
-                Colors.TimeEntriesLog.ClientColor.ToNativeColor()
+                ColorAssets.Timeline.ClientName
             );
+
+            GroupSizeBackground.Layer.CornerRadius = 14;
+
+            ContinueImageView.Image =
+                ContinueImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            ContinueImageView.TintColor = ColorAssets.Timeline.Arrow;
+
+            BottomSeparator.BackgroundColor = ColorAssets.Separator;
         }
 
         public override void PrepareForReuse()
@@ -69,9 +76,6 @@ namespace Toggl.iOS.Views
             base.PrepareForReuse();
             DisposeBag.Dispose();
             DisposeBag = new CompositeDisposable();
-
-            BackgroundColor = UIColor.White;
-            GroupSizeBackground.Layer.CornerRadius = 14;
         }
 
         protected override void UpdateView()
@@ -85,8 +89,8 @@ namespace Toggl.iOS.Views
 
             // Colors
             DescriptionLabel.TextColor = Item.HasDescription
-                ? UIColor.Black
-                : Colors.TimeEntriesLog.AddDescriptionTextColor.ToNativeColor();
+                ? ColorAssets.Text
+                : ColorAssets.PlaceholderText;
 
             // Visibility
             ProjectTaskClientFadeView.Hidden = !Item.HasProject;
@@ -134,9 +138,11 @@ namespace Toggl.iOS.Views
             GroupSizeContainer.UserInteractionEnabled = true;
             GroupSizeBackground.Hidden = false;
             GroupSizeBackground.Layer.BorderWidth = 1;
-            GroupSizeBackground.Layer.BorderColor = Colors.TimeEntriesLog.Grouping.Collapsed.Border.ToNativeColor().CGColor;
-            GroupSizeBackground.BackgroundColor = Colors.TimeEntriesLog.Grouping.Collapsed.Background.ToNativeColor();
-            GroupSizeLabel.TextColor = Colors.TimeEntriesLog.Grouping.Collapsed.Text.ToNativeColor();
+            GroupSizeBackground.Layer.BorderColor = ColorAssets.Separator.CGColor;
+            GroupSizeBackground.BackgroundColor = ColorAssets.MainBackground;
+            GroupSizeLabel.TextColor = ColorAssets.Timeline.CollapsedGroup;
+            BackgroundColor = ColorAssets.MainBackground;
+
         }
 
         private void presentAsExpandedGroupHeader(int groupSize)
@@ -147,14 +153,17 @@ namespace Toggl.iOS.Views
             GroupSizeContainer.UserInteractionEnabled = true;
             GroupSizeBackground.Hidden = false;
             GroupSizeBackground.Layer.BorderWidth = 0;
-            GroupSizeBackground.BackgroundColor = Colors.TimeEntriesLog.Grouping.Expanded.Background.ToNativeColor();
-            GroupSizeLabel.TextColor = Colors.TimeEntriesLog.Grouping.Expanded.Text.ToNativeColor();
+            GroupSizeBackground.BackgroundColor = ColorAssets.AlternateBackground;
+            GroupSizeLabel.TextColor = ColorAssets.Timeline.ExpandedGroup;
+            BackgroundColor = ColorAssets.MainBackground;
+
         }
 
         private void presentAsSingleTimeEntry()
         {
             GroupSizeContainer.Hidden = true;
             TimeEntryContentLeadingConstraint.Constant = 16;
+            BackgroundColor = ColorAssets.MainBackground;
         }
 
         private void presentAsTimeEntryInAGroup()
@@ -163,7 +172,7 @@ namespace Toggl.iOS.Views
             GroupSizeContainer.Hidden = false;
             GroupSizeContainer.UserInteractionEnabled = false;
             GroupSizeBackground.Hidden = true;
-            BackgroundColor = Colors.TimeEntriesLog.Grouping.GroupedTimeEntry.Background.ToNativeColor();
+            BackgroundColor = ColorAssets.AlternateBackground;
         }
 
         private void updateAccessibilityProperties()

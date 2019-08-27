@@ -238,6 +238,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ImageAsset Include="Resources\Colors.xcassets\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Colors.xcassets\AlternateBackground.colorset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Colors.xcassets\MainBackground.colorset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Colors.xcassets\Separator.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Text.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\PlaceholderText.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Timeline_CollapsedGroup.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Timeline_ExpandedGroup.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Timeline_ClientName.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Timeline_Arrow.colorset\Contents.json" />
+  </ItemGroup>
+  <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -2093,6 +2111,13 @@
     <Folder Include="Resources\Images.xcassets\thumbsdown.imageset\" />
     <Folder Include="Resources\Images.xcassets\thumbsup.imageset\" />
     <Folder Include="Resources\Images.xcassets\togglLogoBig.imageset\" />
+    <Folder Include="Resources\Colors.xcassets\Separator.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Text.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\PlaceholderText.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Timeline_CollapsedGroup.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Timeline_ExpandedGroup.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Timeline_ClientName.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Timeline_Arrow.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

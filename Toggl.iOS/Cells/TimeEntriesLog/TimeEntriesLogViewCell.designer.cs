@@ -19,6 +19,9 @@ namespace Toggl.iOS.Views
 		UIKit.UIView BillableIcon { get; set; }
 
 		[Outlet]
+		UIKit.UIView BottomSeparator { get; set; }
+
+		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UIButton ContinueButton { get; set; }
 
@@ -27,7 +30,7 @@ namespace Toggl.iOS.Views
 		UIKit.UIImageView ContinueImageView { get; set; }
 
 		[Outlet]
-		FadeView DescriptionFadeView { get; set; }
+		Toggl.iOS.Views.FadeView DescriptionFadeView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -43,7 +46,7 @@ namespace Toggl.iOS.Views
 		UIKit.UILabel GroupSizeLabel { get; set; }
 
 		[Outlet]
-		FadeView ProjectTaskClientFadeView { get; set; }
+		Toggl.iOS.Views.FadeView ProjectTaskClientFadeView { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -66,7 +69,7 @@ namespace Toggl.iOS.Views
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UIImageView UnsyncedImageView { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (AddDescriptionLabel != null) {
@@ -89,19 +92,14 @@ namespace Toggl.iOS.Views
 				ContinueImageView = null;
 			}
 
-			if (DescriptionLabel != null) {
-				DescriptionLabel.Dispose ();
-				DescriptionLabel = null;
-			}
-
 			if (DescriptionFadeView != null) {
 				DescriptionFadeView.Dispose ();
 				DescriptionFadeView = null;
 			}
 
-			if (ProjectTaskClientFadeView != null) {
-				ProjectTaskClientFadeView.Dispose ();
-				ProjectTaskClientFadeView = null;
+			if (DescriptionLabel != null) {
+				DescriptionLabel.Dispose ();
+				DescriptionLabel = null;
 			}
 
 			if (GroupSizeBackground != null) {
@@ -117,6 +115,11 @@ namespace Toggl.iOS.Views
 			if (GroupSizeLabel != null) {
 				GroupSizeLabel.Dispose ();
 				GroupSizeLabel = null;
+			}
+
+			if (ProjectTaskClientFadeView != null) {
+				ProjectTaskClientFadeView.Dispose ();
+				ProjectTaskClientFadeView = null;
 			}
 
 			if (ProjectTaskClientLabel != null) {
@@ -147,6 +150,11 @@ namespace Toggl.iOS.Views
 			if (UnsyncedImageView != null) {
 				UnsyncedImageView.Dispose ();
 				UnsyncedImageView = null;
+			}
+
+			if (BottomSeparator != null) {
+				BottomSeparator.Dispose ();
+				BottomSeparator = null;
 			}
 		}
 	}
