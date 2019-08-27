@@ -59,7 +59,7 @@ namespace Toggl.iOS.Views
 
             projectTaskClientToAttributedString = new ProjectTaskClientToAttributedString(
                 ProjectTaskClientLabel.Font.CapHeight,
-                ColorAssets.Timeline.ClientName
+                ColorAssets.FadedText
             );
 
             GroupSizeBackground.Layer.CornerRadius = 14;

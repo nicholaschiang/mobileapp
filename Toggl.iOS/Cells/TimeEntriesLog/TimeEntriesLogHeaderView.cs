@@ -30,9 +30,12 @@ namespace Toggl.iOS.Views
             base.AwakeFromNib();
 
             IsAccessibilityElement = true;
-            ContentView.BackgroundColor = UIColor.White;
             AccessibilityTraits = UIAccessibilityTrait.Header;
             DurationLabel.Font = DurationLabel.Font.GetMonospacedDigitFont();
+
+            ContentView.BackgroundColor = ColorAssets.MainBackground;
+            DateLabel.TextColor = ColorAssets.Text;
+            DurationLabel.TextColor = ColorAssets.Text;
         }
 
         protected override void UpdateView()
