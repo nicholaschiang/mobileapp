@@ -1297,6 +1297,7 @@
     <ImageAsset Include="Assets.xcassets\AppIcon-adhoc.appiconset\icon_1024pt.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Resources\Colors.xcassets\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -1411,6 +1412,7 @@
     <Compile Include="Analytics\SiriIntentErrorTrackingEvent.cs" />
     <Compile Include="Analytics\SiriTrackingEventExtensions.cs" />
     <Compile Include="Cells\BaseCollectionViewCell.cs" />
+    <Compile Include="Extensions\ColorAssets.cs" />
     <Compile Include="Extensions\IntentPeriod.cs" />
     <Compile Include="Extensions\Reactive\DurationFieldExtensions.cs" />
     <Compile Include="Extensions\Reactive\HueSaturationPickerViewExtensions.cs" />

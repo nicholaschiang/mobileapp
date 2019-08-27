@@ -89,6 +89,8 @@ namespace Toggl.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
+            View.BackgroundColor = ColorAssets.MainBackground;
+
             WelcomeBackLabel.Text = Resources.LogEmptyStateTitle;
             WelcomeBackDescriptionLabel.Text = Resources.LogEmptyStateText;
             CreatedFirstTimeEntryLabel.Text = Resources.YouHaveCreatedYourFirstTimeEntry;
