@@ -249,11 +249,11 @@
     </ImageAsset>
     <ImageAsset Include="Resources\Colors.xcassets\Separator.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Text.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\PlaceholderText.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Timeline_CollapsedGroup.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Timeline_ExpandedGroup.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Timeline_Arrow.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\FadedText.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Text2.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Text3.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Text4.colorset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -2118,6 +2118,9 @@
     <Folder Include="Resources\Colors.xcassets\Timeline_ExpandedGroup.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Timeline_Arrow.colorset\" />
     <Folder Include="Resources\Colors.xcassets\FadedText.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Text2.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Text3.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Text4.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />
