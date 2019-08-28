@@ -9,6 +9,7 @@ using Toggl.iOS.Views.Settings;
 using Toggl.iOS.ViewSources.Generic.TableView;
 using Toggl.Shared;
 using Toggl.Shared.Extensions;
+using UIKit;
 
 namespace Toggl.iOS.ViewControllers
 {
@@ -22,6 +23,13 @@ namespace Toggl.iOS.ViewControllers
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            View.BackgroundColor = ColorAssets.Background;
+            BackButton.SetImage(
+                BackButton.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
+                UIControlState.Normal
+            );
+            BackButton.TintColor = ColorAssets.CustomGray2;
 
             TitleLabel.Text = Resources.FirstDayOfTheWeek;
 
