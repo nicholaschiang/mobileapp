@@ -568,6 +568,8 @@ namespace Toggl.iOS.ViewControllers
 
         private void prepareViews()
         {
+            TopSeparator.BackgroundColor = ColorAssets.Separator;
+
             //Prevent bounces in UIScrollView
             AutomaticallyAdjustsScrollViewInsets = false;
 
