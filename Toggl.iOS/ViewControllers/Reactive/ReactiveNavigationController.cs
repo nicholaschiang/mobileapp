@@ -48,7 +48,7 @@ namespace Toggl.iOS.ViewControllers
             NavigationBar.ShadowImage = new UIImage();
             NavigationBar.BarTintColor = barBackgroundColor;
             NavigationBar.BackgroundColor = barBackgroundColor;
-            NavigationBar.TintColor = ColorAssets.Text2;
+            NavigationBar.TintColor = ColorAssets.CustomGray2;
             NavigationBar.SetBackgroundImage(ImageExtension.ImageWithColor(barBackgroundColor), UIBarMetrics.Default);
             NavigationBar.TitleTextAttributes = new UIStringAttributes
             {

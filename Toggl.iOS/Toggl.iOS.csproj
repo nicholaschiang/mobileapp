@@ -241,19 +241,8 @@
     <ImageAsset Include="Resources\Colors.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Resources\Colors.xcassets\AlternateBackground.colorset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Colors.xcassets\MainBackground.colorset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Colors.xcassets\Separator.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Text.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Timeline_ExpandedGroup.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Timeline_Arrow.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Text2.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Text3.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Text4.colorset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo-1.png" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo%402x.png" />
@@ -262,6 +251,14 @@
     <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\togglLogoDark.png" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\togglLogoDark%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogoDark.imageset\togglLogoDark%403x.png" />
+    <ImageAsset Include="Resources\Colors.xcassets\CustomGray2.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\CustomGray3.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\CustomGray4.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\CustomGray5.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\CustomGray.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\CustomGray6.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Foreground.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Background.colorset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -2119,6 +2116,15 @@
     <Folder Include="Resources\Colors.xcassets\Text4.colorset\" />
     <Folder Include="Resources\Images.xcassets\togglLogo.imageset\" />
     <Folder Include="Resources\Images.xcassets\togglLogoDark.imageset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray2.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray3.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray4.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray5.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray6.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\CustomGray6.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Foreground.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Background.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />
