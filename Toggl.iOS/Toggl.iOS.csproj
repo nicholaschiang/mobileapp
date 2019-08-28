@@ -259,6 +259,7 @@
     <ImageAsset Include="Resources\Colors.xcassets\CustomGray6.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Foreground.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Background.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Green.colorset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -2125,6 +2126,7 @@
     <Folder Include="Resources\Colors.xcassets\CustomGray6.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Foreground.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Background.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Green.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

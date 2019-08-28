@@ -14,6 +14,8 @@ namespace Toggl.iOS.Extensions
         public static readonly UIColor CustomGray5 = UIColor.FromName("CustomGray5");
         public static readonly UIColor CustomGray6 = UIColor.FromName("CustomGray6");
 
+        public static readonly UIColor Green = UIColor.FromName("Green");
+
         public static readonly UIColor MainBackground = Background;
         public static readonly UIColor AlternateBackground = CustomGray6;
         public static readonly UIColor Text = Foreground;
