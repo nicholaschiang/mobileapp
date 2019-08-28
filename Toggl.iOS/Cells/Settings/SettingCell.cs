@@ -2,7 +2,6 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Foundation;
-using Toggl.Core.UI.Helper;
 using Toggl.iOS.Extensions;
 using Toggl.iOS.Extensions.Reactive;
 using Toggl.iOS.ViewControllers.Settings.Models;
@@ -46,9 +45,9 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
-            TitleLabel.TextColor = UIColor.Black;
-            DetailLabel.TextColor = Colors.Settings.DetailLabel.ToNativeColor();
-            BottomSeparator.BackgroundColor = Colors.Settings.SeparatorColor.ToNativeColor();
+            TitleLabel.TextColor = ColorAssets.Text;
+            DetailLabel.TextColor = ColorAssets.CustomGray2;
+            BottomSeparator.BackgroundColor = ColorAssets.Separator;
         }
 
         public override void PrepareForReuse()

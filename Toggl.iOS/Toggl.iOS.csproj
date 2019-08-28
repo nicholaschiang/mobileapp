@@ -2127,6 +2127,7 @@
     <Folder Include="Resources\Colors.xcassets\Foreground.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Background.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Green.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Red.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />

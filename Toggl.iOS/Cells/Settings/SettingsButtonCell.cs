@@ -1,6 +1,5 @@
 ﻿using System;
 using Foundation;
-using Toggl.Core.UI.Helper;
 using Toggl.iOS.Extensions;
 using Toggl.iOS.ViewControllers.Settings.Models;
 using UIKit;
@@ -24,8 +23,8 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
-            TitleLabel.TextColor = UIColor.Red;
-            BottomSeparator.BackgroundColor = Colors.Settings.SeparatorColor.ToNativeColor();
+            TitleLabel.TextColor = UIColor.SystemRedColor;
+            BottomSeparator.BackgroundColor = ColorAssets.Separator;
         }
 
         protected override void UpdateView()

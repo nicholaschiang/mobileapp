@@ -37,7 +37,7 @@ namespace Toggl.iOS.ViewControllers
             var source = new SettingsTableViewSource(tableView);
             tableView.Source = source;
             tableView.TableFooterView = new UIView(frame: new CGRect(0, 0, 0, bottomInset));
-            tableView.BackgroundColor = Colors.Settings.Background.ToNativeColor();
+            tableView.BackgroundColor = ColorAssets.AlternateBackground;
 
             settingsSections()
                 .Subscribe(tableView.Rx().ReloadSections(source))

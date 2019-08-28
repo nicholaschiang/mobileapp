@@ -6,7 +6,6 @@ using Toggl.iOS.ViewControllers.Settings.Models;
 using Toggl.iOS.ViewSources;
 using Toggl.Shared;
 using UIKit;
-using Colors = Toggl.Core.UI.Helper.Colors;
 
 namespace Toggl.iOS.Cells.Settings
 {
@@ -29,10 +28,10 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
-            ContentView.BackgroundColor = Colors.Settings.Background.ToNativeColor();
-            StatusLabel.TextColor = Colors.Settings.SectionHeaderText.ToNativeColor();
-            LoadingIcon.IndicatorColor = Colors.Settings.SectionHeaderText.ToNativeColor();
-            BottomSeparator.BackgroundColor = Colors.Settings.SeparatorColor.ToNativeColor();
+            ContentView.BackgroundColor = ColorAssets.AlternateBackground;
+            StatusLabel.TextColor = ColorAssets.CustomGray4;
+            LoadingIcon.IndicatorColor = ColorAssets.CustomGray4;
+            BottomSeparator.BackgroundColor = ColorAssets.Separator;
         }
 
         public override void PrepareForReuse()
