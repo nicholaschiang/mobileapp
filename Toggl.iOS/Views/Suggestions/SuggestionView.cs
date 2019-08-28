@@ -71,6 +71,12 @@ namespace Toggl.iOS
         {
             base.AwakeFromNib();
 
+            BackgroundColor = ColorAssets.Background;
+            DescriptionLabel.TextColor = ColorAssets.Foreground;
+            ContinueIcon.Image =
+                ContinueIcon.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
+            ContinueIcon.TintColor = ColorAssets.Timeline.Arrow;
+
             IsAccessibilityElement = true;
             AccessibilityHint = Resources.SuggestionAccessibilityHint;
             AccessibilityTraits = UIAccessibilityTrait.Button;
@@ -94,12 +100,24 @@ namespace Toggl.iOS
             Layer.ShadowPath?.Dispose();
             Layer.ShadowPath = shadowPath.CGPath;
 
-            Layer.CornerRadius = 8;
-            Layer.ShadowRadius = 4;
-            Layer.ShadowOpacity = 0.1f;
-            Layer.MasksToBounds = false;
-            Layer.ShadowOffset = new CGSize(0, 2);
-            Layer.ShadowColor = UIColor.Black.CGColor;
+            if (UITraitCollection.CurrentTraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Light)
+            {
+                Layer.CornerRadius = 8;
+                Layer.ShadowRadius = 4;
+                Layer.ShadowOpacity = 0.1f;
+                Layer.MasksToBounds = false;
+                Layer.ShadowOffset = new CGSize(0, 2);
+                Layer.ShadowColor = UIColor.Black.CGColor;
+            }
+            else
+            {
+                Layer.CornerRadius = 8;
+                Layer.ShadowRadius = 1;
+                Layer.ShadowOpacity = 1.0f;
+                Layer.MasksToBounds = false;
+                Layer.ShadowOffset = new CGSize(0, 0);
+                Layer.ShadowColor = ColorAssets.AlternateBackground.CGColor;
+            }
         }
 
         private void hideProjectTaskClient()
