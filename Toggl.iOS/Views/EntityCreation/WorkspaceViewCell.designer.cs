@@ -18,6 +18,9 @@ namespace Toggl.iOS.Views
 		[Outlet]
 		UIKit.UIImageView SelectedImage { get; set; }
 
+		[Outlet]
+		UIKit.UIView Separator { get; set; }
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (NameLabel != null) {
@@ -28,6 +31,11 @@ namespace Toggl.iOS.Views
 			if (SelectedImage != null) {
 				SelectedImage.Dispose ();
 				SelectedImage = null;
+			}
+
+			if (Separator != null) {
+				Separator.Dispose ();
+				Separator = null;
 			}
 		}
 	}

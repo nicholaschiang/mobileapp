@@ -15,11 +15,19 @@ namespace Toggl.iOS.Cells
 		[Outlet]
 		UIKit.UILabel Label { get; set; }
 
+		[Outlet]
+		UIKit.UIView Separator { get; set; }
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (Label != null) {
 				Label.Dispose ();
 				Label = null;
+			}
+
+			if (Separator != null) {
+				Separator.Dispose ();
+				Separator = null;
 			}
 		}
 	}

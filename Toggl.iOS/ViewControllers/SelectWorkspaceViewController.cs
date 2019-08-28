@@ -27,6 +27,14 @@ namespace Toggl.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
+            View.BackgroundColor = ColorAssets.Background;
+            Separator.BackgroundColor = ColorAssets.Separator;
+            CloseButton.SetImage(
+                CloseButton.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
+                UIControlState.Normal
+                );
+            CloseButton.TintColor = ColorAssets.CustomGray2;
+
             WorkspaceTableView.RowHeight = rowHeight;
             WorkspaceTableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
             WorkspaceTableView.RegisterNibForCellReuse(WorkspaceViewCell.Nib, WorkspaceViewCell.Identifier);
