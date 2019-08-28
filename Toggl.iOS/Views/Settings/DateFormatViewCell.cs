@@ -2,6 +2,7 @@
 using System;
 using Toggl.Core.UI.ViewModels.Selectable;
 using Toggl.iOS.Cells;
+using Toggl.iOS.Extensions;
 using UIKit;
 
 namespace Toggl.iOS.Views.Settings
@@ -26,6 +27,11 @@ namespace Toggl.iOS.Views.Settings
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
+
+            ContentView.BackgroundColor = ColorAssets.Background;
+            DateFormatLabel.TextColor = ColorAssets.Text;
+            Separator.BackgroundColor = ColorAssets.Separator;
+
             DateFormatLabel.Text = string.Empty;
             SelectedImageView.Hidden = true;
         }

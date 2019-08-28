@@ -18,6 +18,9 @@ namespace Toggl.iOS.Views.Settings
 		[Outlet]
 		UIKit.UIImageView SelectedImageView { get; set; }
 
+		[Outlet]
+		UIKit.UIView Separator { get; set; }
+		
 		void ReleaseDesignerOutlets ()
 		{
 			if (DateFormatLabel != null) {
@@ -28,6 +31,11 @@ namespace Toggl.iOS.Views.Settings
 			if (SelectedImageView != null) {
 				SelectedImageView.Dispose ();
 				SelectedImageView = null;
+			}
+
+			if (Separator != null) {
+				Separator.Dispose ();
+				Separator = null;
 			}
 		}
 	}
