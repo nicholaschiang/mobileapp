@@ -13,10 +13,13 @@ namespace Toggl.iOS.Views.Settings
 	partial class SiriShortcutTableViewHeader
 	{
 		[Outlet]
+		UIKit.UIView BottomSeparator { get; set; }
+
+		[Outlet]
 		UIKit.UILabel TitleLabel { get; set; }
 
 		[Outlet]
-		UIKit.UIView TopSeparatorLine { get; set; }
+		UIKit.UIView TopSeparator { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -25,9 +28,14 @@ namespace Toggl.iOS.Views.Settings
 				TitleLabel = null;
 			}
 
-			if (TopSeparatorLine != null) {
-				TopSeparatorLine.Dispose ();
-				TopSeparatorLine = null;
+			if (TopSeparator != null) {
+				TopSeparator.Dispose ();
+				TopSeparator = null;
+			}
+
+			if (BottomSeparator != null) {
+				BottomSeparator.Dispose ();
+				BottomSeparator = null;
 			}
 		}
 	}

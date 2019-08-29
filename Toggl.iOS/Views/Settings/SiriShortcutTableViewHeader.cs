@@ -1,6 +1,5 @@
 ﻿using Foundation;
 using System;
-using Toggl.Core.UI.Helper;
 using Toggl.iOS.Cells;
 using Toggl.iOS.Extensions;
 using UIKit;
@@ -12,7 +11,11 @@ namespace Toggl.iOS.Views.Settings
         public static readonly string Identifier = nameof(SiriShortcutTableViewHeader);
         public static readonly UINib Nib;
 
-        public UIView TopSeparator => TopSeparatorLine;
+        public bool TopSeparatorHidden
+        {
+            get => TopSeparator.Hidden;
+            set => TopSeparator.Hidden = value;
+        }
 
         static SiriShortcutTableViewHeader()
         {
@@ -28,8 +31,10 @@ namespace Toggl.iOS.Views.Settings
         {
             base.AwakeFromNib();
 
-            ContentView.BackgroundColor = Colors.Siri.HeaderBackground.ToNativeColor();
-            TitleLabel.TextColor = Colors.Siri.HeaderLabel.ToNativeColor();
+            ContentView.BackgroundColor = ColorAssets.AlternateBackground;
+            TitleLabel.TextColor = ColorAssets.CustomGray4;
+            TopSeparator.BackgroundColor = ColorAssets.Separator;
+            BottomSeparator.BackgroundColor = ColorAssets.Separator;
         }
 
         protected override void UpdateView()
