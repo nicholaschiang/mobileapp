@@ -99,25 +99,12 @@ namespace Toggl.iOS
             var shadowPath = UIBezierPath.FromRect(Bounds);
             Layer.ShadowPath?.Dispose();
             Layer.ShadowPath = shadowPath.CGPath;
-
-            if (UITraitCollection.CurrentTraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Light)
-            {
-                Layer.CornerRadius = 8;
-                Layer.ShadowRadius = 4;
-                Layer.ShadowOpacity = 0.1f;
-                Layer.MasksToBounds = false;
-                Layer.ShadowOffset = new CGSize(0, 2);
-                Layer.ShadowColor = UIColor.Black.CGColor;
-            }
-            else
-            {
-                Layer.CornerRadius = 8;
-                Layer.ShadowRadius = 1;
-                Layer.ShadowOpacity = 1.0f;
-                Layer.MasksToBounds = false;
-                Layer.ShadowOffset = new CGSize(0, 0);
-                Layer.ShadowColor = ColorAssets.AlternateBackground.CGColor;
-            }
+            Layer.CornerRadius = 8;
+            Layer.ShadowRadius = 4;
+            Layer.ShadowOpacity = 0.1f;
+            Layer.MasksToBounds = false;
+            Layer.ShadowOffset = new CGSize(0, 2);
+            Layer.ShadowColor = UIColor.Black.CGColor;
         }
 
         private void hideProjectTaskClient()

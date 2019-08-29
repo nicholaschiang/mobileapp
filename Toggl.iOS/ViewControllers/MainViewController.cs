@@ -425,7 +425,8 @@ namespace Toggl.iOS.ViewControllers
         private UIImage loadLogo()
         {
             // We have to do all this shenanigans because images asset catalogs dark/light modes don't work on Xamarin
-            if (UITraitCollection.CurrentTraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Dark)
+            if (UIDevice.CurrentDevice.CheckSystemVersion(13, 0)
+                && UITraitCollection.CurrentTraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Dark)
             {
                 return UIImage.FromBundle("togglLogoDark");
             }
