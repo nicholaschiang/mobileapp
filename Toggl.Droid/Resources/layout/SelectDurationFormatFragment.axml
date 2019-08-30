@@ -16,7 +16,7 @@
         android:layout_height="76dp"
         android:layout_marginLeft="24dp"
         android:layout_width="wrap_content" />
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SelectDurationFormatRecyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"

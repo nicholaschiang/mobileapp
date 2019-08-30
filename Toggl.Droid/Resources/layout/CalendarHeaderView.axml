@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout
+<com.google.android.material.appbar.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal"
         android:background="@color/defaultBackground">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="68dp"
             android:layout_height="match_parent">
             <TextView
@@ -44,14 +44,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/Day"
                 app:layout_constraintBottom_toBottomOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <FrameLayout
             android:id="@+id/HeaderCalendarEventsView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -91,14 +91,14 @@
                     app:layout_constraintTop_toTopOf="@id/HeaderCalendarEventsLabel"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:background="@color/separator" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
         <FrameLayout
             android:id="@+id/HeaderTimeEntriesView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -139,7 +139,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:background="@color/separator" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
         <Button
             android:id="@+id/HeaderLinkCalendarsButton"
@@ -159,4 +159,4 @@
             tools:text="Link calendars"
             android:visibility="gone"/>
     </LinearLayout>
-</android.support.design.widget.AppBarLayout>
+</com.google.android.material.appbar.AppBarLayout>

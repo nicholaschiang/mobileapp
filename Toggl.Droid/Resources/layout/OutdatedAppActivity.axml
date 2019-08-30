@@ -6,7 +6,7 @@
     android:background="#D2D2D3"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         app:cardUseCompatPadding="true"
         android:background="@android:color/white"
         android:layout_gravity="center"
@@ -72,5 +72,5 @@
                 android:layout_marginRight="8dp"
                 android:layout_gravity="bottom|end" />
         </FrameLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>
