@@ -31,7 +31,7 @@ namespace Toggl.iOS.Views.Settings
 
             ContentView.BackgroundColor = ColorAssets.Background;
             DurationFormatLabel.TextColor = ColorAssets.Text;
-            Separator.BackgroundColor = ColorAssets.Separator;
+            Separator.BackgroundColor = ColorAssets.Table.Separator;
 
             DurationFormatLabel.Text = string.Empty;
             SelectedImageView.Hidden = true;

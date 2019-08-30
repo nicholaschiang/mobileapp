@@ -27,7 +27,7 @@ namespace Toggl.iOS.Views
             base.AwakeFromNib();
             SelectionStyle = UITableViewCellSelectionStyle.None;
 
-            Separator.BackgroundColor = ColorAssets.Separator;
+            Separator.BackgroundColor = ColorAssets.Table.Separator;
             ContentView.BackgroundColor = ColorAssets.Background;
         }
 

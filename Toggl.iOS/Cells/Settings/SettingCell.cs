@@ -27,7 +27,7 @@ namespace Toggl.iOS.Cells.Settings
             set
             {
                 isLast = value;
-                BottomSeparator.Hidden =!value;
+               // BottomSeparator.Hidden =!value;
                 var cellWidth = Bounds.Size.Width;
                 SeparatorInset = new UIEdgeInsets(0, value ? cellWidth : defaultSeparatorInset, 0, 0);
             }
@@ -45,9 +45,11 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
+            BackgroundColor = ColorAssets.Table.CellBackground;
+            ContentView.BackgroundColor = ColorAssets.Table.CellBackground;
             TitleLabel.TextColor = ColorAssets.Text;
-            DetailLabel.TextColor = ColorAssets.CustomGray2;
-            BottomSeparator.BackgroundColor = ColorAssets.Separator;
+            DetailLabel.TextColor = ColorAssets.SecondaryText;
+            BottomSeparator.BackgroundColor = ColorAssets.Table.Separator;
         }
 
         public override void PrepareForReuse()

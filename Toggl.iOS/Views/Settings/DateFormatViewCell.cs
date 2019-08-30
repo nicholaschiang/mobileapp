@@ -30,7 +30,7 @@ namespace Toggl.iOS.Views.Settings
 
             ContentView.BackgroundColor = ColorAssets.Background;
             DateFormatLabel.TextColor = ColorAssets.Text;
-            Separator.BackgroundColor = ColorAssets.Separator;
+            Separator.BackgroundColor = ColorAssets.Table.Separator;
 
             DateFormatLabel.Text = string.Empty;
             SelectedImageView.Hidden = true;

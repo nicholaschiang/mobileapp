@@ -27,7 +27,7 @@ namespace Toggl.iOS.Suggestions
         public SuggestionsView()
         {
             TranslatesAutoresizingMaskIntoConstraints = false;
-            BackgroundColor = ColorAssets.Background;
+            BackgroundColor = ColorAssets.Suggestions.Background;
             ClipsToBounds = true;
 
             heightConstraint = HeightAnchor.ConstraintEqualTo(0);
@@ -91,7 +91,7 @@ namespace Toggl.iOS.Suggestions
             titleLabel.Text = Resources.SuggestionsHeader;
             titleLabel.IsAccessibilityElement = false;
             titleLabel.Font = UIFont.SystemFontOfSize(titleSize, UIFontWeight.Medium);
-            titleLabel.TextColor = ColorAssets.CustomGray2;
+            titleLabel.TextColor = ColorAssets.SecondaryText;
             titleLabel.TopAnchor.ConstraintEqualTo(Superview.TopAnchor, distanceAboveTitleLabel).Active = true;
             titleLabel.LeadingAnchor.ConstraintEqualTo(Superview.LeadingAnchor, sideMargin).Active = true;
         }

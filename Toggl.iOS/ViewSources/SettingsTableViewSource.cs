@@ -95,7 +95,7 @@ namespace Toggl.iOS.ViewSources
             if (string.IsNullOrEmpty(title))
             {
                 var view = new UIView();
-                view.BackgroundColor = ColorAssets.AlternateBackground;
+                view.BackgroundColor = ColorAssets.Table.HeaderBackground;
                 return view;
             }
 

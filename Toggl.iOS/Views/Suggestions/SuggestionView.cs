@@ -72,7 +72,7 @@ namespace Toggl.iOS
             base.AwakeFromNib();
 
             BackgroundColor = ColorAssets.Background;
-            DescriptionLabel.TextColor = ColorAssets.Foreground;
+            DescriptionLabel.TextColor = ColorAssets.Text;
             ContinueIcon.Image =
                 ContinueIcon.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
             ContinueIcon.TintColor = ColorAssets.Timeline.Arrow;

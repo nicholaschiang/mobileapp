@@ -85,7 +85,7 @@ namespace Toggl.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
-            View.BackgroundColor = ColorAssets.MainBackground;
+            View.BackgroundColor = ColorAssets.Background;
 
             WelcomeBackLabel.Text = Resources.LogEmptyStateTitle;
             WelcomeBackDescriptionLabel.Text = Resources.LogEmptyStateText;
@@ -569,7 +569,7 @@ namespace Toggl.iOS.ViewControllers
 
         private void prepareViews()
         {
-            TopSeparator.BackgroundColor = ColorAssets.Separator;
+            TopSeparator.BackgroundColor = ColorAssets.Table.Separator;
 
             //Prevent bounces in UIScrollView
             AutomaticallyAdjustsScrollViewInsets = false;
@@ -590,9 +590,9 @@ namespace Toggl.iOS.ViewControllers
 
             //Prepare Navigation bar images
             settingsButton.SetImage(UIImage.FromBundle("icSettings").ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
-            settingsButton.TintColor = ColorAssets.CustomGray2;
+            settingsButton.TintColor = ColorAssets.Navigation.BarButtons;
             syncFailuresButton.SetImage(UIImage.FromBundle("icWarning").ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
-            syncFailuresButton.TintColor = ColorAssets.CustomGray2;
+            syncFailuresButton.TintColor = ColorAssets.Navigation.BarButtons;
 
             RunningEntryDescriptionFadeView.FadeLeft = true;
             RunningEntryDescriptionFadeView.FadeRight = true;

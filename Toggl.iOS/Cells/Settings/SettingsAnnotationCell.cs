@@ -23,8 +23,8 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
-            TextLabel.TextColor = ColorAssets.CustomGray4;
-            ContentView.BackgroundColor = ColorAssets.AlternateBackground;
+            ContentView.BackgroundColor = ColorAssets.Table.HeaderBackground;
+            TextLabel.TextColor = ColorAssets.Table.HeaderText;
         }
 
         protected override void UpdateView()

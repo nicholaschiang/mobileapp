@@ -44,11 +44,11 @@ namespace Toggl.iOS.ViewControllers
             NavigationBar.BackIndicatorTransitionMaskImage = image;
 
             //Title and background
-            var barBackgroundColor = ColorAssets.AlternateBackground;
+            var barBackgroundColor = ColorAssets.Background;
             NavigationBar.ShadowImage = new UIImage();
             NavigationBar.BarTintColor = barBackgroundColor;
             NavigationBar.BackgroundColor = barBackgroundColor;
-            NavigationBar.TintColor = ColorAssets.CustomGray2;
+            NavigationBar.TintColor = ColorAssets.Navigation.BarButtons;
             NavigationBar.SetBackgroundImage(ImageExtension.ImageWithColor(barBackgroundColor), UIBarMetrics.Default);
             NavigationBar.TitleTextAttributes = new UIStringAttributes
             {

@@ -18,7 +18,7 @@ namespace Toggl.iOS
             var attributes = new UITextAttributes
             {
                 Font = UIFont.SystemFontOfSize(14, UIFontWeight.Medium),
-                TextColor = ColorAssets.CustomGray2
+                TextColor = ColorAssets.Navigation.Title
             };
             UIBarButtonItem.Appearance.SetTitleTextAttributes(attributes, UIControlState.Normal);
             UIBarButtonItem.Appearance.SetTitleTextAttributes(attributes, UIControlState.Highlighted);

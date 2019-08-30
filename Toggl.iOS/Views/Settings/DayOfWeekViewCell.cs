@@ -30,7 +30,7 @@ namespace Toggl.iOS.Views.Settings
 
             ContentView.BackgroundColor = ColorAssets.Background;
             DayOfWeekLabel.TextColor = ColorAssets.Text;
-            Separator.BackgroundColor = ColorAssets.Separator;
+            Separator.BackgroundColor = ColorAssets.Table.Separator;
         }
 
         protected override void UpdateView()

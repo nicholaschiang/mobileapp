@@ -59,7 +59,7 @@ namespace Toggl.iOS.Views
 
             projectTaskClientToAttributedString = new ProjectTaskClientToAttributedString(
                 ProjectTaskClientLabel.Font.CapHeight,
-                ColorAssets.CustomGray3
+                ColorAssets.Timeline.ClientLabel
             );
 
             GroupSizeBackground.Layer.CornerRadius = 14;
@@ -68,7 +68,7 @@ namespace Toggl.iOS.Views
                 ContinueImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
             ContinueImageView.TintColor = ColorAssets.Timeline.Arrow;
 
-            BottomSeparator.BackgroundColor = ColorAssets.Separator;
+            BottomSeparator.BackgroundColor = ColorAssets.Table.Separator;
         }
 
         public override void PrepareForReuse()
@@ -138,10 +138,10 @@ namespace Toggl.iOS.Views
             GroupSizeContainer.UserInteractionEnabled = true;
             GroupSizeBackground.Hidden = false;
             GroupSizeBackground.Layer.BorderWidth = 1;
-            GroupSizeBackground.Layer.BorderColor = ColorAssets.Separator.CGColor;
-            GroupSizeBackground.BackgroundColor = ColorAssets.MainBackground;
-            GroupSizeLabel.TextColor = ColorAssets.CustomGray2;
-            BackgroundColor = ColorAssets.MainBackground;
+            GroupSizeBackground.Layer.BorderColor = ColorAssets.Timeline.GroupCountBorder.CGColor;
+            GroupSizeBackground.BackgroundColor = ColorAssets.Background;
+            GroupSizeLabel.TextColor = ColorAssets.Timeline.GroupCount;
+            BackgroundColor = ColorAssets.Background;
 
         }
 
@@ -153,9 +153,9 @@ namespace Toggl.iOS.Views
             GroupSizeContainer.UserInteractionEnabled = true;
             GroupSizeBackground.Hidden = false;
             GroupSizeBackground.Layer.BorderWidth = 0;
-            GroupSizeBackground.BackgroundColor = ColorAssets.AlternateBackground;
-            GroupSizeLabel.TextColor = ColorAssets.Timeline.ExpandedGroup;
-            BackgroundColor = ColorAssets.MainBackground;
+            GroupSizeBackground.BackgroundColor = ColorAssets.Timeline.GroupCountBackground;
+            GroupSizeLabel.TextColor = ColorAssets.Timeline.GroupCountExpanded;
+            BackgroundColor = ColorAssets.Background;
 
         }
 
@@ -163,7 +163,7 @@ namespace Toggl.iOS.Views
         {
             GroupSizeContainer.Hidden = true;
             TimeEntryContentLeadingConstraint.Constant = 16;
-            BackgroundColor = ColorAssets.MainBackground;
+            BackgroundColor = ColorAssets.Background;
         }
 
         private void presentAsTimeEntryInAGroup()
@@ -172,7 +172,7 @@ namespace Toggl.iOS.Views
             GroupSizeContainer.Hidden = false;
             GroupSizeContainer.UserInteractionEnabled = false;
             GroupSizeBackground.Hidden = true;
-            BackgroundColor = ColorAssets.AlternateBackground;
+            BackgroundColor = ColorAssets.Timeline.GroupedCellBackground;
         }
 
         private void updateAccessibilityProperties()

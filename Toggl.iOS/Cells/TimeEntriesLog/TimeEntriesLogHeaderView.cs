@@ -33,7 +33,7 @@ namespace Toggl.iOS.Views
             AccessibilityTraits = UIAccessibilityTrait.Header;
             DurationLabel.Font = DurationLabel.Font.GetMonospacedDigitFont();
 
-            ContentView.BackgroundColor = ColorAssets.MainBackground;
+            ContentView.BackgroundColor = ColorAssets.AlternateBackground;
             DateLabel.TextColor = ColorAssets.Text;
             DurationLabel.TextColor = ColorAssets.Text;
         }

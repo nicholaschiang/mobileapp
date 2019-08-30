@@ -27,11 +27,11 @@ namespace Toggl.iOS.ViewSources
 
         private static readonly float scrollThreshold = 3 * syncBarHeight;
 
-        private readonly UIColor pullToRefreshColor = ColorAssets.CustomGray3;
-        private readonly UIColor syncingColor = ColorAssets.CustomGray3;
-        private readonly UIColor syncFailedColor = ColorAssets.CustomGray3;
-        private readonly UIColor offlineColor = ColorAssets.CustomGray3;
-        private readonly UIColor syncCompletedColor = ColorAssets.Green;
+        private readonly UIColor pullToRefreshColor = ColorAssets.RefreshControl.Background;
+        private readonly UIColor syncingColor = ColorAssets.RefreshControl.Background;
+        private readonly UIColor syncFailedColor = ColorAssets.RefreshControl.Background;
+        private readonly UIColor offlineColor = ColorAssets.RefreshControl.Background;
+        private readonly UIColor syncCompletedColor = ColorAssets.RefreshControl.SyncCompletedBackground;
 
         private bool wasReleased;
         private bool isSyncing = false;
@@ -42,7 +42,7 @@ namespace Toggl.iOS.ViewSources
         private readonly UIView syncStateView = new UIView();
         private readonly UILabel syncStateLabel = new UILabel();
         private readonly UIButton dismissSyncBarButton = new UIButton();
-        private readonly ActivityIndicatorView activityIndicatorView = new ActivityIndicatorView(ColorAssets.Background);
+        private readonly ActivityIndicatorView activityIndicatorView = new ActivityIndicatorView(ColorAssets.RefreshControl.Text);
 
         private NSLayoutConstraint heightConstraint;
 
@@ -103,7 +103,7 @@ namespace Toggl.iOS.ViewSources
 
         private void prepareSyncStateLabel()
         {
-            syncStateLabel.TextColor = ColorAssets.Background;
+            syncStateLabel.TextColor = ColorAssets.RefreshControl.Text;
             syncStateLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             syncStateLabel.Font = syncStateLabel.Font.WithSize(syncLabelFontSize);
             syncStateLabel.CenterXAnchor.ConstraintEqualTo(syncStateView.CenterXAnchor).Active = true;
@@ -128,7 +128,7 @@ namespace Toggl.iOS.ViewSources
         {
             dismissSyncBarButton.Hidden = true;
             dismissSyncBarButton.SetImage(UIImage.FromBundle("icClose").ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
-            dismissSyncBarButton.TintColor = ColorAssets.Background;
+            dismissSyncBarButton.TintColor = ColorAssets.RefreshControl.Text;
             dismissSyncBarButton.TranslatesAutoresizingMaskIntoConstraints = false;
             dismissSyncBarButton.CenterYAnchor.ConstraintEqualTo(syncStateLabel.CenterYAnchor).Active = true;
             dismissSyncBarButton.TrailingAnchor.ConstraintEqualTo(syncStateView.TrailingAnchor, -16).Active = true;

@@ -23,8 +23,9 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
+            ContentView.BackgroundColor = ColorAssets.Table.CellBackground;
             TitleLabel.TextColor = UIColor.SystemRedColor;
-            BottomSeparator.BackgroundColor = ColorAssets.Separator;
+            BottomSeparator.BackgroundColor = ColorAssets.Table.Separator;
         }
 
         protected override void UpdateView()

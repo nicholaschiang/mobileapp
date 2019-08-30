@@ -32,9 +32,9 @@ namespace Toggl.iOS.Views.Settings
             base.AwakeFromNib();
 
             ContentView.BackgroundColor = ColorAssets.AlternateBackground;
-            TitleLabel.TextColor = ColorAssets.CustomGray4;
-            TopSeparator.BackgroundColor = ColorAssets.Separator;
-            BottomSeparator.BackgroundColor = ColorAssets.Separator;
+            TitleLabel.TextColor = ColorAssets.Table.HeaderText;
+            TopSeparator.BackgroundColor = ColorAssets.Table.Separator;
+            BottomSeparator.BackgroundColor = ColorAssets.Table.Separator;
         }
 
         protected override void UpdateView()

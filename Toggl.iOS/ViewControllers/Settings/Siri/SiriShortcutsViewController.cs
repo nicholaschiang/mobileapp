@@ -40,7 +40,7 @@ namespace Toggl.iOS.ViewControllers.Settings
             DescriptionLabel.TextColor = ColorAssets.Text;
             HeaderView.BackgroundColor = ColorAssets.AlternateBackground;
             TableView.BackgroundColor = ColorAssets.AlternateBackground;
-            TableView.SeparatorColor = ColorAssets.Separator;
+            TableView.SeparatorColor = ColorAssets.Table.Separator;
 
             DescriptionLabel.Text = Resources.SiriShortcutsDescription;
             HeaderView.RemoveFromSuperview();

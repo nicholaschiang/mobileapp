@@ -28,10 +28,10 @@ namespace Toggl.iOS.Cells.Settings
 
         public override void AwakeFromNib()
         {
-            ContentView.BackgroundColor = ColorAssets.AlternateBackground;
-            StatusLabel.TextColor = ColorAssets.CustomGray4;
-            LoadingIcon.IndicatorColor = ColorAssets.CustomGray4;
-            BottomSeparator.BackgroundColor = ColorAssets.Separator;
+            ContentView.BackgroundColor = ColorAssets.Table.HeaderBackground;
+            StatusLabel.TextColor = ColorAssets.Table.HeaderText;
+            LoadingIcon.IndicatorColor = ColorAssets.Table.HeaderText;
+            BottomSeparator.BackgroundColor = ColorAssets.Table.Separator;
         }
 
         public override void PrepareForReuse()

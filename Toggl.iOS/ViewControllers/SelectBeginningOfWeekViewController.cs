@@ -29,7 +29,7 @@ namespace Toggl.iOS.ViewControllers
                 BackButton.ImageView.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate),
                 UIControlState.Normal
             );
-            BackButton.TintColor = ColorAssets.CustomGray2;
+            BackButton.TintColor = ColorAssets.Navigation.BarButtons;
 
             TitleLabel.Text = Resources.FirstDayOfTheWeek;
 

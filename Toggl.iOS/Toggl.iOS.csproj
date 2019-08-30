@@ -241,8 +241,6 @@
     <ImageAsset Include="Resources\Colors.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Resources\Colors.xcassets\Timeline_ExpandedGroup.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Timeline_Arrow.colorset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo-1.png" />
     <ImageAsset Include="Resources\Images.xcassets\togglLogo.imageset\togglLogo%402x.png" />
@@ -257,9 +255,19 @@
     <ImageAsset Include="Resources\Colors.xcassets\CustomGray5.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\CustomGray.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\CustomGray6.colorset\Contents.json" />
-    <ImageAsset Include="Resources\Colors.xcassets\Foreground.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Background.colorset\Contents.json" />
     <ImageAsset Include="Resources\Colors.xcassets\Green.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\SecondaryBackground.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\TertiaryBackground.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\GroupedBackground.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\SecondaryGroupedBackground.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\TertiaryGroupedBackground.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Separator.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\OpaqueSeparator.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\Label.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\SecondaryLabel.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\TertiaryLabel.colorset\Contents.json" />
+    <ImageAsset Include="Resources\Colors.xcassets\QuaternaryLabel.colorset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -2128,6 +2136,17 @@
     <Folder Include="Resources\Colors.xcassets\Background.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Green.colorset\" />
     <Folder Include="Resources\Colors.xcassets\Red.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\SecondaryBackground.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\TertiaryBackground.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\GroupedBackground.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\SecondaryGroupedBackground.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\TertiaryGroupedBackground.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Separator.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\OpaqueSeparator.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\Label.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\SecondaryLabel.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\TertiaryLabel.colorset\" />
+    <Folder Include="Resources\Colors.xcassets\QuaternaryLabel.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />
