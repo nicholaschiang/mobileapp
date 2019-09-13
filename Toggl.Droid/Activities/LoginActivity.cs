@@ -1,5 +1,9 @@
 using Android.App;
 using Android.Content.PM;
+using Android.Gms.Auth.Api;
+using Android.Gms.Auth.Api.SignIn;
+using Android.Gms.Common.Apis;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using System;
@@ -11,6 +15,7 @@ using Toggl.Droid.Extensions.Reactive;
 using Toggl.Droid.Presentation;
 using Toggl.Shared;
 using Toggl.Shared.Extensions;
+using static Android.Gms.Common.Apis.GoogleApiClient;
 
 namespace Toggl.Droid.Activities
 {
@@ -30,6 +35,7 @@ namespace Toggl.Droid.Activities
             : base(javaReference, transfer)
         {
         }
+
         protected override void InitializeBindings()
         {
             ViewModel.Email.FirstAsync()
@@ -99,7 +105,49 @@ namespace Toggl.Droid.Activities
             string loginButtonTitle(bool isLoading)
                 => isLoading ? "" : Shared.Resources.LoginTitle;
 
+            signOutOfGoogle();
+
             this.CancelAllNotifications();
+        }
+
+        private void signOutOfGoogle()
+        {
+            try
+            {
+                var signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                       .RequestIdToken("{TOGGL_DROID_GOOGLE_SERVICES_CLIENT_ID}")
+                       .RequestEmail()
+                       .Build();
+
+                var client = new GoogleApiClient.Builder(Application.Context)
+                    .AddApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .Build();
+
+                client.Connect();
+                client.RegisterConnectionCallbacks(
+                    new ConnectionListener(
+                        () => Auth.GoogleSignInApi.SignOut(client)));
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        class ConnectionListener : Java.Lang.Object, IConnectionCallbacks
+        {
+            private Action onConnected;
+
+            public ConnectionListener(Action onConnected) : base()
+            {
+                this.onConnected = onConnected;
+            }
+
+            public void OnConnected(Bundle connectionHint)
+            {
+                onConnected();
+            }
+
+            public void OnConnectionSuspended(int cause) { }
         }
     }
 }
