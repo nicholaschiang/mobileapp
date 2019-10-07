@@ -11,7 +11,7 @@ namespace Toggl.Droid.Services
              Name = "com.toggl.giskard.BackgroundSyncJobSchedulerService")]
     public class BackgroundSyncJobSchedulerService : JobService
     {
-        public const int JobId = 1;
+        public const int JobId = 9876599;
 
         private IDisposable disposable;
 
