@@ -125,7 +125,10 @@ namespace Toggl.Droid.Fragments
 
         private void showCalendar()
         {
-            if (reportsCalendarFragment.Value.IsAdded) return;
+            if (reportsCalendarFragment.Value.IsAdded)
+            {
+                return;
+            }
 
             AndroidDependencyContainer
                 .Instance
