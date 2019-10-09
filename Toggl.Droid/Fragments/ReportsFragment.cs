@@ -19,6 +19,7 @@ namespace Toggl.Droid.Fragments
     {
         private static readonly TimeSpan toggleCalendarThrottleDuration = TimeSpan.FromMilliseconds(300);
         private ReportsRecyclerAdapter reportsRecyclerAdapter;
+        private Lazy<ReportsCalendarFragment> reportsCalendarFragment = new Lazy<ReportsCalendarFragment>();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -124,12 +125,15 @@ namespace Toggl.Droid.Fragments
 
         private void showCalendar()
         {
+            if (reportsCalendarFragment.Value.IsAdded) return;
+
             AndroidDependencyContainer
                 .Instance
                 .ViewModelCache
                 .Cache(ViewModel.CalendarViewModel);
 
-            new ReportsCalendarFragment()
+            reportsCalendarFragment
+                .Value
                 .Show(ChildFragmentManager, nameof(ReportsCalendarFragment));
         }
     }
