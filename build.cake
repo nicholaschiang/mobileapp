@@ -116,7 +116,7 @@ private string GetVersionNumberFromTag()
     
     StartProcess("git", new ProcessSettings
     {
-        Arguments = $"pull origin 'refs/tags/{platformTag}:refs/tags/{platformTag}'",
+        Arguments = $"pull fetch 'refs/tags/{platformTag}:refs/tags/{platformTag}'",
     });
 
     StartProcess("git", new ProcessSettings
