@@ -112,9 +112,16 @@ private string GetVersionNumberFromTag()
         throw new InvalidOperationException($"Unable to get version number from this type of build target: {target}");
     }
     
+    var platformTag = platform + "-*";
+    
     StartProcess("git", new ProcessSettings
     {
-        Arguments = "tag --list '" + platform + "-*'",
+        Arguments = $"pull origin 'refs/tags/{platformTag}:refs/tags/{platformTag}'",
+    });
+
+    StartProcess("git", new ProcessSettings
+    {
+        Arguments = $"tag --list '{platformTag}'",
         RedirectStandardOutput = true
     }, out var redirectedOutput);
 
