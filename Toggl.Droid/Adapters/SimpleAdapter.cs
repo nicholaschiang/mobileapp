@@ -22,11 +22,6 @@ namespace Toggl.Droid.Adapters
             this.createViewHolder = createViewHolder;
         }
 
-        public SimpleAdapter(IntPtr javaReference, JniHandleOwnership transfer)
-            : base(javaReference, transfer)
-        {
-        }
-
         protected override BaseRecyclerViewHolder<T> CreateViewHolder(ViewGroup parent, LayoutInflater inflater, int viewType)
         {
             var itemView = inflater.Inflate(layoutId, parent, false);

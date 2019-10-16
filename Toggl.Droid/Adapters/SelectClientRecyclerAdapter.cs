@@ -15,11 +15,6 @@ namespace Toggl.Droid.Adapters
         {
         }
 
-        public SelectClientRecyclerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
-            : base(javaReference, transfer)
-        {
-        }
-
         public override int GetItemViewType(int position)
         {
             var item = GetItem(position);

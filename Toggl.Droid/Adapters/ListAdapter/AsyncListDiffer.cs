@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V7.RecyclerView.Extensions;
 using Android.Support.V7.Util;
 using Android.Support.V7.Widget;
@@ -14,23 +15,21 @@ namespace Toggl.Droid.Adapters.ListAdapter
         where T : IEquatable<T>
     {
         private readonly IListUpdateCallback updateCallback;
-        public readonly IDiffingStrategy<T> diffingStrategy;
-        public readonly AsyncDifferConfig diffConfig;
-        public readonly IExecutor mainThreadExecutor;
+        private readonly IDiffingStrategy<T> diffingStrategy;
+        private readonly IExecutor mainThreadExecutor = new MainThreadExecutor();
+        private readonly IExecutor backgroundThreadExecutor = Executors.NewFixedThreadPool(2);
 
-        private IImmutableList<T> mList;
-        private IImmutableList<T> mReadonlyList = ImmutableList.Create<T>();
-        private int mMaxScheduledGeneration;
+        private IImmutableList<T> list;
+        private IImmutableList<T> readonlyList = ImmutableList.Create<T>();
+        private int maxScheduledGeneration;
 
-        public AsyncListDiffer(IListUpdateCallback updateCallback, IDiffingStrategy<T> diffingStrategy, AsyncDifferConfig config)
+        public AsyncListDiffer(IListUpdateCallback updateCallback, IDiffingStrategy<T> diffingStrategy)
         {
             this.updateCallback = updateCallback;
             this.diffingStrategy = diffingStrategy;
-            diffConfig = config;
-            mainThreadExecutor = config.MainThreadExecutor != null ? diffConfig.MainThreadExecutor : new MainThreadExecutor();
         }
 
-        class MainThreadExecutor : IExecutor
+        class MainThreadExecutor : Java.Lang.Object, IExecutor
         {
             public void Dispose()
             {
@@ -51,15 +50,15 @@ namespace Toggl.Droid.Adapters.ListAdapter
 
         public IImmutableList<T> GetCurrentList()
         {
-            return mReadonlyList;
+            return readonlyList;
         }
 
         public void SubmitList(IImmutableList<T> newList)
         {
             // incrementing generation means any currently-running diffs are discarded when they finish
-            var runGeneration = ++mMaxScheduledGeneration;
+            var runGeneration = ++maxScheduledGeneration;
 
-            if (newList == mList)
+            if (newList == list)
             {
                 // nothing to do (Note - still had to inc generation, since may have ongoing work)
                 return;
@@ -69,33 +68,33 @@ namespace Toggl.Droid.Adapters.ListAdapter
             if (newList == null)
             {
                 //noinspection ConstantConditions
-                var countRemoved = mList.Count;
-                mList = null;
-                mReadonlyList = ImmutableList.Create<T>();
+                var countRemoved = list.Count;
+                list = null;
+                readonlyList = ImmutableList.Create<T>();
                 // notify last, after list is updated
 
                 updateCallback.OnRemoved(0, countRemoved);
                 return;
             }
 
-            if (mList == null)
+            if (list == null)
             {
-                mList = newList;
-                mReadonlyList = newList;
+                list = newList;
+                readonlyList = newList;
                 // notify last, after list is updated
                 updateCallback.OnInserted(0, newList.Count);
                 return;
             }
 
-            var oldList = mList;
+            var oldList = list;
 
-            diffConfig.BackgroundThreadExecutor.Execute(new Runnable(() =>
+            backgroundThreadExecutor.Execute(new Runnable(() =>
             {
                 var diffResult = DiffUtil.CalculateDiff(new BaseDiffCallBack(oldList, newList, diffingStrategy));
 
                 mainThreadExecutor.Execute(new Runnable(() =>
                 {
-                    if (mMaxScheduledGeneration == runGeneration)
+                    if (maxScheduledGeneration == runGeneration)
                     {
                         LatchList(newList, diffResult);
                     }
@@ -105,9 +104,14 @@ namespace Toggl.Droid.Adapters.ListAdapter
 
         public void LatchList(IImmutableList<T> newList, DiffUtil.DiffResult diffResult)
         {
-            mList = newList;
-            mReadonlyList = newList;
+            list = newList;
+            readonlyList = newList;
             diffResult.DispatchUpdatesTo(updateCallback);
+        }
+
+        public long GetItemId(T item)
+        {
+            return diffingStrategy.GetItemId(item);
         }
 
         private sealed class BaseDiffCallBack : DiffUtil.Callback
