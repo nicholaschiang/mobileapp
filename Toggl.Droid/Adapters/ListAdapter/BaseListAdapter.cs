@@ -16,8 +16,9 @@ namespace Toggl.Droid.Adapters.ListAdapter
 
         public BaseListAdapter(IDiffingStrategy<T> diffingStrategy)
         {
-            HasStableIds = diffingStrategy.HasStableIds;
-            listDiffer = new AsyncListDiffer<T>(new AdapterListUpdateCallback(this), normalizeDiffingStrategy(diffingStrategy));
+            var normalizedDiffingStrategy = normalizeDiffingStrategy(diffingStrategy);
+            HasStableIds = normalizedDiffingStrategy.HasStableIds;
+            listDiffer = new AsyncListDiffer<T>(new AdapterListUpdateCallback(this), normalizedDiffingStrategy);
         }
 
         private IDiffingStrategy<T> normalizeDiffingStrategy(IDiffingStrategy<T> diffingStrategy)
