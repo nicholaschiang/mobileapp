@@ -5,6 +5,7 @@ using Android.Support.V7.Util;
 using Android.Support.V7.Widget;
 using Toggl.Core.UI.Interfaces;
 using Toggl.Droid.Adapters.DiffingStrategies;
+using Toggl.Shared.Extensions;
 
 namespace Toggl.Droid.Adapters.ListAdapter
 {
@@ -16,7 +17,18 @@ namespace Toggl.Droid.Adapters.ListAdapter
         public BaseListAdapter(IDiffingStrategy<T> diffingStrategy)
         {
             HasStableIds = diffingStrategy.HasStableIds;
-            listDiffer = new AsyncListDiffer<T>(new AdapterListUpdateCallback(this), diffingStrategy);
+            listDiffer = new AsyncListDiffer<T>(new AdapterListUpdateCallback(this), normalizeDiffingStrategy(diffingStrategy));
+        }
+
+        private IDiffingStrategy<T> normalizeDiffingStrategy(IDiffingStrategy<T> diffingStrategy)
+        {
+            if (diffingStrategy != null)
+                return diffingStrategy;
+
+            if (typeof(T).ImplementsOrDerivesFrom<IDiffableByIdentifier<T>>())
+                return new IdentifierEqualityDiffingStrategy<T>();
+
+            return new EquatableDiffingStrategy<T>();
         }
 
         public void SubmitList(IImmutableList<T> newItems)
