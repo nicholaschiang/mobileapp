@@ -44,20 +44,28 @@ namespace Toggl.Droid.Widgets
 
             foreach (var appWidgetId in appWidgetIds)
             {
-                updateWidget(context, appWidgetManager, appWidgetId);
+                var options = appWidgetManager.GetAppWidgetOptions(appWidgetId);
+                var dimensions = WidgetDimensions.FromBundle(options);
+                updateWidget(context, appWidgetManager, appWidgetId, dimensions);
             }
         }
 
         public override void OnAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
         {
             base.OnAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-            updateWidget(context, appWidgetManager, appWidgetId);
+            var dimensions = WidgetDimensions.FromBundle(newOptions);
+
+            updateWidget(context, appWidgetManager, appWidgetId, dimensions);
         }
 
-        private static void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId)
+        private static void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, WidgetDimensions dimensions)
         {
-            var view = SuggestionsWidgetFactory.Setup(context, appWidgetId);
-            appWidgetManager.NotifyAppWidgetViewDataChanged(appWidgetId, Resource.Id.SuggestionsList);
+            var widgetFormFactor = SuggestionsWidgetFactory.Create(dimensions);
+            var view = widgetFormFactor.Setup(context, appWidgetId);
+
+            if (widgetFormFactor.ContainsListView)
+                appWidgetManager.NotifyAppWidgetViewDataChanged(appWidgetId, Resource.Id.SuggestionsList);
+
             appWidgetManager.UpdateAppWidget(appWidgetId, view);
         }
 
