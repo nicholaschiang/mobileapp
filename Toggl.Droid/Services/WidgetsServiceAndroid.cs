@@ -29,5 +29,8 @@ namespace Toggl.Droid.Services
             WidgetSuggestionItem.SaveSuggestions(suggestions);
             AppWidgetProviderUtils.UpdateAllInstances<SuggestionsWidget>();
         }
+
+        public static bool IsLoggedIn =>
+            AndroidDependencyContainer.Instance.PrivateSharedStorageService.GetApiToken() != null;
     }
 }
