@@ -1,5 +1,6 @@
 using Android.OS;
 using System;
+using Toggl.Droid.Services;
 
 namespace Toggl.Droid.Widgets
 {
@@ -9,7 +10,7 @@ namespace Toggl.Droid.Widgets
         {
             var dimensions = widgetDimensions ?? WidgetDimensions.Default;
 
-            if (!isLoggedIn)
+            if (!WidgetsServiceAndroid.IsLoggedIn)
                 return new TimeEntryWidgetNotLoggedInFormFactor(dimensions.ColumnsCount);
 
             if (dimensions.ColumnsCount == 1)
@@ -17,8 +18,5 @@ namespace Toggl.Droid.Widgets
 
             return new TimeEntryWidgetDefaultFormFactor();
         }
-
-        private static bool isLoggedIn =>
-            AndroidDependencyContainer.Instance.PrivateSharedStorageService.GetApiToken() != null;
     }
 }
