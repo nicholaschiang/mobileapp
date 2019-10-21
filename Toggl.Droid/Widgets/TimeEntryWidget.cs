@@ -69,7 +69,7 @@ namespace Toggl.Droid.Widgets
             reportSize(context, dimensions.ColumnsCount);
         }
 
-        private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, WidgetDimensions dimensions = null)
+        private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, WidgetDimensions dimensions)
         {
             var widgetInfo = TimeEntryWidgetInfo.FromSharedPreferences();
             var remoteViews = TimeEntryWidgetFactory.Create(dimensions).Setup(context, widgetInfo);
