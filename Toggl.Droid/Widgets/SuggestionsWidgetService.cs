@@ -8,8 +8,6 @@ namespace Toggl.Droid.Widgets
     public sealed class SuggestionsWidgetService : RemoteViewsService
     {
         public override IRemoteViewsFactory OnGetViewFactory(Intent intent)
-        {
-            return new SuggestionsWidgetFactory(ApplicationContext);
-        }
+            => new SuggestionsWidgetViewsFactory(ApplicationContext);
     }
 }
