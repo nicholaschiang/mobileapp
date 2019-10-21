@@ -661,9 +661,13 @@
     <Compile Include="BroadcastReceivers\BootCompletedBroadcastReceiver.cs" />
     <Compile Include="Services\ScheduleEventNotificationsService.cs" />
     <Compile Include="Views\VerticallyCenteredImageSpan.cs" />
+    <Compile Include="Widgets\ISuggestionsWidgetFormFactor.cs" />
     <Compile Include="Widgets\SuggestionsWidget.cs" />
     <Compile Include="Widgets\SuggestionsWidgetFactory.cs" />
+    <Compile Include="Widgets\SuggestionsWidgetNotLoggedInFormFactor.cs" />
+    <Compile Include="Widgets\SuggestionsWidgetListFormFactor.cs" />
     <Compile Include="Widgets\SuggestionsWidgetService.cs" />
+    <Compile Include="Widgets\SuggestionsWidgetViewsFactory.cs" />
     <Compile Include="Widgets\TimeEntryWidgetButtonOnlyFormFactor.cs" />
     <Compile Include="Widgets\ITimeEntryWidgetFormFactor.cs" />
     <Compile Include="Widgets\TimeEntryWidgetStartStopButtonFormFactor.cs" />
@@ -673,6 +677,7 @@
     <Compile Include="Services\AccessibilityServiceAndroid.cs" />
     <Compile Include="Widgets\TimeEntryWidgetFactory.cs" />
     <Compile Include="Widgets\TimeEntryWidgetNotLoggedInFormFactor.cs" />
+    <Compile Include="Widgets\WidgetNotLoggedInFormFactor.cs" />
     <Compile Include="Widgets\WidgetsConstants.cs" />
     <Compile Include="Widgets\TimeEntryWidgetDefaultFormFactor.cs" />
     <Compile Include="Widgets\WidgetSuggestionItem.cs" />
@@ -709,7 +714,7 @@
     <AndroidResource Include="Resources\layout\SuggestionsWidget.axml" />
     <AndroidResource Include="Resources\layout\SuggestionsWidgetItem.axml" />
     <AndroidResource Include="Resources\layout\TimeEntryWidgetSmall.axml" />
-    <AndroidResource Include="Resources\layout\TimeEntryWidgetNotLoggedIn.axml" />
+    <AndroidResource Include="Resources\layout\WidgetNotLoggedIn.axml" />
     <AndroidResource Include="Resources\menu\GenericSaveMenu.xml" />
     <AndroidResource Include="Resources\menu\DoneOrClearMenu.xml" />
     <AndroidResource Include="Resources\menu\OneButtonMenu.xml" />
