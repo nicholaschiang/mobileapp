@@ -53,6 +53,7 @@ namespace Toggl.Droid.Services
         {
             TimeEntryWidgetInfo.Clear();
             AppWidgetProviderUtils.UpdateAllInstances<TimeEntryWidget>();
+            AppWidgetProviderUtils.UpdateAllInstances<SuggestionsWidget>();
         }
     }
 }
