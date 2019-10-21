@@ -1389,4 +1389,7 @@ to project members</value>
     <data name="ShowAllTimEntries" xml:space="preserve">
         <value>Show all time entries</value>
     </data>
+    <data name="LoginToShowSuggestions" xml:space="preserve">
+        <value>Log in to show suggestions</value>
+    </data>
 </root>

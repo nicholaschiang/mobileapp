@@ -2566,5 +2566,11 @@ namespace Toggl.Shared {
                 return ResourceManager.GetString("ShowAllTimEntries", resourceCulture);
             }
         }
+
+        public static string LoginToShowSuggestions {
+            get {
+                return ResourceManager.GetString("LoginToShowSuggestions", resourceCulture);
+            }
+        }
     }
 }
