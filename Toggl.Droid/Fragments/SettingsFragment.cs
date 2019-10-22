@@ -33,6 +33,7 @@ namespace Toggl.Droid.Fragments
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+            measureLayoutWith(scrollView);
 
             versionTextView.Text = ViewModel.Version;
 

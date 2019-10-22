@@ -11,6 +11,7 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using Toggl.Core.Analytics;
@@ -33,6 +34,7 @@ using static Toggl.Core.Sync.SyncProgress;
 using static Toggl.Core.Analytics.EditTimeEntryOrigin;
 using FoundationResources = Toggl.Shared.Resources;
 using System.Linq;
+using Android.Util;
 
 namespace Toggl.Droid.Fragments
 {
@@ -60,10 +62,11 @@ namespace Toggl.Droid.Fragments
 
             return view;
         }
-
+        
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+            measureLayoutWith(mainRecyclerView);
 
             refreshLayout.SetProgressBackgroundColorSchemeResource(Resource.Color.cardBackground);
             refreshLayout.SetColorSchemeResources(new[] { Resource.Color.primaryText });

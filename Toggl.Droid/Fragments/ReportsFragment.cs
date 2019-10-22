@@ -3,7 +3,9 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
+using Android.Util;
 using Toggl.Core.UI.Extensions;
 using Toggl.Core.UI.ViewModels.Reports;
 using Toggl.Droid.Adapters;
@@ -34,6 +36,8 @@ namespace Toggl.Droid.Fragments
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+            measureLayoutWith(reportsRecyclerView);
+            
             ViewModel?.CalendarViewModel.AttachView(this);
 
             selectWorkspaceFab.Rx().Tap()

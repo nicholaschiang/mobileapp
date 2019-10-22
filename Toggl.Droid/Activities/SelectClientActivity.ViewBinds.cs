@@ -26,6 +26,7 @@ namespace Toggl.Droid.Activities
             selectClientRecyclerView.SetAdapter(selectClientRecyclerAdapter);
             
             SetupToolbar();
+            measureLayoutWith(selectClientRecyclerView);
         }
     }
 }

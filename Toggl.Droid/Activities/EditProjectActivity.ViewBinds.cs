@@ -42,6 +42,7 @@ namespace Toggl.Droid.Activities
             privateProjectHintLabel.Text = Shared.Resources.PrivateProjectHint;
             
             SetupToolbar(ViewModel.Title);
+            measureLayoutWith(clientNameTextView);
         }
     }
 }

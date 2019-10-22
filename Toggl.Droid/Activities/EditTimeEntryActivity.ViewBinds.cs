@@ -146,6 +146,7 @@ namespace Toggl.Droid.Activities
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.toolbar_close);
 
             scrollView.AttachMaterialScrollBehaviour(appBarLayout);
+            measureLayoutWith(scrollView);
         }
     }
 }
