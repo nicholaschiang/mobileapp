@@ -31,10 +31,7 @@ namespace Toggl.Droid.Adapters
             set => SetItems(value ?? ImmutableList<T>.Empty);
         }
 
-        protected BaseRecyclerAdapter(IDiffingStrategy<T> diffingStrategy = null) : base(diffingStrategy)
-        {
-            var a = 5;
-        }
+        protected BaseRecyclerAdapter(IDiffingStrategy<T> diffingStrategy = null) : base(diffingStrategy) {}
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {

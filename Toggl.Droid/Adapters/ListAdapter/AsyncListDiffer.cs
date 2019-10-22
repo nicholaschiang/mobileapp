@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Immutable;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.V7.RecyclerView.Extensions;
 using Android.Support.V7.Util;
-using Android.Support.V7.Widget;
-using Java.Lang;
-using Java.Util.Concurrent;
+using System.Threading.Tasks;
 using Toggl.Droid.Adapters.DiffingStrategies;
 
 namespace Toggl.Droid.Adapters.ListAdapter
@@ -16,8 +12,7 @@ namespace Toggl.Droid.Adapters.ListAdapter
     {
         private readonly IListUpdateCallback updateCallback;
         private readonly IDiffingStrategy<T> diffingStrategy;
-        private readonly IExecutor mainThreadExecutor = new MainThreadExecutor();
-        private readonly IExecutor backgroundThreadExecutor = Executors.NewFixedThreadPool(2);
+
 
         private IImmutableList<T> list;
         private IImmutableList<T> readonlyList = ImmutableList.Create<T>();
@@ -27,25 +22,6 @@ namespace Toggl.Droid.Adapters.ListAdapter
         {
             this.updateCallback = updateCallback;
             this.diffingStrategy = diffingStrategy;
-        }
-
-        class MainThreadExecutor : Java.Lang.Object, IExecutor
-        {
-            public void Dispose()
-            {
-
-            }
-
-            public IntPtr Handle { get; }
-
-            public Handler handler = new Handler(Looper.MainLooper);
-
-            public MainThreadExecutor() {}
-
-            public void Execute(IRunnable command)
-            {
-                handler.Post(command);
-            }
         }
 
         public IImmutableList<T> GetCurrentList()
@@ -88,18 +64,18 @@ namespace Toggl.Droid.Adapters.ListAdapter
 
             var oldList = list;
 
-            backgroundThreadExecutor.Execute(new Runnable(() =>
+            var handler = new Handler(Looper.MainLooper);
+            Task.Run(() =>
             {
                 var diffResult = DiffUtil.CalculateDiff(new BaseDiffCallBack(oldList, newList, diffingStrategy));
-
-                mainThreadExecutor.Execute(new Runnable(() =>
+                handler.Post(() =>
                 {
                     if (maxScheduledGeneration == runGeneration)
                     {
                         LatchList(newList, diffResult);
                     }
-                }));
-            }));
+                });
+            });
         }
 
         public void LatchList(IImmutableList<T> newList, DiffUtil.DiffResult diffResult)
