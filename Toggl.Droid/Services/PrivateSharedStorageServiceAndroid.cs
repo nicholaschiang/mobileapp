@@ -23,6 +23,7 @@ namespace Toggl.Droid.Services
         public void SaveApiToken(string apiToken)
         {
             keyValueStorage.SetString(apiTokenKey, apiToken);
+            updateWidgets();
         }
 
         public void SaveUserId(long userId)
@@ -52,6 +53,11 @@ namespace Toggl.Droid.Services
         private void clearWidgets()
         {
             TimeEntryWidgetInfo.Clear();
+            updateWidgets();
+        }
+
+        private void updateWidgets()
+        {
             AppWidgetProviderUtils.UpdateAllInstances<TimeEntryWidget>();
             AppWidgetProviderUtils.UpdateAllInstances<SuggestionsWidget>();
         }
