@@ -84,7 +84,6 @@ namespace Toggl.Core.UI.ViewModels
         public IOnboardingStorage OnboardingStorage { get; }
 
         public ViewAction Refresh { get; private set; }
-        public ViewAction OpenReports { get; private set; }
         public ViewAction OpenSettings { get; private set; }
         public ViewAction OpenSyncFailures { get; private set; }
         public InputAction<bool> StartTimeEntry { get; private set; }
@@ -245,7 +244,6 @@ namespace Toggl.Core.UI.ViewModels
                 .AsDriver(schedulerProvider);
 
             Refresh = rxActionFactory.FromAsync(refresh);
-            OpenReports = rxActionFactory.FromAsync(openReports);
             OpenSettings = rxActionFactory.FromAsync(openSettings);
             OpenSyncFailures = rxActionFactory.FromAsync(openSyncFailures);
             SelectTimeEntry = rxActionFactory.FromAsync<EditTimeEntryInfo>(timeEntrySelected);
@@ -389,10 +387,9 @@ namespace Toggl.Core.UI.ViewModels
         }
 
         private Task openSettings()
-            => navigate<SettingsViewModel>();
-
-        private Task openReports()
-            => navigate<ReportsViewModel>();
+        {
+            return navigate<SettingsViewModel>();
+        }
 
         private Task openSyncFailures()
             => navigate<SyncFailuresViewModel>();

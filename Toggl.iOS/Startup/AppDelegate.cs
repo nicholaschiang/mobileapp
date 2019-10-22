@@ -37,10 +37,7 @@ namespace Toggl.iOS
 
             Window = new UIWindow(UIScreen.MainScreen.Bounds);
             Window.MakeKeyAndVisible();
-
-            setupNavigationBar();
-            setupTabBar();
-
+            
             IosDependencyContainer.EnsureInitialized(Window, this);
             var app = new AppStart(IosDependencyContainer.Instance);
             app.LoadLocalizationConfiguration();
@@ -57,10 +54,6 @@ namespace Toggl.iOS
 
             var watchservice = new WatchService();
             watchservice.TryLogWatchConnectivity();
-
-#if ENABLE_TEST_CLOUD
-            Xamarin.Calabash.Start();
-#endif
 
             return true;
         }

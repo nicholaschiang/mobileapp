@@ -42,6 +42,8 @@ namespace Toggl.iOS.ViewControllers
             base.ViewDidLoad();
 
             ExtendedNavbarView.BackgroundColor = NavigationController.NavigationBar.BackgroundColor;
+            var separator = ExtendedNavbarView.InsertSeparator();
+            separator.BackgroundColor = ColorAssets.OpaqueSeparator;
             TimeTrackedTodayLabel.Font = TimeTrackedTodayLabel.Font.GetMonospacedDigitFont();
 
             TitleLabel.Text = Resources.Welcome;

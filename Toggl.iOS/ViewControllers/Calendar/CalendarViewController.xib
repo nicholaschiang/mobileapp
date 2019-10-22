@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,17 +33,17 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nwq-D8-dC3" userLabel="Time Tracked Today">
                             <rect key="frame" x="312.5" y="8" width="46.5" height="15"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
-                            <color key="textColor" red="0.70980392156862748" green="0.73725490196078436" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" name="CustomGray2"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-rD-i58" userLabel="Current Date">
                             <rect key="frame" x="16" y="8" width="35" height="15"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
-                            <color key="textColor" red="0.70980392160000005" green="0.73725490199999999" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" name="CustomGray2"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="Background"/>
                     <constraints>
                         <constraint firstItem="Nwq-D8-dC3" firstAttribute="top" secondItem="LXy-pR-2Vb" secondAttribute="top" constant="8" id="6Qa-Sf-Le2"/>
                         <constraint firstAttribute="bottom" secondItem="Nwq-D8-dC3" secondAttribute="bottom" constant="8" id="AKU-6h-fsz"/>
@@ -53,16 +53,9 @@
                         <constraint firstAttribute="trailing" secondItem="Nwq-D8-dC3" secondAttribute="trailing" constant="16" id="Q2I-Ky-Yzf"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3RA-hC-Bqf" userLabel="Top Separator">
-                    <rect key="frame" x="0.0" y="31" width="375" height="1"/>
-                    <color key="backgroundColor" red="0.90980392156862744" green="0.90980392156862744" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="PUD-Kx-nM1"/>
-                    </constraints>
-                </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NhI-Kn-KUq">
-                    <rect key="frame" x="0.0" y="32" width="375" height="635"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <rect key="frame" x="0.0" y="31" width="375" height="636"/>
+                    <color key="backgroundColor" name="TableBackground"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="834" id="YQ4-F9-sjV"/>
                     </constraints>
@@ -74,7 +67,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4HD-Ed-Lag" userLabel="Onboarding View">
-                    <rect key="frame" x="0.0" y="32" width="375" height="635"/>
+                    <rect key="frame" x="0.0" y="31" width="375" height="636"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icIllustrationCalendar" translatesAutoresizingMaskIntoConstraints="NO" id="CPI-0j-ChM">
                             <rect key="frame" x="142" y="145" width="91" height="69"/>
@@ -82,13 +75,13 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5js-B3-I4Q">
                             <rect key="frame" x="154" y="230" width="67.5" height="19.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" name="Text"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calendar feature links to calendars on your device so that you can see events and turn these to time entries." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VkW-m5-AZZ">
                             <rect key="frame" x="32" y="256.5" width="311" height="54"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="0.70980392156862748" green="0.73725490196078436" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" name="CustomGray"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5y-Zp-fr2">
@@ -109,7 +102,7 @@
                             </userDefinedRuntimeAttributes>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="TableBackground"/>
                     <constraints>
                         <constraint firstItem="VkW-m5-AZZ" firstAttribute="centerX" secondItem="4HD-Ed-Lag" secondAttribute="centerX" id="1en-Al-zjv"/>
                         <constraint firstItem="a5y-Zp-fr2" firstAttribute="centerX" secondItem="4HD-Ed-Lag" secondAttribute="centerX" id="89q-v7-XBr"/>
@@ -128,18 +121,15 @@
             <constraints>
                 <constraint firstItem="NhI-Kn-KUq" firstAttribute="bottom" secondItem="Gmd-lW-ZGB" secondAttribute="bottom" id="4Vh-60-csU"/>
                 <constraint firstItem="LXy-pR-2Vb" firstAttribute="leading" secondItem="Gmd-lW-ZGB" secondAttribute="leading" id="5DQ-AG-RgN"/>
-                <constraint firstItem="3RA-hC-Bqf" firstAttribute="top" secondItem="LXy-pR-2Vb" secondAttribute="bottom" id="7jd-Qc-cxJ"/>
                 <constraint firstAttribute="bottom" secondItem="4HD-Ed-Lag" secondAttribute="bottom" id="7kd-gh-CMu"/>
                 <constraint firstAttribute="trailing" secondItem="4HD-Ed-Lag" secondAttribute="trailing" id="AKw-sA-S7u"/>
                 <constraint firstItem="NhI-Kn-KUq" firstAttribute="leading" secondItem="Gmd-lW-ZGB" secondAttribute="leading" priority="750" id="BBh-t4-ydr"/>
                 <constraint firstItem="Gmd-lW-ZGB" firstAttribute="trailing" secondItem="LXy-pR-2Vb" secondAttribute="trailing" id="Rld-f6-Acg"/>
-                <constraint firstAttribute="trailing" secondItem="3RA-hC-Bqf" secondAttribute="trailing" id="gmv-li-nfu"/>
-                <constraint firstItem="NhI-Kn-KUq" firstAttribute="top" secondItem="3RA-hC-Bqf" secondAttribute="bottom" id="hEg-dN-eMJ"/>
-                <constraint firstItem="4HD-Ed-Lag" firstAttribute="top" secondItem="3RA-hC-Bqf" secondAttribute="bottom" id="jyI-vw-Zuz"/>
+                <constraint firstItem="4HD-Ed-Lag" firstAttribute="top" secondItem="LXy-pR-2Vb" secondAttribute="bottom" id="Za8-No-3ez"/>
+                <constraint firstItem="NhI-Kn-KUq" firstAttribute="top" secondItem="LXy-pR-2Vb" secondAttribute="bottom" id="aAO-Cj-x75"/>
                 <constraint firstItem="LXy-pR-2Vb" firstAttribute="top" secondItem="2" secondAttribute="top" id="kLd-uU-jws"/>
                 <constraint firstItem="NhI-Kn-KUq" firstAttribute="centerX" secondItem="Gmd-lW-ZGB" secondAttribute="centerX" id="szX-LQ-97x"/>
                 <constraint firstItem="NhI-Kn-KUq" firstAttribute="trailing" secondItem="Gmd-lW-ZGB" secondAttribute="trailing" priority="750" id="xyG-4v-H5P"/>
-                <constraint firstItem="3RA-hC-Bqf" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="yGO-jS-eul"/>
                 <constraint firstItem="4HD-Ed-Lag" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="yS4-uj-tTO"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Gmd-lW-ZGB"/>
@@ -148,5 +138,20 @@
     </objects>
     <resources>
         <image name="icIllustrationCalendar" width="91" height="69"/>
+        <namedColor name="Background">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomGray">
+            <color red="0.55686277151107788" green="0.55686277151107788" blue="0.57647061347961426" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomGray2">
+            <color red="0.38823530077934265" green="0.38823530077934265" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TableBackground">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Text">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

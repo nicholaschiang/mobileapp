@@ -207,7 +207,7 @@ namespace Toggl.Core.UI.ViewModels.Calendar
                 .SelectUnit();
 
             dataSource.TimeEntries
-                .ItemsChanged()
+                .ItemsChanged
                 .Merge(dayChangedObservable)
                 .Merge(selectedCalendarsChangedObservable)
                 .Merge(appResumedFromBackgroundObservable)

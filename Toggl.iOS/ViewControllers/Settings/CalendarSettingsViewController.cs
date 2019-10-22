@@ -32,7 +32,6 @@ namespace Toggl.iOS.ViewControllers.Settings
             header.SetCalendarPermissionStatus(ViewModel.PermissionGranted);
 
             var source = new SelectUserCalendarsTableViewSource(UserCalendarsTableView);
-            source.SectionHeaderBackgroundColor = Colors.Settings.Background.ToNativeColor();
             UserCalendarsTableView.Source = source;
 
             ViewModel.Calendars
