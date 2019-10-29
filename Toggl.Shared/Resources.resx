@@ -119,164 +119,216 @@
     </resheader>
     <data name="AppTitle" xml:space="preserve">
         <value>Toggl</value>
+        <comment>@Invariant</comment>
     </data>
     <data name="LoginTitle" xml:space="preserve">
         <value>Log in</value>
+        <comment>Title of the login view</comment>
     </data>
     <data name="Ok" xml:space="preserve">
         <value>Ok</value>
+        <comment>Confirmative action for dialogs</comment>
     </data>
     <data name="SignUpTitle" xml:space="preserve">
         <value>Sign up for free</value>
+        <comment>Title of the sign up view</comment>
     </data>
     <data name="LoginForgotPassword" xml:space="preserve">
         <value>Forgot your password? </value>
+        <comment>Link to the password reset view</comment>
     </data>
     <data name="LoginGetHelpLoggingIn" xml:space="preserve">
         <value>Get help logging in</value>
     </data>
     <data name="Today" xml:space="preserve">
         <value>Today</value>
+        <comment>Reports title, Reports calendar shortcut button, Main time entries log title.</comment>
     </data>
     <data name="Yesterday" xml:space="preserve">
         <value>Yesterday</value>
+        <comment>Reports title, Reports calendar shortcut button, Main time entries log title.</comment>
     </data>
     <data name="IncorrectEmailOrPassword" xml:space="preserve">
         <value>Incorrect email/password. Please, try again.</value>
+        <comment>Error message shown when authentication fails</comment>
     </data>
     <data name="GenericLoginError" xml:space="preserve">
         <value>Sorry, we’re having trouble logging you in.
 Please try again.</value>
+        <comment>Message shown when exceptions happen during login</comment>
     </data>
     <data name="GenericSignUpError" xml:space="preserve">
         <value>Sorry, we’re having trouble signing you up. Please try again.</value>
+        <comment>Message shown when exceptions happen during sign up</comment>
     </data>
     <data name="StartTimeEntryPlaceholder" xml:space="preserve">
         <value>What are you working on?</value>
+        <comment>Placeholder shown when the user is creating a time entry</comment>
     </data>
     <data name="ManualTimeEntryPlaceholder" xml:space="preserve">
         <value>What have you done?</value>
+        <comment>Placeholder shown when the user is creating a time entry that has already been stopped</comment>
     </data>
     <data name="Settings" xml:space="preserve">
         <value>Settings</value>
+        <comment>Title of the settings tab</comment>
     </data>
     <data name="SettingsSyncInProgressTitle" xml:space="preserve">
         <value>We're syncing your data</value>
+        <comment>Shown in the settings area, near the logout button, when data is being synced</comment>
     </data>
     <data name="SettingsSyncInProgressMessage" xml:space="preserve">
         <value>You may lose your data if you sign out before the sync is complete.</value>
+        <comment>Shown when the user tries to sign out while data is still unsynced</comment>
     </data>
     <data name="SettingsUnsyncedTitle" xml:space="preserve">
         <value>Unsynced data</value>
+        <comment>Title of the dialog that appears when the user tries to logout while still having unsynced data</comment>
     </data>
     <data name="SettingsUnsyncedMessage" xml:space="preserve">
         <value>You have some unsynced data. Any unsynced data will be lost.</value>
+        <comment>Message of the dialog that appears when the user tries to logout while still having unsynced data</comment>
     </data>
     <data name="SettingsDialogButtonSignOut" xml:space="preserve">
         <value>Sign out</value>
+        <comment>Title of a button.</comment>
     </data>
     <data name="UnitHour" xml:space="preserve">
         <value>h</value>
+        <comment>A short representation of hours (e.g., five hours: "5 h").</comment>
     </data>
     <data name="UnitMin" xml:space="preserve">
         <value>min</value>
+        <comment>A short representation of minutes (e.g., five minutes ten seconds: "5:10 min").</comment>
     </data>
     <data name="UnitSecond" xml:space="preserve">
         <value>sec</value>
+        <comment>A short representation of seconds (e.g., five seconds: "5 sec").</comment>
     </data>
     <data name="SuggestionsHeader" xml:space="preserve">
         <value>WORKING ON THESE?</value>
+        <comment>Shown on top of the suggestions</comment>
     </data>
     <data name="AddDescription" xml:space="preserve">
         <value>Add description</value>
+        <comment>Shown as a placeholder when a time entry has no description</comment>
     </data>
     <data name="NoProject" xml:space="preserve">
         <value>No Project</value>
+        <comment>Shown when a time entry has no project associated to it</comment>
     </data>
     <data name="NoDescription" xml:space="preserve">
         <value>No Description</value>
+        <comment>Shown when a time entry has no description</comment>
     </data>
     <data name="InaccessibleProject" xml:space="preserve">
         <value>(inaccessible project)</value>
+        <comment>Shown instead of a name of a project when it becomes inaccessible.</comment>
     </data>
     <data name="WorkspacePlaceholder" xml:space="preserve">
         <value>(unsynced workspace)</value>
+        <comment>Shown instead of a name of a workspace when it becomes inaccessible.</comment>
     </data>
     <data name="ProjectPlaceholder" xml:space="preserve">
         <value>(unsynced project)</value>
+        <comment>Shown instead of a name of a project when we don't know its name yet.</comment>
     </data>
     <data name="TaskPlaceholder" xml:space="preserve">
         <value>(unsynced task)</value>
+        <comment>Shown instead of a name of a task when we don't know its name yet.</comment>
     </data>
     <data name="TagPlaceholder" xml:space="preserve">
         <value>(unsynced tag)</value>
+        <comment>Shown instead of a name of a tag when we don't know its name yet.</comment>
     </data>
     <data name="SyncCompleted" xml:space="preserve">
         <value>Synced</value>
+        <comment>A short message shown to the user when synchronization finishes successfully.</comment>
     </data>
     <data name="Syncing" xml:space="preserve">
         <value>Syncing...</value>
+        <comment>A short message shown to the user when synchronization is in progress.</comment>
     </data>
     <data name="Offline" xml:space="preserve">
         <value>Offline</value>
+        <comment>A short message shown to the user when synchronization fails because the user is not connected to the Internet.</comment>
     </data>
     <data name="PullDownToRefresh" xml:space="preserve">
         <value>Pull down to refresh</value>
+        <comment>A short message shown on iOS when the user pulls on the main screen to initiate synchronization.</comment>
     </data>
     <data name="ReleaseToRefresh" xml:space="preserve">
-        <value>Release to Refresh</value>
+        <value>Release to refresh</value>
+        <comment>A short message shown on iOS when the user pulls on the main screen and he can release his finger and synchronization will start.</comment>
     </data>
     <data name="LogEmptyStateTitle" xml:space="preserve">
         <value>Welcome back!</value>
+        <comment>A message shown to the user on the main screen after he logs into the app.</comment>
     </data>
     <data name="LogEmptyStateText" xml:space="preserve">
         <value>You haven’t tracked time for a while.
 Start the timer and your most used time entries will appear here.</value>
+        <comment>A message shown to the user on the main screen after he logs into the app.</comment>
     </data>
     <data name="DifferentWorkspaceAlertTitle" xml:space="preserve">
         <value>You've selected a project from another workspace.</value>
+        <comment>A message shown in the edit view when changing project of a time entry.</comment>
     </data>
     <data name="DifferentWorkspaceAlertMessage" xml:space="preserve">
         <value>Change workspace?</value>
+        <comment>A title of a message shown in the edit view when changing project of a time entry.</comment>
     </data>
     <data name="Cancel" xml:space="preserve">
         <value>Cancel</value>
+        <comment>Title of a button which cancels some operation.</comment>
     </data>
     <data name="Download" xml:space="preserve">
         <value>Download</value>
+        <comment>Title of a button which initiates download.</comment>
     </data>
     <data name="ConfirmDeleteNewTETitle" xml:space="preserve">
         <value>Would you like to discard this time entry?</value>
+        <comment>A warning shown in the time entry edit view.</comment>
     </data>
     <data name="ContinueEditing" xml:space="preserve">
         <value>Continue Editing</value>
+        <comment>A button title shown when the user might dismiss the time entry edit view by accident.</comment>
     </data>
     <data name="Discard" xml:space="preserve">
         <value>Discard</value>
+        <comment>A button title shown in the time entry edit view when the user confirms discarding unsaved changes.</comment>
     </data>
     <data name="PrivacyPolicy" xml:space="preserve">
         <value>Privacy Policy</value>
+        <comment>A title of a button redirecting to the privacy policy document.</comment>
     </data>
     <data name="PrivacyPolicyUrl" xml:space="preserve">
         <value>https://toggl.com/legal/privacy</value>
+        <comment>@Invariant</comment>
     </data>
     <data name="TermsOfService" xml:space="preserve">
         <value>Terms of Service</value>
+        <comment>A title of a button redirecting to the terms of service document.</comment>
     </data>
     <data name="And" xml:space="preserve">
         <value>and</value>
+        <comment>The "and" conjunction which may be used to glue two sentences together.</comment>
     </data>
     <data name="TermsOfServiceUrl" xml:space="preserve">
         <value>https://toggl.com/legal/terms</value>
+        <comment>@Invariant</comment>
     </data>
     <data name="Delete" xml:space="preserve">
         <value>Delete</value>
+        <comment>A title of a button which will delete a time entry.</comment>
     </data>
     <data name="NewProject" xml:space="preserve">
         <value>New Project</value>
+        <comment>A title of a view for creating a new project.</comment>
     </data>
     <data name="PrivateProject" xml:space="preserve">
         <value>Private Project</value>
+        <comment>A label next to a switch to enable or disable private project setting.</comment>
     </data>
     <data name="Create" xml:space="preserve">
         <value>Create</value>
@@ -291,7 +343,7 @@ Start the timer and your most used time entries will appear here.</value>
         <value>Add/filter tags</value>
     </data>
     <data name="AddFilterProjects" xml:space="preserve">
-        <value>Add/filter project</value>
+        <value>Add/filter projects</value>
     </data>
     <data name="AddFilterClients" xml:space="preserve">
         <value>Add/filter clients</value>
@@ -367,6 +419,7 @@ Start the timer and your most used time entries will appear here.</value>
     </data>
     <data name="Siri" xml:space="preserve">
         <value>Siri</value>
+        <comment>@Invariant</comment>
     </data>
     <data name="SiriReportPeriodInstruction" xml:space="preserve">
         <value>Ask Siri to view a report for this period</value>
@@ -388,27 +441,35 @@ Start the timer and your most used time entries will appear here.</value>
     </data>
     <data name="MondayInitial" xml:space="preserve">
         <value>M</value>
+        <comment>First letter of Monday</comment>
     </data>
     <data name="TuesdayInitial" xml:space="preserve">
         <value>T</value>
+        <comment>First letter of Tuesday</comment>
     </data>
     <data name="WednesdayInitial" xml:space="preserve">
         <value>W</value>
+        <comment>First letter of Wednesday</comment>
     </data>
     <data name="ThursdayInitial" xml:space="preserve">
         <value>T</value>
+        <comment>First letter of Thursday</comment>
     </data>
     <data name="FridayInitial" xml:space="preserve">
         <value>F</value>
+        <comment>First letter of Friday</comment>
     </data>
     <data name="SaturdayInitial" xml:space="preserve">
         <value>S</value>
+        <comment>First letter of Saturday</comment>
     </data>
     <data name="SundayInitial" xml:space="preserve">
         <value>S</value>
+        <comment>First letter of Sunday</comment>
     </data>
     <data name="Help" xml:space="preserve">
         <value>Help</value>
+        <comment>Call to action to the link to our knowledge base</comment>
     </data>
     <data name="WorkspaceChangedAlertTitle" xml:space="preserve">
         <value>You've changed workspace.</value>
@@ -1283,30 +1344,6 @@ to project members</value>
     </data>
     <data name="SiriWorkflowFocusModeDescription" xml:space="preserve">
         <value>Start a Time Entry, select a music playlist and turn on do not disturb.</value>
-    </data>
-    <data name="SystemDefault" xml:space="preserve">
-        <value>System Default</value>
-    </data>
-    <data name="Light" xml:space="preserve">
-        <value>Light</value>
-    </data>
-    <data name="Dark" xml:space="preserve">
-        <value>Dark</value>
-    </data>
-    <data name="RestartNeeded" xml:space="preserve">
-        <value> Restart needed</value>
-    </data>
-    <data name="RestartNeededMessage" xml:space="preserve">
-        <value>The app needs to be restarted for changes to take effect. Restart now?</value>
-    </data>
-    <data name="AppTheme" xml:space="preserve">
-        <value>App Theme</value>
-    </data>
-    <data name="Yes" xml:space="preserve">
-        <value>Yes</value>
-    </data>
-    <data name="No" xml:space="preserve">
-        <value>No</value>
     </data>
     <data name="LoginToTrack" xml:space="preserve">
         <value>Log in to track time</value>
