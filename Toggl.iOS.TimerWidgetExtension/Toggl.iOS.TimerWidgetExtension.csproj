@@ -93,6 +93,8 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignProvision>Daneel AppStore Widget Extension</CodesignProvision>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchLink>Full</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
