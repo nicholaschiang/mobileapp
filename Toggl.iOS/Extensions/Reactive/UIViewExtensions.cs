@@ -36,22 +36,14 @@ namespace Toggl.iOS.Extensions.Reactive
                 var gestureRecognizer = new UILongPressGestureRecognizer(longPress =>
                 {
                     var state = longPress.State;
-                    if (useFeedback)
-                    {
-                        switch (longPress.State)
-                        {
-                            case UIGestureRecognizerState.Began:
-                                feedbackGenerator.Prepare();
-                                break;
-                            case UIGestureRecognizerState.Recognized:
-                                feedbackGenerator.ImpactOccurred();
-                                break;
-                        }
-                    }
+                    feedbackGenerator.Prepare();
 
-                    if (state == UIGestureRecognizerState.Recognized)
+                    if (state == UIGestureRecognizerState.Began)
                     {
                         observer.OnNext(Unit.Default);
+
+                        if (useFeedback)
+                            feedbackGenerator.ImpactOccurred();
                     }
                 });
                 gestureRecognizer.ShouldRecognizeSimultaneously = (recognizer, otherRecognizer) => true;
