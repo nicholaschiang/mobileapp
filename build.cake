@@ -105,37 +105,10 @@ private string GetCommitCount()
 
 private string GetVersionNumberFromTag()
 {
-    var platform = "";
-    if (target == "Build.Release.iOS.AppStore") 
-    {
-        platform = "ios";
-    } 
-    else if (target == "Build.Release.Android.PlayStore") 
-    {
-        platform = "android";
-    } 
-    else 
-    {
-        throw new InvalidOperationException($"Unable to get version number from this type of build target: {target}");
-    }
-    
-    StartProcess("git", new ProcessSettings
-    {
-        Arguments = "tag --list '" + platform + "-*'",
-        RedirectStandardOutput = true
-    }, out var redirectedOutput);
-
-    var tagName = redirectedOutput.Last();
-         
-    var p = Regex.Match(tagName, @"(?<platform>(android|ios))-(?<major>\d{1,2})\.(?<minor>\d{1,2})(\.(?<build>\d{1,2}))?(-(?<rev>\d{1,2}))?");
-    if (!p.Success) 
-    {
-        throw new InvalidOperationException($"Unsupported release tag format: {tagName}");
-    } 
-    var major = Int32.Parse(p.Groups["major"].Value) * 1000000;
-    var minor = Int32.Parse(p.Groups["minor"].Value) *   10000;
-    var build = string.IsNullOrEmpty(p.Groups["build"].Value) ? 0 : Int32.Parse(p.Groups["build"].Value) * 100;
-    var rev = string.IsNullOrEmpty(p.Groups["rev"].Value) ? 0 : Int32.Parse(p.Groups["rev"].Value);
+    var major = 2 * 1000000;
+    var minor = 6 * 10000;
+    var build = 0 * 100;
+    var rev = 3;
 
     return (major + minor + build + rev).ToString();
 }
