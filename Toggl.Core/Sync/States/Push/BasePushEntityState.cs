@@ -37,7 +37,7 @@ namespace Toggl.Core.Sync.States.Push
                     .Track(AnalyticsService.EntitySyncStatus, entity.GetSafeTypeName(), $"{operation}:{Resources.Failure}")
                     .SelectMany(_ => shouldRethrow(exception)
                         ? Observable.Throw<ITransition>(exception)
-                        : Observable.Return(failTransition(entity, exception)));
+                        : Observable.Return(failTransition(entity, exception.UnwrapSingle())));
 
         private bool shouldRethrow(Exception e)
             => e is ApiDeprecatedException || e is ClientDeprecatedException || e is UnauthorizedException || e is OfflineException;
