@@ -83,10 +83,10 @@ namespace Toggl.Shared.Extensions
 
             return null;
         }
+
         public static TEnum GetValueAsEnumCase<TEnum>(this Dictionary<string, string> dictionary, string key, TEnum defaultCase)
             where TEnum : struct, Enum
         {
-
             if (dictionary.TryGetValue(key, out var sourceString) && Enum.TryParse<TEnum>(sourceString, out var source))
                 return source;
 

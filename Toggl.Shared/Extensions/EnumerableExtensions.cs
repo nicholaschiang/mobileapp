@@ -15,6 +15,7 @@ namespace Toggl.Shared.Extensions
                     return i;
                 i++;
             }
+
             return -1;
         }
 
