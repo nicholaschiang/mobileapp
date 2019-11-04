@@ -69,7 +69,7 @@ namespace Toggl.Networking.Tests.ApiClients
                 {
                     await api.Delete(new TimeEntry { Id = 123 });
                 }
-                catch (ClientErrorException caughtException)
+                catch (ClientErrorException)
                 {
                     clientExceptionWasCaught = true;
                 }
