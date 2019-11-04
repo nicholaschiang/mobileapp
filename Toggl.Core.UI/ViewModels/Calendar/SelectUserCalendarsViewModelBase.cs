@@ -73,7 +73,7 @@ namespace Toggl.Core.UI.ViewModels.Calendar
 
         public override async Task Initialize(bool forceItemSelection)
         {
-            base.Initialize(forceItemSelection);
+            await base.Initialize(forceItemSelection);
 
             ForceItemSelection = forceItemSelection;
 

@@ -235,7 +235,7 @@ namespace Toggl.Core.UI.ViewModels.Calendar
             checkCalendarPermissions();
         }
 
-        private async Task checkCalendarPermissions()
+        private async void checkCalendarPermissions()
         {
             var authorized = await permissionsChecker.CalendarPermissionGranted;
             calendarPermissionsOnViewAppearedSubject.OnNext(authorized);

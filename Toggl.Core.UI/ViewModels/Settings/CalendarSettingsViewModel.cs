@@ -102,7 +102,7 @@ namespace Toggl.Core.UI.ViewModels.Settings
                         await Navigate<CalendarPermissionDeniedViewModel, Unit>();
 
                     calendarListVisible = await permissionsChecker.CalendarPermissionGranted;
-                    ReloadCalendars();
+                    await ReloadCalendars();
                 }
                 else
                 {

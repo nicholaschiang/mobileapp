@@ -1,5 +1,4 @@
 ﻿using System.Reactive.Linq;
-using System.Threading.Tasks;
 using Toggl.Core.Services;
 using Toggl.Core.UI.Navigation;
 using Toggl.Core.UI.Services;
@@ -37,7 +36,7 @@ namespace Toggl.Core.UI.ViewModels.Calendar
             View.OpenAppSettings();
         }
 
-        private async Task closeIfPermissionIsGranted()
+        private async void closeIfPermissionIsGranted()
         {
             var authorized = await permissionsChecker.CalendarPermissionGranted;
             if (authorized)
