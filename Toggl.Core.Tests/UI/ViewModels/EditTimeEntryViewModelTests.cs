@@ -110,7 +110,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
             protected virtual void AdjustTimeEntries(long[] ids, Func<MockTimeEntry, MockTimeEntry> timeEntryModifier)
             {
-                ViewModel.Initialize(ids);
+                ViewModel.Initialize(ids).Wait();
                 SetupTimeEntries(ids, (te, index) => timeEntryModifier(te));
             }
 
@@ -335,9 +335,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheTimeEntryIdsProperty : EditTimeEntryViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public void ContainsCorrectIdsAfterPrepareStep()
+            public async Task ContainsCorrectIdsAfterPrepareStep()
             {
-                ViewModel.Initialize(TimeEntriesGroupIds);
+                await ViewModel.Initialize(TimeEntriesGroupIds);
 
                 ViewModel.TimeEntryIds.Should().BeEquivalentTo(TimeEntriesGroupIds);
             }
@@ -346,9 +346,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheTimeEntryIdProperty : EditTimeEntryViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public void ContainsCorrectIdAfterPrepareStep()
+            public async Task ContainsCorrectIdAfterPrepareStep()
             {
-                ViewModel.Initialize(TimeEntriesGroupIds);
+                await ViewModel.Initialize(TimeEntriesGroupIds);
 
                 ViewModel.TimeEntryId.Should().Be(TimeEntriesGroupIds.First());
             }
@@ -357,17 +357,17 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheIsEditingGroupProperty : EditTimeEntryViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public void ReturnsTrueForTimeEntriesGroup()
+            public async Task ReturnsTrueForTimeEntriesGroup()
             {
-                ViewModel.Initialize(TimeEntriesGroupIds);
+                await ViewModel.Initialize(TimeEntriesGroupIds);
 
                 ViewModel.IsEditingGroup.Should().BeTrue();
             }
 
             [Fact, LogIfTooSlow]
-            public void ReturnsFalseForSingleTimeEntry()
+            public async Task ReturnsFalseForSingleTimeEntry()
             {
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
 
                 ViewModel.IsEditingGroup.Should().BeFalse();
             }
@@ -376,17 +376,17 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheGroupCountProperty : EditTimeEntryViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public void ReturnsCorrectValueForTimeEntriesGroup()
+            public async Task ReturnsCorrectValueForTimeEntriesGroup()
             {
-                ViewModel.Initialize(TimeEntriesGroupIds);
+                await ViewModel.Initialize(TimeEntriesGroupIds);
 
                 ViewModel.GroupCount.Should().Be(TimeEntriesGroupIds.Length);
             }
 
             [Fact, LogIfTooSlow]
-            public void ReturnsCorrectValueForSingleTimeEntry()
+            public async Task ReturnsCorrectValueForSingleTimeEntry()
             {
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
 
                 ViewModel.GroupCount.Should().Be(SingleTimeEntryId.Length);
             }
@@ -824,7 +824,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             public async Task ClosesTheViewModelIfNothingChanged()
             {
                 await ViewModel.Initialize(TimeEntriesGroupIds);
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 View.Received().Close();
@@ -836,7 +836,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.Description.Accept("Something Else");
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -861,7 +861,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.SelectProject.Execute();
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -886,7 +886,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.SelectProject.Execute();
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -911,7 +911,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.SelectProject.Execute();
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -933,7 +933,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.EditTimes.Execute(EditViewTapSource.StartTime);
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -957,7 +957,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.EditTimes.Execute(EditViewTapSource.Duration);
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -978,7 +978,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.StopTimeEntry.Execute();
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -996,7 +996,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.ToggleBillable.Execute();
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -1018,7 +1018,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 TestScheduler.Start();
                 ViewModel.SelectTags.Execute();
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 await View.Received().ConfirmDestructiveAction(ActionType.DiscardEditingChanges);
@@ -1034,7 +1034,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 TestScheduler.Start();
                 ViewModel.Description.Accept("This changes the description.");
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 View.Received().Close();
@@ -1050,7 +1050,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await ViewModel.Initialize(new[] { 123L });
                 TestScheduler.Start();
                 ViewModel.Description.Accept("This changes the description.");
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 AnalyticsService.EditViewClosed.Received().Track(EditViewCloseReason.Close);
@@ -1066,7 +1066,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 TestScheduler.Start();
                 ViewModel.Description.Accept("This changes the description.");
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 AnalyticsService.EditViewClosed.Received().Track(EditViewCloseReason.GroupClose);
@@ -1082,7 +1082,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 TestScheduler.Start();
                 ViewModel.Description.Accept("This changes the description.");
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 View.DidNotReceive().Close();
@@ -1639,7 +1639,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [Fact]
             public async Task OpensTheSelectDateTimeViewModel()
             {
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
                 await ViewModel.Initialize(TimeEntriesGroupIds);
 
                 ViewModel.SelectStartDate.Execute();
@@ -1656,7 +1656,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 entry.Duration = null;
 
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.SelectStartDate.Execute();
                 TestScheduler.Start();
@@ -1672,7 +1672,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 entry.Duration = 123;
 
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.SelectStartDate.Execute();
                 TestScheduler.Start();
@@ -1694,7 +1694,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Navigate<SelectDateTimeViewModel, DateTimePickerParameters, DateTimeOffset>(Arg.Any<DateTimePickerParameters>(), ViewModel.View)
                     .Returns(startTime);
 
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 ViewModel.SelectStartDate.Execute();
                 TestScheduler.Start();
@@ -1710,7 +1710,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                     .Navigate<SelectDateTimeViewModel, DateTimePickerParameters, DateTimeOffset>(Arg.Any<DateTimePickerParameters>(), ViewModel.View)
                     .Returns(entry.Start - TimeSpan.FromDays(1));
 
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
                 await ViewModel.Initialize(TimeEntriesGroupIds);
                 var durationObserver = TestScheduler.CreateObserver<TimeSpan>();
                 ViewModel.Duration.Subscribe(durationObserver);
@@ -1729,7 +1729,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                         Arg.Any<DateTimePickerParameters>(), ViewModel.View)
                     .Returns(newStartTime);
 
-                ViewModel.Initialize(SingleTimeEntryId);
+                await ViewModel.Initialize(SingleTimeEntryId);
                 ViewModel.Initialize(TimeEntriesGroupIds).Wait();
                 ViewModel.SelectStartDate.Execute();
                 TestScheduler.Start();
