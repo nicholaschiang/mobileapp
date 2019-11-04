@@ -31,14 +31,12 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 bool useAccessRestrictionStorage,
                 bool useInteractorFactory,
                 bool useNavigationService,
-                bool useSchedulerProvider,
                 bool useRxActionFactory)
             {
                 var syncManager = useSyncManager ? SyncManager : null;
                 var accessRestrictionStorage = useAccessRestrictionStorage ? AccessRestrictionStorage : null;
                 var interactorFactory = useInteractorFactory ? InteractorFactory : null;
                 var navigationService = useNavigationService ? NavigationService : null;
-                var schedulerProvider = useSchedulerProvider ? SchedulerProvider : null;
                 var rxActionFactory = useRxActionFactory ? RxActionFactory : null;
 
                 Action tryingToConstructWithEmptyParameters =
