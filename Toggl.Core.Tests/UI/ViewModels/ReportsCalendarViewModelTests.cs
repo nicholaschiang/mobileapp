@@ -65,7 +65,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var observer = TestScheduler.CreateObserver<CalendarMonth>();
                 TimeService.CurrentDateTime.Returns(now);
 
-                ViewModel.Initialize();
                 await ViewModel.Initialize();
                 ViewModel.CurrentMonthObservable.Subscribe(observer);
 
@@ -172,7 +171,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var observer = TestScheduler.CreateObserver<CalendarMonth>();
                 var now = new DateTimeOffset(currentYear, currentMonth, 1, 0, 0, 0, TimeSpan.Zero);
                 TimeService.CurrentDateTime.Returns(now);
-                ViewModel.Initialize();
                 ViewModel.Initialize().Wait();
                 ViewModel.CurrentMonthObservable.Subscribe(observer);
 
@@ -193,7 +191,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var observer = TestScheduler.CreateObserver<int>();
                 var now = new DateTimeOffset(2020, 4, 2, 1, 1, 1, TimeSpan.Zero);
                 TimeService.CurrentDateTime.Returns(now);
-                ViewModel.Initialize();
                 ViewModel.Initialize().Wait();
                 ViewModel.CurrentPageObservable.Subscribe(observer);
 
@@ -225,7 +222,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 user.BeginningOfWeek.Returns(beginningOfWeek);
                 DataSource.User.Current.Returns(Observable.Return(user));
 
-                ViewModel.Initialize();
                 await ViewModel.Initialize();
 
                 ViewModel.RowsInCurrentMonthObservable
@@ -260,7 +256,6 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 DataSource.User.Current.Returns(Observable.Return(user));
 
                 ViewModel.SelectedDateRangeObservable.Subscribe(dateRangeObserver);
-                ViewModel.Initialize();
                 ViewModel.Initialize().Wait();
 
                 ViewModel.MonthsObservable.Subscribe(monthsObserver);
