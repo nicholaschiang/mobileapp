@@ -8,6 +8,7 @@ using Toggl.Core.UI.Extensions;
 using Toggl.Core.UI.ViewModels;
 using Toggl.Droid.Extensions;
 using Toggl.Droid.Extensions.Reactive;
+using Toggl.Droid.Helper;
 using Toggl.Droid.Presentation;
 using Toggl.Shared;
 using Toggl.Shared.Extensions;

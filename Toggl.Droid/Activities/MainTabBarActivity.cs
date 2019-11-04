@@ -14,6 +14,7 @@ using Toggl.Core.UI.ViewModels.Reports;
 using Toggl.Droid.Extensions;
 using Toggl.Droid.Extensions.Reactive;
 using Toggl.Droid.Fragments;
+using Toggl.Droid.Helper;
 using Toggl.Droid.Presentation;
 using Toggl.Shared.Extensions;
 using Fragment = Android.Support.V4.App.Fragment;
@@ -107,7 +108,7 @@ namespace Toggl.Droid.Activities
             else
             {
                 reportsRequestedStartDate = DateTimeOffset.FromUnixTimeSeconds(startDate);
-                reportsRequestedEndDate = DateTimeOffset.FromUnixTimeSeconds(endDate);    
+                reportsRequestedEndDate = DateTimeOffset.FromUnixTimeSeconds(endDate);
             }
         }
 

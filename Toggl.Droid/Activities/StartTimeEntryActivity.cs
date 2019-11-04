@@ -6,6 +6,7 @@ using Android.Widget;
 using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Android.OS;
 using Toggl.Core.Autocomplete;
 using Toggl.Core.UI.Extensions;
 using Toggl.Core.UI.Onboarding.StartTimeEntryView;
@@ -18,7 +19,7 @@ using Toggl.Shared.Extensions;
 
 namespace Toggl.Droid.Activities
 {
-    [Activity(Theme = "@style/Theme.Splash",
+    [Activity(Theme = "@style/AppTheme",
               ScreenOrientation = ScreenOrientation.Portrait,
               WindowSoftInputMode = SoftInput.StateVisible,
               ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
@@ -119,7 +120,7 @@ namespace Toggl.Droid.Activities
             MenuInflater.Inflate(Resource.Menu.OneButtonMenu, menu);
             var doneMenuItem = menu.FindItem(Resource.Id.ButtonMenuItem);
             doneMenuItem.SetTitle(Shared.Resources.Done);
-            
+
             return true;
         }
 

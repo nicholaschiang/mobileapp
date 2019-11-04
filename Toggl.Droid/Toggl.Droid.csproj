@@ -51,7 +51,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release.PlayStore|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Release.PlayStore</OutputPath>
-    <DefineConstants>USE_ANALYTICS;USE_PRODUCTION_API</DefineConstants>
+    <DefineConstants>USE_ANALYTICS;USE_PRODUCTION_API;USE_APPCENTER</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
@@ -381,6 +381,7 @@
     <Compile Include="Activities\SendFeedbackActivity.ViewBinds.cs">
       <DependentUpon>SendFeedbackActivity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Activities\TestActivity.cs" />
     <Compile Include="Adapters\Calendar\Anchor.cs" />
     <Compile Include="Adapters\Calendar\AnchorData.cs" />
     <Compile Include="Adapters\Calendar\CalendarAdapter.cs" />
@@ -725,6 +726,10 @@
     <AndroidResource Include="Resources\drawable\Splash.xml" />
     <AndroidResource Include="Resources\drawable\text_placeholder.xml" />
     <AndroidResource Include="Resources\layout\AboutActivity.axml" />
+    <AndroidResource Include="Resources\layout\TestActivity.axml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\WidgetLoading.axml" />
     <AndroidResource Include="Resources\layout\ReportsCalendar.axml" />
     <AndroidResource Include="Resources\layout\SelectTagsActivity.axml" />
@@ -745,6 +750,18 @@
     <AndroidResource Include="Resources\menu\GenericSaveMenu.xml" />
     <AndroidResource Include="Resources\menu\DoneOrClearMenu.xml" />
     <AndroidResource Include="Resources\menu\OneButtonMenu.xml" />
+    <AndroidResource Include="Resources\values-night\Environment.xml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\values-v29\Styles.xml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\values\Environment.xml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
@@ -785,8 +802,6 @@
     <AndroidResource Include="Resources\layout\MainFragment.axml" />
     <AndroidResource Include="Resources\layout\LoginActivity.axml" />
     <AndroidResource Include="Resources\values\Styles.xml" />
-    <AndroidResource Include="Resources\values-notnight-v23\Styles.xml" />
-    <AndroidResource Include="Resources\values-notnight-v27\Styles.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\arrow_back.png" />
     <AndroidResource Include="Resources\drawable-hdpi\billable.png" />
     <AndroidResource Include="Resources\drawable-hdpi\check_light.png" />
@@ -1224,13 +1239,13 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values-night-v27\Styles.xml">
+    <AndroidResource Include="Resources\values-v27\Styles.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values-night-v23\Styles.xml">
+    <AndroidResource Include="Resources\values-v23\Styles.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

@@ -9,6 +9,7 @@ using System;
 using System.Reactive.Disposables;
 using Toggl.Core.UI.ViewModels;
 using Toggl.Core.UI.Views;
+using Toggl.Droid.Helper;
 using Toggl.Droid.Presentation;
 
 namespace Toggl.Droid.Activities
@@ -54,7 +55,6 @@ namespace Toggl.Droid.Activities
                 bailOutToSplashScreen();
                 return;
             }
-
             ViewModel?.AttachView(this);
             SetContentView(layoutResId);
             OverridePendingTransition(transitions.SelfIn, transitions.OtherOut);
@@ -62,6 +62,14 @@ namespace Toggl.Droid.Activities
             InitializeViews();
             RestoreViewModelStateFromBundle(bundle);
             InitializeBindings();
+
+            if (QApis.AreAvailable)
+            {
+                var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.LayoutStable;
+//                                | (int)SystemUiFlags.LightStatusBar
+//                                | (int)SystemUiFlags.LightNavigationBar;
+                Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(int)uiOptions;
+            }
         }
 
         /// <summary>

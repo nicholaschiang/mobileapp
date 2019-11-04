@@ -69,7 +69,7 @@ namespace Toggl.Droid
             if (string.IsNullOrEmpty(navigationUrl))
             {
                 app.ForceFullSync();
-                StartActivity(typeof(MainTabBarActivity));
+                StartActivity(typeof(TestActivity));
                 Finish();
                 return;
             }
