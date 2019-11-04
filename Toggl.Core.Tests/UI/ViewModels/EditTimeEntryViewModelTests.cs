@@ -1167,6 +1167,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 AnalyticsService.Received().TimeEntryStopped.Track(TimeEntryStopOrigin.EditView);
             }
 
+            [Fact, LogIfTooSlow]
             public async Task TracksEditViewTappedEvent()
             {
                 AdjustTimeEntries(SingleTimeEntryId, te =>

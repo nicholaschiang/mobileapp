@@ -1933,6 +1933,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 projectNames(result[1].Items).Should().BeInAscendingOrder();
             }
 
+            [Fact, LogIfTooSlow]
             public async Task SortsTasksByName()
             {
                 var suggestions = new List<ProjectSuggestion>();
