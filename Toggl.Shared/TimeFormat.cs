@@ -11,7 +11,7 @@ namespace Toggl.Shared
         private static readonly Dictionary<string, string> formatConversion = new Dictionary<string, string>
         {
             [twelveHoursFormat] = "hh:mm tt",
-            [twentyFourHoursFormat] = "H:mm"
+            [twentyFourHoursFormat] = "H:mm",
         };
 
         public static TimeFormat TwelveHoursFormat { get; } = FromLocalizedTimeFormat(twelveHoursFormat);

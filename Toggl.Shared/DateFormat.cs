@@ -74,7 +74,7 @@ namespace Toggl.Shared
             FromLocalizedDateFormat("MM-DD-YYYY"),
             FromLocalizedDateFormat("YYYY-MM-DD"),
             FromLocalizedDateFormat("DD/MM/YYYY"),
-            FromLocalizedDateFormat("DD.MM.YYYY")
+            FromLocalizedDateFormat("DD.MM.YYYY"),
         };
     }
 }

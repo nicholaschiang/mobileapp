@@ -22,7 +22,7 @@ namespace Toggl.Shared
         None,
         Stop,
         Start,
-        Continue
+        Continue,
     }
 
     public static class RatingViewCriterionExtensions
@@ -32,9 +32,9 @@ namespace Toggl.Shared
             {
                 { RatingViewCriterion.Stop.ToString().ToUpper(), RatingViewCriterion.Stop },
                 { RatingViewCriterion.Start.ToString().ToUpper(), RatingViewCriterion.Start },
-                { RatingViewCriterion.Continue.ToString().ToUpper(), RatingViewCriterion.Continue }
+                { RatingViewCriterion.Continue.ToString().ToUpper(), RatingViewCriterion.Continue },
             });
-        
+
         public static RatingViewCriterion ToRatingViewCriterion(this string criterion) =>
             criterionMapping.GetOrDefault((criterion != null ? criterion : string.Empty).ToUpper(), RatingViewCriterion.None);
     }

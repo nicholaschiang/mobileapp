@@ -6,7 +6,7 @@ namespace Toggl.Shared
     {
         Classic = 0,
         Improved = 1,
-        Decimal = 2
+        Decimal = 2,
     }
 
     public static class DurationFormatExtensions

@@ -48,7 +48,7 @@ namespace Toggl.Shared
             => new Point
             {
                 X = center.X + radius * System.Math.Cos(angle),
-                Y = center.Y + radius * System.Math.Sin(angle)
+                Y = center.Y + radius * System.Math.Sin(angle),
             };
 
         public static bool IsBetween(this double angle, double startAngle, double endAngle)

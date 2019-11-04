@@ -23,6 +23,6 @@ namespace Toggl.Shared
         ReportDataTrends = 62,
         ReportExportXlsx = 63,
         Tasks = 64,
-        ProjectDashboard = 65
+        ProjectDashboard = 65,
     }
 }

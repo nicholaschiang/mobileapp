@@ -8,6 +8,6 @@
         TenMinutes,
         FifteenMinutes,
         ThirtyMinutes,
-        OneHour
+        OneHour,
     }
 }
