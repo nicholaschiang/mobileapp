@@ -22,7 +22,11 @@ namespace Toggl.Shared
 
         public static double ToPositiveAngle(this double angle)
         {
-            while (angle < 0) angle += FullCircle;
+            while (angle < 0)
+            {
+                angle += FullCircle;
+            }
+
             return angle;
         }
 
@@ -63,10 +67,14 @@ namespace Toggl.Shared
 
         public static int PingPongClamp(this int number, int length)
         {
-            if (length <= 0) throw new ArgumentOutOfRangeException($"The length for clamping must be at positive integer, {length} given.");
-            if (number < 0) throw new ArgumentOutOfRangeException($"The clamped number a non-negative integer, {number} given.");
+            if (length <= 0)
+                throw new ArgumentOutOfRangeException($"The length for clamping must be at positive integer, {length} given.");
 
-            if (length == 1) return 0;
+            if (number < 0)
+                throw new ArgumentOutOfRangeException($"The clamped number a non-negative integer, {number} given.");
+
+            if (length == 1)
+                return 0;
 
             var lengthOfFoldedSequence = 2 * length - 2;
             var indexInFoldedSequence = number % lengthOfFoldedSequence;

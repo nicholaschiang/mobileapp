@@ -6,8 +6,12 @@ namespace Toggl.Shared.Extensions
     {
         public static T Clamp<T>(this T num, T min, T max) where T : IComparable
         {
-            if (num.CompareTo(min) < 0) return min;
-            if (num.CompareTo(max) > 0) return max;
+            if (num.CompareTo(min) < 0)
+                return min;
+
+            if (num.CompareTo(max) > 0)
+                return max;
+
             return num;
         }
 

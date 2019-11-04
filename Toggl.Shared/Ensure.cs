@@ -10,7 +10,8 @@ namespace Toggl.Shared
             public static void IsNotNull<T>(T value, string argumentName)
             {
 #pragma warning disable RECS0017 // Possible compare of value type with 'null'
-                if (value != null) return;
+                if (value != null)
+                    return;
 #pragma warning restore RECS0017 // Possible compare of value type with 'null'
 
                 throw new ArgumentNullException(argumentName);
@@ -20,21 +21,24 @@ namespace Toggl.Shared
             {
                 IsNotNull(value, argumentName);
 
-                if (!string.IsNullOrWhiteSpace(value)) return;
+                if (!string.IsNullOrWhiteSpace(value))
+                    return;
 
                 throw new ArgumentException("String cannot be empty.", argumentName);
             }
 
             public static void IsNotNullOrEmpty(string value, string argumentName)
             {
-                if (!string.IsNullOrEmpty(value)) return;
+                if (!string.IsNullOrEmpty(value))
+                    return;
 
                 throw new ArgumentException("String cannot be null or empty.", argumentName);
             }
 
             public static void IsNotZero(long value, string argumentName)
             {
-                if (value != 0) return;
+                if (value != 0)
+                    return;
 
                 throw new ArgumentException("Long cannot be zero.", argumentName);
             }
@@ -43,28 +47,32 @@ namespace Toggl.Shared
             {
                 IsNotNull(uri, argumentName);
 
-                if (uri.IsAbsoluteUri) return;
+                if (uri.IsAbsoluteUri)
+                    return;
 
                 throw new ArgumentException("Uri must be absolute.", argumentName);
             }
 
             public static void IsValidEmail(Email email, string argumentName)
             {
-                if (email.IsValid) return;
+                if (email.IsValid)
+                    return;
 
                 throw new ArgumentException("Email address must be valid.", argumentName);
             }
 
             public static void IsADefinedEnumValue<T>(T value, string argumentName) where T : struct
             {
-                if (Enum.IsDefined(typeof(T), value)) return;
+                if (Enum.IsDefined(typeof(T), value))
+                    return;
 
                 throw new ArgumentException("Invalid enum value.", argumentName);
             }
 
             public static void IsInClosedRange<T>(T value, T lowerBound, T upperBound, string argumentName) where T : IComparable
             {
-                if (value.CompareTo(lowerBound) >= 0 && value.CompareTo(upperBound) <= 0) return;
+                if (value.CompareTo(lowerBound) >= 0 && value.CompareTo(upperBound) <= 0)
+                    return;
 
                 throw new ArgumentException("Value is in out of bounds.", argumentName);
             }
