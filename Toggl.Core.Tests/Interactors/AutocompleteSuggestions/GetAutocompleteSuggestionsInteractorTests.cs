@@ -15,14 +15,9 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
 {
     public sealed class AutocompleteProviderTests
     {
-        public class GetAutocompleteSuggestionsInteractorTests : BaseInteractorTests
+        public sealed class GetAutocompleteSuggestionsInteractorTests : BaseInteractorTests
         {
-            protected const long WorkspaceId = 9;
-            protected const long ProjectId = 10;
-            protected const string ProjectName = "Toggl";
-            protected const string ProjectColor = "#F41F19";
-
-            protected IInteractorFactory InteractorFactory { get; } = Substitute.For<IInteractorFactory>();
+            private readonly IInteractorFactory interactorFactory = Substitute.For<IInteractorFactory>();
 
             [Theory, LogIfTooSlow]
             [InlineData("Nothing")]
@@ -32,10 +27,10 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
                 var textFieldInfo = TextFieldInfo.Empty(1)
                     .ReplaceSpans(new QueryTextSpan(description, 0));
 
-                var interactor = new GetAutocompleteSuggestions(InteractorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
+                var interactor = new GetAutocompleteSuggestions(interactorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
                 await interactor.Execute();
 
-                InteractorFactory
+                interactorFactory
                     .Received()
                     .GetTimeEntriesAutocompleteSuggestions(Arg.Is<IList<string>>(
                         words => words.SequenceEqual(description.SplitToQueryWords()))
@@ -52,10 +47,10 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
                 var textFieldInfo = TextFieldInfo.Empty(1)
                     .ReplaceSpans(new QueryTextSpan(actualDescription, 0));
 
-                var interactor = new GetAutocompleteSuggestions(InteractorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
+                var interactor = new GetAutocompleteSuggestions(interactorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
                 await interactor.Execute();
 
-                InteractorFactory
+                interactorFactory
                     .Received()
                     .GetTimeEntriesAutocompleteSuggestions(Arg.Is<IList<string>>(
                         words => words.SequenceEqual(actualDescription.SplitToQueryWords())));
@@ -67,13 +62,13 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
                 var description = $"Testing Mobile Apps @toggl";
                 var textFieldInfo = TextFieldInfo.Empty(1).ReplaceSpans(
                     new QueryTextSpan(description, description.Length),
-                    new ProjectSpan(ProjectId, ProjectName, ProjectColor)
+                    new ProjectSpan(projectId: 10, projectName: "Toggl", projectColor: "#F41F19")
                 );
 
-                var interactor = new GetAutocompleteSuggestions(InteractorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
+                var interactor = new GetAutocompleteSuggestions(interactorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
                 await interactor.Execute();
 
-                InteractorFactory
+                interactorFactory
                     .Received()
                     .GetTimeEntriesAutocompleteSuggestions(Arg.Is<IList<string>>(
                         words => words.SequenceEqual(description.SplitToQueryWords())));
@@ -88,10 +83,10 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
                 var textFieldInfo = TextFieldInfo.Empty(1)
                     .ReplaceSpans(new QueryTextSpan(actualDescription, description.Length + 2));
 
-                var interactor = new GetAutocompleteSuggestions(InteractorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
+                var interactor = new GetAutocompleteSuggestions(interactorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
                 await interactor.Execute();
 
-                InteractorFactory
+                interactorFactory
                     .Received()
                     .GetProjectsAutocompleteSuggestions(Arg.Is<IList<string>>(
                         words => words.SequenceEqual(description.SplitToQueryWords())));
@@ -106,10 +101,10 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
                 var textFieldInfo = TextFieldInfo.Empty(1)
                     .ReplaceSpans(new QueryTextSpan(actualDescription, description.Length + 2));
 
-                var interactor = new GetAutocompleteSuggestions(InteractorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
+                var interactor = new GetAutocompleteSuggestions(interactorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
                 await interactor.Execute();
 
-                InteractorFactory
+                interactorFactory
                     .Received()
                     .GetTagsAutocompleteSuggestions(Arg.Is<IList<string>>(
                         words => words.SequenceEqual(description.SplitToQueryWords())));
@@ -120,16 +115,16 @@ namespace Toggl.Core.Tests.Interactors.AutocompleteSuggestions
             {
                 var textFieldInfo = TextFieldInfo.Empty(1).ReplaceSpans(new QueryTextSpan());
 
-                var interactor = new GetAutocompleteSuggestions(InteractorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
+                var interactor = new GetAutocompleteSuggestions(interactorFactory, QueryInfo.ParseFieldInfo(textFieldInfo));
                 await interactor.Execute();
 
-                InteractorFactory
+                interactorFactory
                     .DidNotReceive()
                     .GetTagsAutocompleteSuggestions(Arg.Any<IList<string>>());
-                InteractorFactory
+                interactorFactory
                     .DidNotReceive()
                     .GetProjectsAutocompleteSuggestions(Arg.Any<IList<string>>());
-                InteractorFactory
+                interactorFactory
                     .DidNotReceive()
                     .GetTimeEntriesAutocompleteSuggestions(Arg.Any<IList<string>>());
             }

@@ -160,10 +160,6 @@ namespace Toggl.Core.Tests.Autocomplete
 
             public sealed class Tags
             {
-                protected const long ProjectId = 10;
-                protected const string ProjectName = "Toggl";
-                protected const string ProjectColor = "#F41F19";
-
                 [Theory, LogIfTooSlow]
                 [InlineData("#", "")]
                 [InlineData("abcde #", "")]
@@ -191,7 +187,7 @@ namespace Toggl.Core.Tests.Autocomplete
                 {
                     var textFieldInfo = TextFieldInfo.Empty(1).ReplaceSpans(
                         new QueryTextSpan(text, text.Length),
-                        new ProjectSpan(ProjectId, ProjectName, ProjectColor)
+                        new ProjectSpan(projectId: 10, projectName: "Toggl", projectColor: "#F41F19")
                     );
 
                     var parsed = QueryInfo.ParseFieldInfo(textFieldInfo);

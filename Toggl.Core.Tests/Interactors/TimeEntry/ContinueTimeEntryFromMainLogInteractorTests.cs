@@ -14,9 +14,9 @@ namespace Toggl.Core.Tests.Interactors.TimeEntry
 {
     public sealed class ContinueTimeEntryFromMainLogInteractorTests
     {
-        protected IInteractorFactory InteractorFactory { get; } = Substitute.For<IInteractorFactory>();
+        private IInteractorFactory interactorFactory = Substitute.For<IInteractorFactory>();
 
-        protected IAnalyticsService AnalyticsService { get; } = Substitute.For<IAnalyticsService>();
+        private IAnalyticsService analyticsService = Substitute.For<IAnalyticsService>();
 
         private const long ProjectId = 10;
 
@@ -68,8 +68,8 @@ namespace Toggl.Core.Tests.Interactors.TimeEntry
         public void CallsTheContinueTimeEntryInteractor()
         {
             var interactor = new ContinueTimeEntryFromMainLogInteractor(
-                InteractorFactory,
-                AnalyticsService,
+                interactorFactory,
+                analyticsService,
                 timeEntryPrototype,
                 ContinueTimeEntryMode.TimeEntriesGroupSwipe,
                 IndexInLog,
@@ -78,7 +78,7 @@ namespace Toggl.Core.Tests.Interactors.TimeEntry
 
             interactor.Execute();
 
-            InteractorFactory
+            interactorFactory
                 .Received()
                 .ContinueTimeEntry(Arg.Any<ITimeEntryPrototype>(), ContinueTimeEntryMode.TimeEntriesGroupSwipe)
                 .Execute();
@@ -91,14 +91,14 @@ namespace Toggl.Core.Tests.Interactors.TimeEntry
         [InlineData(ContinueTimeEntryMode.TimeEntriesGroupContinueButton, ContinueTimeEntryOrigin.GroupContinueButton)]
         public async Task TracksTheTimeEntryContinuedEvent(ContinueTimeEntryMode continueMode, ContinueTimeEntryOrigin expectedOrigin)
         {
-            InteractorFactory
+            interactorFactory
                 .ContinueTimeEntry(Arg.Any<ITimeEntryPrototype>(), Arg.Any<ContinueTimeEntryMode>())
                 .Execute()
                 .Returns(Observable.Return(createdTimeEntry));
 
             var interactor = new ContinueTimeEntryFromMainLogInteractor(
-                InteractorFactory,
-                AnalyticsService,
+                interactorFactory,
+                analyticsService,
                 timeEntryPrototype,
                 continueMode,
                 IndexInLog,
@@ -107,7 +107,7 @@ namespace Toggl.Core.Tests.Interactors.TimeEntry
 
             await interactor.Execute();
 
-            AnalyticsService
+            analyticsService
                 .Received()
                 .TimeEntryContinued
                 .Track(expectedOrigin, IndexInLog, DayInLog, DaysInPast);
