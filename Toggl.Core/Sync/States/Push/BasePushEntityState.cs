@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Linq;
 using Toggl.Core.Analytics;
 using Toggl.Core.Extensions;
@@ -30,14 +31,20 @@ namespace Toggl.Core.Sync.States.Push
         }
 
         protected Func<Exception, IObservable<ITransition>> Fail(T entity, PushSyncOperation operation)
-            => exception
-                => Observable
-                    .Return(entity)
-                    .Track(typeof(T).ToSyncErrorAnalyticsEvent(AnalyticsService), $"{operation}:{exception.Message}")
-                    .Track(AnalyticsService.EntitySyncStatus, entity.GetSafeTypeName(), $"{operation}:{Resources.Failure}")
-                    .SelectMany(_ => shouldRethrow(exception)
-                        ? Observable.Throw<ITransition>(exception)
-                        : Observable.Return(failTransition(entity, exception.UnwrapSingle())));
+            => exception =>
+            {
+                typeof(T).ToSyncErrorAnalyticsEvent(AnalyticsService).Track($"{operation}:{exception.Message}");
+                AnalyticsService.EntitySyncStatus.Track(entity.GetSafeTypeName(), $"{operation}:{Resources.Failure}");
+
+                if (exception is AggregateException aggregate)
+                {
+                    exception = aggregate.Flatten().InnerExceptions.SingleOrDefault();
+                }
+
+                return shouldRethrow(exception)
+                    ? Observable.Throw<ITransition>(exception)
+                    : Observable.Return(failTransition(entity, exception));
+            };
 
         private bool shouldRethrow(Exception e)
             => e is ApiDeprecatedException || e is ClientDeprecatedException || e is UnauthorizedException || e is OfflineException;
