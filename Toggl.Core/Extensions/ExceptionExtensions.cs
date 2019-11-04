@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Toggl.Shared;
 
 namespace Toggl.Core.Extensions

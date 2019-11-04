@@ -38,7 +38,12 @@ namespace Toggl.Core.Sync.States.Push
 
                 if (exception is AggregateException aggregate)
                 {
-                    exception = aggregate.Flatten().InnerExceptions.SingleOrDefault();
+                    // We need to match exactly one exception. The aggregate exception is added by .NET around an exception
+                    // our code threw (an API exception) and even if there are multiple levels of nesting of the aggregate
+                    // exception, in the end there's only one inner exception we are interested in. So if the aggregate exception
+                    // holds more than one, it's a bug which must be fix. The app should crash at this point so that we can
+                    // analyze the crash log and fix it.
+                    exception = aggregate.Flatten().InnerExceptions.Single();
                 }
 
                 return shouldRethrow(exception)
