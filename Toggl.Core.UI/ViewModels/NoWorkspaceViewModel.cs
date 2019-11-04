@@ -19,8 +19,6 @@ namespace Toggl.Core.UI.ViewModels
         private readonly ISyncManager syncManager;
         private readonly IAccessRestrictionStorage accessRestrictionStorage;
         private readonly IInteractorFactory interactorFactory;
-        private readonly ISchedulerProvider schedulerProvider;
-        private readonly IRxActionFactory rxActionFactory;
 
         public IObservable<bool> IsLoading { get; }
         public ViewAction CreateWorkspaceWithDefaultName { get; }
@@ -31,20 +29,17 @@ namespace Toggl.Core.UI.ViewModels
             IInteractorFactory interactorFactory,
             INavigationService navigationService,
             IAccessRestrictionStorage accessRestrictionStorage,
-            ISchedulerProvider schedulerProvider,
             IRxActionFactory rxActionFactory)
             : base(navigationService)
         {
             Ensure.Argument.IsNotNull(syncManager, nameof(syncManager));
             Ensure.Argument.IsNotNull(accessRestrictionStorage, nameof(accessRestrictionStorage));
             Ensure.Argument.IsNotNull(interactorFactory, nameof(interactorFactory));
-            Ensure.Argument.IsNotNull(schedulerProvider, nameof(schedulerProvider));
             Ensure.Argument.IsNotNull(rxActionFactory, nameof(rxActionFactory));
 
             this.syncManager = syncManager;
             this.accessRestrictionStorage = accessRestrictionStorage;
             this.interactorFactory = interactorFactory;
-            this.rxActionFactory = rxActionFactory;
 
             CreateWorkspaceWithDefaultName = rxActionFactory.FromObservable(createWorkspaceWithDefaultName);
             TryAgain = rxActionFactory.FromAsync(tryAgain);

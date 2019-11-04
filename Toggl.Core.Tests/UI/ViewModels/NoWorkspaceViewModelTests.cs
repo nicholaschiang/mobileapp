@@ -19,7 +19,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public abstract class NoWorkspaceViewModelTest : BaseViewModelTests<NoWorkspaceViewModel>
         {
             protected override NoWorkspaceViewModel CreateViewModel()
-                => new NoWorkspaceViewModel(SyncManager, InteractorFactory, NavigationService, AccessRestrictionStorage, SchedulerProvider, RxActionFactory);
+                => new NoWorkspaceViewModel(SyncManager, InteractorFactory, NavigationService, AccessRestrictionStorage, RxActionFactory);
         }
 
         public sealed class TheConstructor : NoWorkspaceViewModelTest
@@ -42,7 +42,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var rxActionFactory = useRxActionFactory ? RxActionFactory : null;
 
                 Action tryingToConstructWithEmptyParameters =
-                    () => new NoWorkspaceViewModel(syncManager, interactorFactory, navigationService, accessRestrictionStorage, schedulerProvider, rxActionFactory);
+                    () => new NoWorkspaceViewModel(syncManager, interactorFactory, navigationService, accessRestrictionStorage, rxActionFactory);
 
                 tryingToConstructWithEmptyParameters.Should().Throw<ArgumentNullException>();
             }

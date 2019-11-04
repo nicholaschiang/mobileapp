@@ -141,7 +141,6 @@ namespace Toggl.Core.UI.Navigation
                     dependencyContainer.InteractorFactory,
                     dependencyContainer.NavigationService,
                     dependencyContainer.AccessRestrictionStorage,
-                    dependencyContainer.SchedulerProvider,
                     dependencyContainer.RxActionFactory);
             }
 
