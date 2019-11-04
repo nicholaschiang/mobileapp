@@ -97,7 +97,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 await ViewModel.Initialize(DefaultParameter);
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 EnsureClosesTheViewModel();
@@ -109,7 +109,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var tagids = new long[] { 1, 4, 29, 2 };
                 await ViewModel.Initialize(new SelectTagsParameter(tagids, 0));
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 (await ViewModel.Result).Should().BeSequenceEquivalentTo(tagids);

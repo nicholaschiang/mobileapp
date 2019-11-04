@@ -170,7 +170,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 await ViewModel.Initialize(Parameters);
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 View.Received().Close();
@@ -181,7 +181,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             {
                 await ViewModel.Initialize(Parameters);
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 (await ViewModel.Result).Should().BeNull();

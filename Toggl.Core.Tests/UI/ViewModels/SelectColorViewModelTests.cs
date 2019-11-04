@@ -94,7 +94,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 var observer = TestScheduler.CreateObserver<IEnumerable<SelectableColorViewModel>>();
 
-                ViewModel.Initialize(parameters);
+                await ViewModel.Initialize(parameters);
                 ViewModel.SelectableColors.Subscribe(observer);
                 ViewModel.SelectColor.Execute(colorToSelect);
                 TestScheduler.AdvanceBy(EnoughTicksToEmitTheThrottledColor);
@@ -190,9 +190,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public class TheCloseWithDefaultResultMethod : SelectColorViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public void ClosesTheViewModel()
+            public async Task ClosesTheViewModel()
             {
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 View.Received().Close();
@@ -205,7 +205,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var parameters = ColorParameters.Create(color, true);
                 await ViewModel.Initialize(parameters);
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 (await ViewModel.Result).Should().Be(color);
@@ -215,7 +215,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheSaveCommand : SelectColorViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public async Task ClosesTheViewModel()
+            public void ClosesTheViewModel()
             {
                 ViewModel.Save.Execute();
                 TestScheduler.Start();
