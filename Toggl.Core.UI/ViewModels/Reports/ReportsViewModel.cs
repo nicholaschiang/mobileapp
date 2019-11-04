@@ -68,7 +68,6 @@ namespace Toggl.Core.UI.ViewModels.Reports
         private IThreadSafeWorkspace workspace;
         private long userId;
         private DateFormat dateFormat;
-        private ReportParameter parameter;
         private BeginningOfWeek beginningOfWeek;
         private DateTimeOffset viewDisappearedAtTime;
 

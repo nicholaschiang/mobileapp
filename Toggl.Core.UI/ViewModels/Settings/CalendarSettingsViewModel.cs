@@ -21,7 +21,6 @@ namespace Toggl.Core.UI.ViewModels.Settings
     public sealed class CalendarSettingsViewModel : SelectUserCalendarsViewModelBase
     {
         private readonly IPermissionsChecker permissionsChecker;
-        private readonly IRxActionFactory rxActionFactory;
 
         private bool calendarListVisible = false;
         private ISubject<bool> calendarListVisibleSubject = new BehaviorSubject<bool>(false);

@@ -36,7 +36,6 @@ namespace Toggl.Core.UI.ViewModels
         private readonly ILastTimeUsageStorage lastTimeUsageStorage;
         private readonly ITimeService timeService;
         private readonly ISchedulerProvider schedulerProvider;
-        private readonly IRxActionFactory rxActionFactory;
         private readonly IInteractorFactory interactorFactory;
 
         private IDisposable loginDisposable;
