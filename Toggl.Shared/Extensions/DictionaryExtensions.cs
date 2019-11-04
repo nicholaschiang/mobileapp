@@ -93,7 +93,7 @@ namespace Toggl.Shared.Extensions
             return defaultCase;
         }
 
-        public static U GetOrDefault<T, U>(this IDictionary<T, U> dictionary, T key, U defaultValue)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
             if (dictionary.ContainsKey(key))
                 return dictionary[key];
