@@ -226,7 +226,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task EmitsFalseWhenUserGrantsCalendarAccess()
+            public void EmitsFalseWhenUserGrantsCalendarAccess()
             {
                 OnboardingStorage.CompletedCalendarOnboarding().Returns(false);
                 var observer = TestScheduler.CreateObserver<bool>();
@@ -241,7 +241,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task EmitsFalseWhenUserWantsToContinueWithoutCalendarAccess()
+            public void EmitsFalseWhenUserWantsToContinueWithoutCalendarAccess()
             {
                 OnboardingStorage.CompletedCalendarOnboarding().Returns(false);
                 var observer = TestScheduler.CreateObserver<bool>();
@@ -259,7 +259,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheSettingsAreVisibleObservable : CalendarViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public async Task EmitsWheneverTheShouldShowOnboardingObservablesOmits()
+            public void EmitsWheneverTheShouldShowOnboardingObservablesOmits()
             {
                 PermissionsChecker.CalendarPermissionGranted.Returns(Observable.Return(false));
                 var observer = TestScheduler.CreateObserver<bool>();
@@ -385,7 +385,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
                 Action.Execute();
 
-                NavigationService.Received().Navigate<CalendarPermissionDeniedViewModel, Unit>(View);
+                await NavigationService.Received().Navigate<CalendarPermissionDeniedViewModel, Unit>(View);
             }
 
             [Fact, LogIfTooSlow]
@@ -454,7 +454,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [Theory, LogIfTooSlow]
             [InlineData(true)]
             [InlineData(false)]
-            public async Task SetsTheNotificationPropertyAfterAskingForPermission(bool permissionWasGiven)
+            public void SetsTheNotificationPropertyAfterAskingForPermission(bool permissionWasGiven)
             {
                 View.RequestCalendarAuthorization().Returns(Observable.Return(true));
                 NavigationService.Navigate<SelectUserCalendarsViewModel, bool, string[]>(Arg.Any<bool>(), ViewModel.View).Returns(new string[0]);
@@ -602,7 +602,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             protected override ViewAction Action => ViewModel.GetStarted;
 
             [Fact, LogIfTooSlow]
-            public async Task SetsCalendarOnboardingAsCompletedIfUserGrantsAccess()
+            public void SetsCalendarOnboardingAsCompletedIfUserGrantsAccess()
             {
                 View.RequestCalendarAuthorization().Returns(Observable.Return(true));
                 NavigationService.Navigate<SelectUserCalendarsViewModel, bool, string[]>(Arg.Any<bool>(), ViewModel.View).Returns(new string[0]);
@@ -613,7 +613,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task SetsCalendarOnboardingAsCompletedIfUserWantsToContinueWithoutGivingPermission()
+            public void SetsCalendarOnboardingAsCompletedIfUserWantsToContinueWithoutGivingPermission()
             {
                 View.RequestCalendarAuthorization().Returns(Observable.Return(false));
                 NavigationService.Navigate<CalendarPermissionDeniedViewModel, Unit>(ViewModel.View).Returns(Unit.Default);
@@ -625,7 +625,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task TracksTheCalendarOnbardingStartedEvent()
+            public void TracksTheCalendarOnbardingStartedEvent()
             {
                 View.RequestCalendarAuthorization().Returns(Observable.Return(false));
 
@@ -639,14 +639,14 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheSkipOnboardingProperty : CalendarViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public async Task SetsTheOnboardingAsCompleted()
+            public void SetsTheOnboardingAsCompleted()
             {
                 ViewModel.SkipOnboarding.Execute();
                 OnboardingStorage.Received().SetCompletedCalendarOnboarding();
             }
 
             [Fact, LogIfTooSlow]
-            public async Task SetsTheShouldShowOnboardingPropertyToFalse()
+            public void SetsTheShouldShowOnboardingPropertyToFalse()
             {
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.ShouldShowOnboarding.Subscribe(observer);
@@ -743,7 +743,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             protected abstract CalendarItem CalendarItem { get; }
 
             [Fact, LogIfTooSlow]
-            public async Task TracksTheAppropriateEventToTheAnalyticsService()
+            public void TracksTheAppropriateEventToTheAnalyticsService()
             {
                 ViewModel.OnItemTapped.Execute(CalendarItem);
                 TestScheduler.Start();
@@ -926,7 +926,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task TracksTheTimeEntryEditedFromCalendarEventWhenDurationChanges()
+            public void TracksTheTimeEntryEditedFromCalendarEventWhenDurationChanges()
             {
                 var timeEntry = new MockTimeEntry
                 {
@@ -943,7 +943,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task TracksTheTimeEntryEditedFromCalendarEventWhenStartTimeChanges()
+            public void TracksTheTimeEntryEditedFromCalendarEventWhenStartTimeChanges()
             {
                 var timeEntry = new MockTimeEntry
                 {
@@ -960,7 +960,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task TracksTheTimeEntryEditedFromCalendarEventWhenBothStartTimeAndDurationChange()
+            public void TracksTheTimeEntryEditedFromCalendarEventWhenBothStartTimeAndDurationChange()
             {
                 var timeEntry = new MockTimeEntry
                 {

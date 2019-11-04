@@ -152,7 +152,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var interactorFactory = useInteractorFactory ? InteractorFactory : null;
                 var navigationService = useNavigationService ? NavigationService : null;
                 var schedulerProvider = useSchedulerProvider ? SchedulerProvider : null;
-            
+
                 Action tryingToConstructWithEmptyParameters =
                     () => new EditProjectViewModel(
                         dataSource,
@@ -338,7 +338,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 var interactor = Substitute.For<IInteractor<IObservable<IThreadSafeWorkspace>>>();
                 interactor.Execute().Returns(Observable.Return(mockWorkspace));
                 InteractorFactory.GetWorkspaceById(Arg.Is(1L)).Returns(interactor);
-                
+
                 View.Select(
                         Arg.Any<string>(),
                         Arg.Any<IEnumerable<SelectOption<IThreadSafeWorkspace>>>(),
@@ -360,7 +360,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [Fact, LogIfTooSlow]
             public async Task ClosesTheViewModel()
             {
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 View.Received().Close();
@@ -369,9 +369,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [Fact, LogIfTooSlow]
             public async Task ReturnsNull()
             {
-                ViewModel.Initialize("Some name");
+                await ViewModel.Initialize("Some name");
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
                 (await ViewModel.Result)
@@ -379,14 +379,14 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public void DoesNotTrySavingTheChanges()
+            public async Task DoesNotTrySavingTheChanges()
             {
-                ViewModel.Initialize("Some name");
+                await ViewModel.Initialize("Some name");
 
-                ViewModel.CloseWithDefaultResult();
+                await ViewModel.CloseWithDefaultResult();
                 TestScheduler.Start();
 
-                InteractorFactory.CreateProject(Arg.Any<CreateProjectDTO>()).DidNotReceive().Execute();
+                await InteractorFactory.CreateProject(Arg.Any<CreateProjectDTO>()).DidNotReceive().Execute();
             }
         }
 
@@ -431,7 +431,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [Fact, LogIfTooSlow]
             public async Task ReturnsTheIdOfTheCreatedProject()
             {
-                ViewModel.Initialize("Some name");
+                await ViewModel.Initialize("Some name");
                 TestScheduler.Start();
 
                 ViewModel.Save.Execute();
@@ -442,9 +442,9 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public void DoesNotCallCreateIfTheProjectNameIsInvalid()
+            public async Task DoesNotCallCreateIfTheProjectNameIsInvalid()
             {
-                ViewModel.Initialize("Some name");
+                await ViewModel.Initialize("Some name");
                 TestScheduler.Start();
                 ViewModel.Name.Accept("");
                 TestScheduler.Start();
@@ -452,7 +452,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 ViewModel.Save.Execute();
                 TestScheduler.Start();
 
-                InteractorFactory
+                await InteractorFactory
                     .DidNotReceive()
                     .CreateProject(Arg.Any<CreateProjectDTO>())
                     .Execute();
@@ -480,7 +480,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             [InlineData("      abcd\nefgh     ", "abcd\nefgh")]
             public async Task TrimsNameFromTheStartAndTheEndBeforeSaving(string name, string trimmed)
             {
-                ViewModel.Initialize(name);
+                await ViewModel.Initialize(name);
 
                 ViewModel.Save.Execute();
 

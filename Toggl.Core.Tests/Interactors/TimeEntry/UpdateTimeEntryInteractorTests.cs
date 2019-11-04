@@ -141,7 +141,7 @@ namespace Toggl.Core.Tests.Interactors.TimeEntry
 
             await InteractorFactory.UpdateTimeEntry(dto).Execute();
 
-            SyncManager.Received().PushSync();
+            await SyncManager.Received().PushSync();
         }
     }
 }

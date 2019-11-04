@@ -55,8 +55,8 @@ namespace Toggl.Core.Tests.Interactors.PushNotifications
                 PushNotificationsTokenService.Token?.Returns(null);
 
                 (await interactor.Execute().SingleAsync()).Should().Be(Unit.Default);
-                pushServicesApi.DidNotReceive().Subscribe(Arg.Any<PushNotificationsToken>());
-                pushServicesApi.DidNotReceive().Unsubscribe(Arg.Any<PushNotificationsToken>());
+                await pushServicesApi.DidNotReceive().Subscribe(Arg.Any<PushNotificationsToken>());
+                await pushServicesApi.DidNotReceive().Unsubscribe(Arg.Any<PushNotificationsToken>());
             }
 
             [Fact]
@@ -65,8 +65,8 @@ namespace Toggl.Core.Tests.Interactors.PushNotifications
                 PushNotificationsTokenService.Token.Returns(default(PushNotificationsToken));
 
                 (await interactor.Execute().SingleAsync()).Should().Be(Unit.Default);
-                pushServicesApi.DidNotReceive().Subscribe(Arg.Any<PushNotificationsToken>());
-                pushServicesApi.DidNotReceive().Unsubscribe(Arg.Any<PushNotificationsToken>());
+                await pushServicesApi.DidNotReceive().Subscribe(Arg.Any<PushNotificationsToken>());
+                await pushServicesApi.DidNotReceive().Unsubscribe(Arg.Any<PushNotificationsToken>());
             }
 
             [Fact]
@@ -77,8 +77,8 @@ namespace Toggl.Core.Tests.Interactors.PushNotifications
                 PushNotificationsTokenService.Token.Returns(new PushNotificationsToken("tokenA"));
 
                 (await interactor.Execute().SingleAsync()).Should().Be(Unit.Default);
-                pushServicesApi.DidNotReceive().Subscribe(Arg.Any<PushNotificationsToken>());
-                pushServicesApi.DidNotReceive().Unsubscribe(Arg.Any<PushNotificationsToken>());
+                await pushServicesApi.DidNotReceive().Subscribe(Arg.Any<PushNotificationsToken>());
+                await pushServicesApi.DidNotReceive().Unsubscribe(Arg.Any<PushNotificationsToken>());
             }
 
             [Fact]
@@ -90,7 +90,7 @@ namespace Toggl.Core.Tests.Interactors.PushNotifications
                 pushServicesApi.Subscribe(Arg.Any<PushNotificationsToken>()).ReturnsCompletedTask();
 
                 (await interactor.Execute().SingleAsync()).Should().Be(Unit.Default);
-                pushServicesApi.Received().Subscribe(expectedPushNotificationToken);
+                await pushServicesApi.Received().Subscribe(expectedPushNotificationToken);
             }
 
             [Fact]
@@ -103,7 +103,7 @@ namespace Toggl.Core.Tests.Interactors.PushNotifications
                 pushServicesApi.Subscribe(Arg.Any<PushNotificationsToken>()).ReturnsCompletedTask();
 
                 (await interactor.Execute().SingleAsync()).Should().Be(Unit.Default);
-                pushServicesApi.Received().Subscribe(token);
+                await pushServicesApi.Received().Subscribe(token);
             }
 
             [Fact]
@@ -127,7 +127,7 @@ namespace Toggl.Core.Tests.Interactors.PushNotifications
                 pushServicesApi.Subscribe(Arg.Any<PushNotificationsToken>()).ReturnsThrowingTask(new Exception());
 
                 (await interactor.Execute().SingleAsync()).Should().Be(Unit.Default);
-                pushServicesApi.Received().Subscribe(expectedPushNotificationToken);
+                await pushServicesApi.Received().Subscribe(expectedPushNotificationToken);
                 pushNotificationsTokenStorage.DidNotReceive().StoreRegisteredToken(expectedPushNotificationToken, Arg.Any<DateTimeOffset>());
             }
         }

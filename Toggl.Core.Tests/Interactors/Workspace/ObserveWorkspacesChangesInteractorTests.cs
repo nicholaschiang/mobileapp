@@ -14,7 +14,7 @@ namespace Toggl.Core.Tests.Interactors.Workspace
         public sealed class TheObserveAllWorkspacesInteractorTests : BaseInteractorTests
         {
             [Fact, LogIfTooSlow]
-            public async Task GetsAnEventWhenAChangeToWorkspacesHappens()
+            public void GetsAnEventWhenAChangeToWorkspacesHappens()
             {
                 var itemsChangedSubject = new Subject<Unit>();
                 DataSource.Workspaces.ItemsChanged.Returns(itemsChangedSubject.AsObservable());

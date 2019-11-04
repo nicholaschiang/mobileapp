@@ -203,7 +203,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 viewModel.DelayDeleteTimeEntries.Execute(batchB);
                 await observableA;
 
-                InteractorFactory.Received().SoftDeleteMultipleTimeEntries(Arg.Is(batchA)).Execute();
+                await InteractorFactory.Received().SoftDeleteMultipleTimeEntries(Arg.Is(batchA)).Execute();
             }
 
             [Fact]
@@ -216,7 +216,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 await viewModel.FinalizeDelayDeleteTimeEntryIfNeeded();
                 SchedulerProvider.TestScheduler.AdvanceBy(Constants.UndoTime.Ticks / 4);
 
-                InteractorFactory.Received().SoftDeleteMultipleTimeEntries(Arg.Is(batch)).Execute();
+                await InteractorFactory.Received().SoftDeleteMultipleTimeEntries(Arg.Is(batch)).Execute();
             }
 
             [Fact]
@@ -246,7 +246,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact]
-            public async ThreadingTask TracksTheDeleteOfSingleTimeEntryEvent()
+            public void TracksTheDeleteOfSingleTimeEntryEvent()
             {
                 viewModel.DelayDeleteTimeEntries.Execute(new[] { 123L });
                 SchedulerProvider.TestScheduler.AdvanceBy(Constants.UndoTime.Ticks);
@@ -254,7 +254,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact]
-            public async ThreadingTask TracksTheDeleteOfGroupedTimeEntriesEvent()
+            public void TracksTheDeleteOfGroupedTimeEntriesEvent()
             {
                 viewModel.DelayDeleteTimeEntries.Execute(new[] { 123L, 456L, 789L });
                 SchedulerProvider.TestScheduler.AdvanceBy(Constants.UndoTime.Ticks);
@@ -282,7 +282,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 viewModel.CancelDeleteTimeEntry.Execute();
                 SchedulerProvider.TestScheduler.Start();
 
-                InteractorFactory.DidNotReceive().DeleteMultipleTimeEntries(Arg.Is(batch)).Execute();
+                await InteractorFactory.DidNotReceive().DeleteMultipleTimeEntries(Arg.Is(batch)).Execute();
             }
 
             [Fact]
@@ -292,11 +292,11 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 SchedulerProvider.TestScheduler.AdvanceBy(Constants.UndoTime.Ticks);
                 viewModel.CancelDeleteTimeEntry.Execute();
 
-                InteractorFactory.Received().SoftDeleteMultipleTimeEntries(Arg.Is(batch)).Execute();
+                await InteractorFactory.Received().SoftDeleteMultipleTimeEntries(Arg.Is(batch)).Execute();
             }
 
             [Fact]
-            public async ThreadingTask HidesTheUndoUI()
+            public void HidesTheUndoUI()
             {
                 viewModel.DelayDeleteTimeEntries.Execute(batch);
                 SchedulerProvider.TestScheduler.AdvanceBy(Constants.UndoTime.Ticks / 2);

@@ -2,7 +2,6 @@
 using NSubstitute;
 using System;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using Toggl.Core.Tests.Generators;
 using Toggl.Core.UI.ViewModels.Calendar;
 using Xunit;
@@ -52,7 +51,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheViewAppearedMethod : CalendarPermissionDeniedViewModelTest
         {
             [Fact]
-            public async Task ClosesWhenPermissionWasGranted()
+            public void ClosesWhenPermissionWasGranted()
             {
                 PermissionsChecker.CalendarPermissionGranted.Returns(Observable.Return(true));
                 ViewModel.ViewAppeared();
@@ -63,7 +62,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact]
-            public async Task DoesNothingWhenPermissionWasNotGranted()
+            public void DoesNothingWhenPermissionWasNotGranted()
             {
                 PermissionsChecker.CalendarPermissionGranted.Returns(Observable.Return(false));
                 ViewModel.ViewAppeared();
