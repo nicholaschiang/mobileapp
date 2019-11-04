@@ -23,7 +23,6 @@ namespace Toggl.Core.Interactors
                 .SelectMany(user => user.DefaultWorkspaceId.HasValue
                     ? Observable.Return(user.DefaultWorkspaceId.Value)
                     : chooseWorkspace())
-                .Where(workspaceId => workspaceId != null)
                 .DistinctUntilChanged();
 
         private IObservable<long> chooseWorkspace()
