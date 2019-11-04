@@ -234,7 +234,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
                 //ViewAppearing calls an async method. The delay is here to ensure that the async method completes before the assertion
                 await ThreadingTask.Delay(200);
 
-                await NavigationService.Received(1).Navigate<SelectDefaultWorkspaceViewModel, Unit>(View);
+                NavigationService.Received(1).Navigate<SelectDefaultWorkspaceViewModel, Unit>(View);
             }
 
             [Fact, LogIfTooSlow]
