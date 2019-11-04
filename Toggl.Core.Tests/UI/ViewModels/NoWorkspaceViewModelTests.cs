@@ -49,7 +49,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
         public sealed class TheTryAgainCommand : NoWorkspaceViewModelTest
         {
             [Fact, LogIfTooSlow]
-            public async Task ClosesWhenAnotherWorkspaceIsFetched()
+            public void ClosesWhenAnotherWorkspaceIsFetched()
             {
                 var workspace = Substitute.For<IThreadSafeWorkspace>();
                 InteractorFactory.GetAllWorkspaces().Execute().Returns(Observable.Return(new List<IThreadSafeWorkspace>() { workspace }));
@@ -62,7 +62,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
             [Fact, LogIfTooSlow]
 
-            public async Task ResetsNoWorkspaceStateWhenAnotherWorkspaceIsFetched()
+            public void ResetsNoWorkspaceStateWhenAnotherWorkspaceIsFetched()
             {
                 var workspace = Substitute.For<IThreadSafeWorkspace>();
                 InteractorFactory.GetAllWorkspaces().Execute().Returns(Observable.Return(new List<IThreadSafeWorkspace>() { workspace }));
@@ -74,7 +74,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task DoesNothingWhenNoWorkspacesAreFetched()
+            public void DoesNothingWhenNoWorkspacesAreFetched()
             {
                 DataSource.Workspaces.GetAll().Returns(Observable.Return(new List<IThreadSafeWorkspace>()));
 
@@ -86,7 +86,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task StartsAndStopsLoading()
+            public void StartsAndStopsLoading()
             {
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsLoading.Subscribe(observer);
@@ -122,7 +122,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task ClosesAfterNewWorkspaceIsCreated()
+            public void ClosesAfterNewWorkspaceIsCreated()
             {
                 var workspace = Substitute.For<IThreadSafeWorkspace>();
                 InteractorFactory.CreateDefaultWorkspace().Execute().Returns(Observable.Return(Unit.Default));
@@ -135,7 +135,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task ResetsNoWorkspaceStateWhenAfterNewWorkspaceIsCreated()
+            public void ResetsNoWorkspaceStateWhenAfterNewWorkspaceIsCreated()
             {
                 var workspace = Substitute.For<IThreadSafeWorkspace>();
                 InteractorFactory.CreateDefaultWorkspace().Execute().Returns(Observable.Return(Unit.Default));
@@ -148,7 +148,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
             }
 
             [Fact, LogIfTooSlow]
-            public async Task StartsAndStopsLoading()
+            public void StartsAndStopsLoading()
             {
                 var observer = TestScheduler.CreateObserver<bool>();
                 ViewModel.IsLoading.Subscribe(observer);
