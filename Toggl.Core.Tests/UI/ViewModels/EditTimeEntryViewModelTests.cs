@@ -110,7 +110,7 @@ namespace Toggl.Core.Tests.UI.ViewModels
 
             protected virtual void AdjustTimeEntries(long[] ids, Func<MockTimeEntry, MockTimeEntry> timeEntryModifier)
             {
-                ViewModel.Initialize(ids).Wait();
+                ViewModel.Initialize(ids);
                 SetupTimeEntries(ids, (te, index) => timeEntryModifier(te));
             }
 
