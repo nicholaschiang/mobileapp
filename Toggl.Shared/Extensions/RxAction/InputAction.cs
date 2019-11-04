@@ -36,7 +36,7 @@ namespace Toggl.Shared.Extensions
             return new InputAction<TInput>(workFactory, mainScheduler, enabledIf);
         }
 
-        public static InputAction<TInput> FromObservable(Func<TInput, IObservable<Unit>> workFactory, IScheduler mainScheduler, IObservable<bool> enabledIf = null)
+        public static new InputAction<TInput> FromObservable(Func<TInput, IObservable<Unit>> workFactory, IScheduler mainScheduler, IObservable<bool> enabledIf = null)
             => new InputAction<TInput>(workFactory, mainScheduler, enabledIf);
     }
 
