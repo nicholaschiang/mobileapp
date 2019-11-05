@@ -103,7 +103,9 @@ private string GetCommitCount()
     return redirectedOutput.Last();
 }
 
-private string GetVersionNumberFromTag()
+private string GetFormattedTimestamp() => DateTime.UtcNow.ToString("yyMMddHHmmss");
+
+private string GetVersionNumberFromTagOrTimestamp()
 {
     var platform = "";
     if (target == "Build.Release.iOS.AppStore") 
@@ -125,7 +127,13 @@ private string GetVersionNumberFromTag()
         RedirectStandardOutput = true
     }, out var redirectedOutput);
 
-    var tagName = redirectedOutput.Last();
+    var timestamp = GetFormattedTimestamp();
+    var tagName = redirectedOutput.DefaultIfEmpty(timestamp).Last();
+    
+    if (tagName == timestamp)
+    {
+        return tagName;
+    }
          
     var p = Regex.Match(tagName, @"(?<platform>(android|ios))-(?<major>\d{1,2})\.(?<minor>\d{1,2})(\.(?<build>\d{1,2}))?(-(?<rev>\d{1,2}))?");
     if (!p.Success) 
@@ -300,7 +308,7 @@ private TemporaryFileTransformation GetIosInfoConfigurationTransformation()
         bundleId = "com.toggl.daneel";
         appName = "Toggl";
         iconSet = "Assets.xcassets/AppIcon.appiconset";
-        bundleVersion = GetVersionNumberFromTag();
+        bundleVersion = GetVersionNumberFromTagOrTimestamp();
     }
 
     var filePath = GetFiles(path).Single();
@@ -338,7 +346,7 @@ private TemporaryFileTransformation GetIosSiriExtensionInfoConfigurationTransfor
     {
         bundleId = "com.toggl.daneel.SiriExtension";
         appName = "Siri Extension";
-        bundleVersion = GetVersionNumberFromTag();
+        bundleVersion = GetVersionNumberFromTagOrTimestamp();
     }
 
     var filePath = GetFiles(path).Single();
@@ -374,7 +382,7 @@ private TemporaryFileTransformation GetIosSiriUIExtensionInfoConfigurationTransf
     {
         bundleId = "com.toggl.daneel.SiriUIExtension";
         appName = "Siri UI Extension";
-        bundleVersion = GetVersionNumberFromTag();
+        bundleVersion = GetVersionNumberFromTagOrTimestamp();
     }
 
     var filePath = GetFiles(path).Single();
@@ -531,7 +539,7 @@ private TemporaryFileTransformation GetAndroidManifestTransformation()
     {
         packageName = "com.toggl.giskard";
         appName = "Toggl";
-        versionNumber = GetVersionNumberFromTag();
+        versionNumber = GetVersionNumberFromTagOrTimestamp();
     }
 
     var filePath = GetFiles(path).Single();
