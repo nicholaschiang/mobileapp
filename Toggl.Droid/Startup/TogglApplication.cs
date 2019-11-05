@@ -84,6 +84,8 @@ namespace Toggl.Droid
 #endif
         }
 
+        [Export]
+        [OnStart]
         public void OnEnterForeground()
         {
             IsInForeground = true;
@@ -91,11 +93,25 @@ namespace Toggl.Droid
             backgroundService?.EnterForeground();
         }
 
+        [Export]
+        [OnStop]
         public void OnEnterBackground()
         {
             IsInForeground = false;
             var backgroundService = AndroidDependencyContainer.Instance?.BackgroundService;
             backgroundService?.EnterBackground();
+        }
+        
+        [Preserve]
+        [Annotation("androidx.lifecycle.OnLifecycleEvent(androidx.lifecycle.Lifecycle.Event.ON_START)")]
+        public class OnStartAttribute : Attribute
+        {
+        }
+
+        [Preserve]
+        [Annotation("androidx.lifecycle.OnLifecycleEvent(androidx.lifecycle.Lifecycle.Event.ON_STOP)")]
+        public class OnStopAttribute : Attribute
+        {
         }
 
         public override void OnTrimMemory(TrimMemory level)
