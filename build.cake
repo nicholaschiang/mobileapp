@@ -20,6 +20,7 @@ private HashSet<string> stagingTargets = new HashSet<string>
 var target = Argument("target", "Default");
 var isStaging = stagingTargets.Contains(target);
 var buildAll = Argument("buildall", Bitrise.IsRunningOnBitrise);
+var rnd = new Random();
 
 private void FormatAndroidAxml()
 {
@@ -105,11 +106,10 @@ private string GetCommitCount()
 private string GetFormattedTimestamp()
 {
     // the max versionNumber Google Play supports is 2100000000
-    // we map the YY component of timestamp so that 19 maps to 1, 20 to 2, etc.
     var now = DateTime.UtcNow;
-    var mappedYearComponent = (now.Year % 1000) - 18;
+    var randomComponent = rnd.Next(100);
     
-    return mappedYearComponent.ToString() + now.ToString("MMddHHm");
+    return now.ToString("yyMMdd") + randomComponent.ToString();
 } 
 
 private string GetVersionNumberFromTagOrTimestamp()
