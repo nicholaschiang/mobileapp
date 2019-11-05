@@ -102,8 +102,15 @@ private string GetCommitCount()
 
     return redirectedOutput.Last();
 }
-
-private string GetFormattedTimestamp() => DateTime.UtcNow.ToString("yyMMddHHmmss");
+private string GetFormattedTimestamp()
+{
+    // the max versionNumber Google Play supports is 2100000000
+    // we map the YY component of timestamp so that 19 maps to 1, 20 to 2, etc.
+    var now = DateTime.UtcNow;
+    var mappedYearComponent = (now.Year % 1000) - 18;
+    
+    return mappedYearComponent.ToString() + now.ToString("MMddHHm");
+} 
 
 private string GetVersionNumberFromTagOrTimestamp()
 {
