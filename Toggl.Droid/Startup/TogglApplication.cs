@@ -1,14 +1,13 @@
 using System;
 using Android.App;
-using Android.Arch.Lifecycle;
 using Android.Content;
 using Android.Runtime;
 using Android.Views.Accessibility;
+using AndroidX.Lifecycle;
 using Java.Interop;
 using Toggl.Core;
 using Toggl.Core.UI;
 using Toggl.Droid.BroadcastReceivers;
-using Toggl.Droid.Extensions;
 using Toggl.Droid.Helper;
 using static Android.Support.V7.App.AppCompatDelegate;
 
@@ -85,8 +84,6 @@ namespace Toggl.Droid
 #endif
         }
 
-        [Export]
-        [Lifecycle.Event.OnStart]
         public void OnEnterForeground()
         {
             IsInForeground = true;
@@ -94,8 +91,6 @@ namespace Toggl.Droid
             backgroundService?.EnterForeground();
         }
 
-        [Export]
-        [Lifecycle.Event.OnStop]
         public void OnEnterBackground()
         {
             IsInForeground = false;
