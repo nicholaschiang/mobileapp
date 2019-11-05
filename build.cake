@@ -128,6 +128,7 @@ private string GetVersionNumberFromTagOrTimestamp()
     }, out var redirectedOutput);
 
     var timestamp = GetFormattedTimestamp();
+    Console.WriteLine($"Timestamp is {timestamp}");
     var tagName = redirectedOutput.DefaultIfEmpty(timestamp).Last();
     
     if (tagName == timestamp)
@@ -540,6 +541,7 @@ private TemporaryFileTransformation GetAndroidManifestTransformation()
         packageName = "com.toggl.giskard";
         appName = "Toggl";
         versionNumber = GetVersionNumberFromTagOrTimestamp();
+        Console.WriteLine($"Got version number {versionNumber}");
     }
 
     var filePath = GetFiles(path).Single();
