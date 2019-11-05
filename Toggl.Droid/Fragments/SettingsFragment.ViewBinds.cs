@@ -1,9 +1,9 @@
 ﻿using Toggl.Core.Sync;
 using System.Collections.Generic;
-using Android.Support.Design.Widget;
-using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Core.Widget;
+using Google.Android.Material.AppBar;
 using static Toggl.Core.Sync.PresentableSyncStatus;
 
 namespace Toggl.Droid.Fragments
