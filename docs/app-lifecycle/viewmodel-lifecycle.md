@@ -2,7 +2,7 @@
 
 ## Navigation
 
- Navigating from one view to other is as simple as calling the `Navigate` method and suplying the type of the ViewModel you want to show. The Navigate method returns a `Task`, and said task only completes when the view you navigated to is closed, whether said view returns a value or not.
+ Navigating from one view to other is as simple as calling the `Navigate` method and supplying the type of the ViewModel you want to show. The Navigate method returns a `Task`, and said task only completes when the view you navigated to is closed, whether said view returns a value or not.
 
  Navigation only works when a ViewModel implements `ViewModel<TInput, TOutput>`. Helper types were introduced for ViewModels that don't need an input and/or do not yield and output. This means that, in order to navigate to a ViewModel that takes some kind of `Tinput`, it's mandatory to provide said input.
 
