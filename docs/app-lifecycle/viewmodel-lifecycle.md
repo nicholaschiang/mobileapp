@@ -8,7 +8,7 @@
 
  ## IView interface
 
-This was introduced as a way to get rid of the need to keep track of what Activity/ViewController is currently on top of the stack. Since this concept is not natural to Android/iOS, keeping track of it was cumbersome, required lots of static state being kept and has caused us a lot of stress, specially on Android.
+This was introduced as a way to get rid of the need to keep track of what Activity/ViewController is currently on top of the stack. Since this concept is not natural to Android/iOS, keeping track of it was cumbersome, required lots of static state being kept and has caused us a lot of stress, especially on Android.
 
 The new approach we decided to take was instead give the ViewModel a reference to the View it's attached to. This View will attach itself to the ViewModel when it's displayed and detach itself when no longer in use. This will allow the ViewModel to perform tasks that are heavily dependent on using Activities in a more natural way.
 
