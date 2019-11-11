@@ -856,9 +856,6 @@ Use them to add keywords to your time entries.</value>
     <data name="FilterWorkspaces" xml:space="preserve">
         <value>Filter workspaces</value>
     </data>
-    <data name="ContactUs" xml:space="preserve">
-        <value>Contact us</value>
-    </data>
     <data name="ContactUsSomethingWentWrongTryAgain" xml:space="preserve">
         <value>Something went wrong. Please try again</value>
     </data>
@@ -866,7 +863,9 @@ Use them to add keywords to your time entries.</value>
         <value>Send</value>
     </data>
     <data name="FeedbackFieldPlaceholder" xml:space="preserve">
-        <value>Let us know what you think. Send us your feedback and questions.</value>
+        <value>Let us know what you think. Send us your feedback and questions.
+
+PS. Our customer support team currently operates in English only. Sorry for any inconvenience!</value>
     </data>
     <data name="FeedbackHint" xml:space="preserve">
         <value>Your message</value>

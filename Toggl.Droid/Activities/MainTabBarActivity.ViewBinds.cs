@@ -1,5 +1,6 @@
 ﻿using Android.Support.Design.Widget;
 using Android.Views;
+using Toggl.Droid.Extensions;
 
 namespace Toggl.Droid.Activities
 {
@@ -10,6 +11,7 @@ namespace Toggl.Droid.Activities
         protected override void InitializeViews()
         {
             navigationView = FindViewById<BottomNavigationView>(Resource.Id.MainTabBarBottomNavigationView);
+            navigationView.FitBottomInset();
 
             var menu = navigationView.Menu;
             var timerTab = menu.FindItem(Resource.Id.MainTabTimerItem);

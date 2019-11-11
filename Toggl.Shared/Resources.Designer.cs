@@ -2008,14 +2008,6 @@ namespace Toggl.Shared
             }
         }
 
-        public static string ContactUs
-        {
-            get
-            {
-                return ResourceManager.GetString("ContactUs", resourceCulture);
-            }
-        }
-
         public static string ContactUsSomethingWentWrongTryAgain
         {
             get
